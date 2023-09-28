@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import "./login.css";
 
 function Login() {
   const [username, setUsername] = useState("");
@@ -22,30 +23,35 @@ function Login() {
   };
 
   return (
-    <div className="App">
-      {loggedIn ? (
-        <div>
-          <h2>Welcome, {username}!</h2>
-          <button onClick={handleLogout}>Logout</button>
-        </div>
-      ) : (
-        <div>
-          <h2>Login</h2>
-          <input
-            type="text"
-            placeholder="Username"
-            value={username}
-            onChange={(e) => setUsername(e.target.value)}
-          />
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => setPassword(e.target.value)}
-          />
-          <button onClick={handleLogin}>Login</button>
-        </div>
-      )}
+    <div className="login">
+      <div className="background">
+        {loggedIn ? (
+          <div>
+            <h2>Welcome, {username}!</h2>
+            <button onClick={handleLogout}>Logout</button>
+          </div>
+        ) : (
+          <div>
+            <h2>Login</h2>
+            <input
+              type="text"
+              placeholder="Username"
+              value={username}
+              onChange={(e) => setUsername(e.target.value)}
+            />
+            <input
+              type="password"
+              placeholder="Password"
+              value={password}
+              onChange={(e) => setPassword(e.target.value)}
+            />
+
+            <div>
+              <button onClick={handleLogin}>Login</button>
+            </div>
+          </div>
+        )}
+      </div>
     </div>
   );
 }
