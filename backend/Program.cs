@@ -24,7 +24,7 @@ var database = client.GetDatabase(databaseName);
 builder.Services.AddSingleton(database);
 
 // custom services
-builder.Services.AddTransient<TrainService>();
+builder.Services.AddTransient<ITrainService, TrainService>();
 
 var app = builder.Build();
 
