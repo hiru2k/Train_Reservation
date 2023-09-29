@@ -1,10 +1,9 @@
-using MongoDB.Driver;
 using backend.Models;
-using System.Collections.Generic;
+using MongoDB.Driver;
 
 namespace backend.Services
 {
-    public class TrainService
+    public class TrainService : ITrainService
     {
         private readonly IMongoCollection<TrainModel> _trains;
 
