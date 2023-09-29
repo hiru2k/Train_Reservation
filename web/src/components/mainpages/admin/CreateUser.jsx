@@ -1,3 +1,4 @@
+//Create Back Officer and Travel Agent by admin
 import React, { useState } from "react";
 
 function UserRegistration() {
@@ -45,7 +46,16 @@ function UserRegistration() {
           />
         </div>
         <div>
-          <label>NIC (Password):</label>
+          <label>NIC :</label>
+          <input
+            type="text"
+            value={nic}
+            onChange={(e) => setNic(e.target.value)}
+            required
+          />
+        </div>
+        <div>
+          <label>Password:</label>
           <input
             type="password"
             value={nic}
