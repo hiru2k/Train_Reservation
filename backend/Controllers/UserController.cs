@@ -60,6 +60,28 @@ namespace backend.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
+        [HttpPost("register")]
+        public async Task<IActionResult> Register([FromBody] UserModel newUser)
+        {
+            if (newUser == null || string.IsNullOrEmpty(newUser.Username) || string.IsNullOrEmpty(newUser.Password))
+            {
+                return BadRequest(new { success = false, message = "Invalid user data." });
+            }
+
+            // You might want to perform additional validation on the newUser object
+
+            var isUserAdded = await _userService.AddUserAsync(newUser);
+            if (isUserAdded)
+            {
+                return Ok(new { success = true, message = "User registered successfully." });
+            }
+
+            return StatusCode(500, new { success = false, message = "Failed to register user." });
+        }
+
+
+
+
 
     }
 }

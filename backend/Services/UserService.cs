@@ -22,5 +22,21 @@ namespace backend.Services
 
             return (true, user.Role);
         }
+
+
+
+        public async Task<bool> AddUserAsync(UserModel newUser)
+        {
+            try
+            {
+                await _users.InsertOneAsync(newUser);
+                return true;
+            }
+            catch (Exception ex)
+            {
+                // Handle the exception (log, return false, etc.)
+                return false;
+            }
+        }
     }
 }
