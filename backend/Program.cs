@@ -13,6 +13,15 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddCors((o) =>
+{
+    o.AddPolicy("Allow FE", (conf) =>
+    {
+        conf.WithOrigins("http://localhost:3000");
+        conf.AllowAnyHeader();
+        conf.AllowAnyMethod();
+    });
+});
 
 // MongoDB Configuration
 var connectionString = builder.Configuration.GetSection("DB:ConnectionString").Value;
@@ -37,6 +46,8 @@ if (app.Environment.IsDevelopment())
 }
 
 app.UseHttpsRedirection();
+
+app.UseCors("Allow FE");
 
 app.UseAuthorization();
 
