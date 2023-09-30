@@ -26,8 +26,10 @@ function Login() {
           // Check user role and redirect accordingly
           if (data.role == "admin") {
             window.location.href = "/createUser";
+          } else if (data.role == "Back Officer") {
+            window.location.href = "/travelerList";
           } else {
-            history.push("/dashboard"); // Redirect to the user dashboard or another appropriate page
+            window.location.href = "/createTraveler";
           }
 
           alert("sucessfully login.");
