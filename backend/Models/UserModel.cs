@@ -8,19 +8,19 @@ namespace backend.Models
         [BsonId]
         public ObjectId Id { get; set; }
         [BsonElement("Username")]
-        public string Username { get; set; }
+        public string? Username { get; set; }
 
         [BsonElement("NIC")]
-        public string NIC { get; set; }
+        public string? NIC { get; set; }
         [BsonElement("Role")]
-        public string Role { get; set; }
+        public string? Role { get; set; }
         [BsonElement("Password")]
-        public string Password { get; set; }
+        public string? Password { get; set; }
         [BsonElement("Email")]
 
-        public string Email { get; set; }
+        public string? Email { get; set; }
         [BsonElement("Phone")]
-        public string Phone { get; set; }
+        public string? Phone { get; set; }
 
 
     }
