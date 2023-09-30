@@ -1,6 +1,11 @@
 ﻿using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.IdentityModel.Tokens;
+using System.IdentityModel.Tokens.Jwt;
+using System.Security.Claims;
+using System.Text;
+
 
 namespace backend.Controllers
 {
@@ -16,20 +21,45 @@ namespace backend.Controllers
         }
 
         [HttpPost("login")]
-        public IActionResult Login([FromBody] UserModel user)
+        public async Task<IActionResult> Login([FromBody] UserModel user)
         {
             if (user == null || string.IsNullOrEmpty(user.Username) || string.IsNullOrEmpty(user.Password))
             {
-                return BadRequest("Invalid user data.");
+                return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            if (_userService.IsValidUser(user.Username, user.Password))
+            var (isValid, role) = await _userService.AuthenticateAsync(user.Username, user.Password);
+            if (isValid)
             {
-                return Ok("Login successful!");
+                var token = GenerateJwtToken(user.Username, role);
+                return Ok(new { success = true, message = "Login successful!", token, role });
             }
 
-            return Unauthorized("Invalid username or password.");
+            return Unauthorized(new { success = false, message = "Invalid username or password." });
         }
-    }
 
+        private string GenerateJwtToken(string username, string role)
+        {
+            var claims = new[]
+            {
+            new Claim(ClaimTypes.Name, username),
+            new Claim(ClaimTypes.Role, role)
+        };
+
+            var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes("HeyThisIsOurSecretKeyForTrainManagementBetterNotToTellAnyone")); // Replace with your secret key
+            var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+
+            var token = new JwtSecurityToken(
+                issuer: "YourIssuer", // Replace with your issuer
+                audience: "YourAudience", // Replace with your audience
+                claims: claims,
+                expires: DateTime.Now.AddHours(1), // Token expiration time
+                signingCredentials: creds
+            );
+
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+
+
+    }
 }

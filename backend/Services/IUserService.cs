@@ -2,7 +2,7 @@
 {
     public interface IUserService
     {
-        bool IsValidUser(string username, string password);
+        Task<(bool, string)> AuthenticateAsync(string username, string password);
     }
 
 }

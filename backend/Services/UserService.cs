@@ -12,10 +12,15 @@ namespace backend.Services
             _users = database.GetCollection<UserModel>("Users");
         }
 
-        public bool IsValidUser(string username, string password)
+        public async Task<(bool, string)> AuthenticateAsync(string username, string password)
         {
-            var user = _users.Find(u => u.Username == username && u.Password == password).FirstOrDefault();
-            return user != null;
+            var user = await _users.Find(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return (false, null);
+            }
+
+            return (true, user.Role);
         }
     }
 }
