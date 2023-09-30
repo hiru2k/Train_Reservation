@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import axios from "axios";
 import "./login.css";
 
 function Login() {
@@ -7,13 +8,30 @@ function Login() {
   const [loggedIn, setLoggedIn] = useState(false);
 
   const handleLogin = () => {
-    // You should implement your authentication logic here.
-    // For this example, let's assume the correct username and password are 'admin'.
-    if (username === "admin" && password === "admin") {
-      setLoggedIn(true);
-    } else {
-      alert("Invalid username or password");
-    }
+    const apiUrl = "https://localhost:7103/api/User/login";
+
+    // Make a POST request to the login API using Axios
+    axios
+      .post(apiUrl, {
+        Username: username,
+        Password: password,
+        Email: "",
+        NIC: "",
+        Role: "",
+        Phone: "",
+      })
+      .then((response) => {
+        const data = response.data;
+        if (data.success) {
+          setLoggedIn(true);
+        } else {
+          alert("Invalid username or password");
+        }
+      })
+      .catch((error) => {
+        console.error("Error:", error);
+        alert("Error occurred while processing your request.");
+      });
   };
 
   const handleLogout = () => {
