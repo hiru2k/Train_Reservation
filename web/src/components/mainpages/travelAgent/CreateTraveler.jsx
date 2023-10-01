@@ -1,7 +1,7 @@
 //Create traveler account by travel agent
 import React, { useState } from "react";
 
-function CreateTravaler() {
+function CreateTraveler() {
   // Define state variables to store user input
   const [name, setName] = useState("");
   const [nic, setNic] = useState("");
@@ -80,4 +80,4 @@ function CreateTravaler() {
   );
 }
 
-export default CreateTravaler;
+export default CreateTraveler;
