@@ -2,17 +2,18 @@ import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import axios from "axios";
 import "./login.css";
+import axiosInstance from "../../../DefaultHeader";
 
 function Login() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const [loggedIn, setLoggedIn] = useState(false);
-  const history = useNavigate();
+  const navigate = useNavigate();
 
   const handleLogin = () => {
-    const apiUrl = "https://localhost:7103/api/User/login";
+    const apiUrl = "/User/login";
 
-    axios
+    axiosInstance
       .post(apiUrl, {
         Username: username,
         Password: password,
@@ -24,12 +25,12 @@ function Login() {
           localStorage.setItem("token", data.token);
 
           // Check user role and redirect accordingly
-          if (data.role == "admin") {
-            window.location.href = "/createUser";
+          if (data.role == "Admin") {
+            navigate("/createUser");
           } else if (data.role == "Back Officer") {
-            window.location.href = "/travelerList";
+            navigate("/travelerList");
           } else {
-            window.location.href = "/createTraveler";
+            navigate("/createTraveler");
           }
 
           alert("sucessfully login.");
