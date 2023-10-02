@@ -32,6 +32,8 @@ function UserRegistration() {
             resetForm();
           } else if (response.data.status == "401") {
             alert("User already exists");
+          } else if (response.data.status == "405") {
+            alert("Admin access denied");
           } else {
             alert(response.message);
           }

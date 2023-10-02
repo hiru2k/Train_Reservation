@@ -10,6 +10,8 @@ namespace backend.Services
 
         Task<List<UserModel>> GetAllUsersAsync();
         Task<UserModel> GetUserByEmailAsync(string email);
+
+        Task<bool> UpdateUserProfileAsync(string email, UserModel updatedUser);
     }
 
 }

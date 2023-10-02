@@ -28,7 +28,7 @@ function Login() {
           if (data.role == "Admin") {
             navigate("/createUser");
           } else if (data.role == "Back Officer") {
-            navigate("/travelerList");
+            navigate("/userProfile");
           } else {
             navigate("/createTraveler");
           }

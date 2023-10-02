@@ -1,39 +1,60 @@
 //View and Update Back Officer and Travel Agent Profiles by them selves
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+import axiosInstance from "../../../DefaultHeader";
 
 function UserProfile() {
-  const user = {
-    name: "John Doe",
-    email: "johndoe@example.com",
-    password: "********",
-    nic: "12345", // You can include additional properties as needed
-    role: "User",
-  };
-  // Define state variables to manage the editable fields
-  const [editedName, setEditedName] = useState(user.name);
-  const [editedEmail, setEditedEmail] = useState(user.email);
-  const [editedPassword, setEditedPassword] = useState(user.password);
+  const [editedUser, seteditedUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    nic: "",
+    role: "",
+  });
 
-  // Function to handle the submission of edited fields
+  const [editedName, setEditedName] = useState("");
+  const [editedEmail, setEditedEmail] = useState("");
+  const [editedPassword, setEditedPassword] = useState("");
+
+  useEffect(() => {
+    // Fetch user profile data from the API endpoint
+    axiosInstance
+      .get("User/profile")
+      .then((response) => {
+        setUser(response.data); // Assuming the API response contains user data
+        setEditedName(response.data.username);
+        setEditedEmail(response.data.email);
+        setEditedPassword(response.data.password);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, []); // The empty dependency array ensures this effect runs once after the initial render
+
   const handleSaveChanges = () => {
-    // You can perform actions here to save the edited fields to a server or update the user object.
-    // For this example, we will simply update the local state with the edited values.
-    user.name = editedName;
-    user.email = editedEmail;
-    user.password = editedPassword;
-
-    // You can also send an API request to save the changes on the server.
-    // Example: axios.put('/api/updateUser', user).then(response => { ... });
-
-    alert("Changes saved successfully!");
+    // Perform actions here to save the edited fields to the server
+    // For this example, let's assume there's a PUT API endpoint to update user data
+    axios
+      .put(`User/profile/update/${editedUser.email}`, {
+        username: editedName,
+        email: editedEmail,
+        password: editedPassword,
+      })
+      .then((response) => {
+        // Handle success, if needed
+        console.log("Changes saved successfully!");
+      })
+      .catch((error) => {
+        // Handle error, if needed
+        console.error("Error saving changes:", error);
+      });
   };
-
   return (
     <div>
       <h2>User Profile</h2>
       <div>
         <strong>Name:</strong>
-        {user.name}
+        {user.username}
       </div>
       <div>
         <strong>NIC:</strong>

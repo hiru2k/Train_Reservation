@@ -34,23 +34,24 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            var (isValid, role, email) = await _userService.AuthenticateAsync(user.Username, user.Password);
+            var (isValid, role, email, nic) = await _userService.AuthenticateAsync(user.Username, user.Password);
             if (isValid)
             {
-                var token = GenerateJwtToken(user.Username, role, email);
+                var token = GenerateJwtToken(nic, role, email);
                 return Ok(new { success = true, message = "Login successful!", token, role });
             }
 
             return Unauthorized(new { success = false, message = "Invalid username or password." });
         }
 
-        private string GenerateJwtToken(string username, string role, string email)
+        private string GenerateJwtToken(string nic, string role, string email)
         {
             var claims = new[]
             {
-                new Claim(ClaimTypes.Name, username),
+                new Claim(ClaimTypes.Name, nic),
                 new Claim(ClaimTypes.Role, role),
                 new Claim(ClaimTypes.Email, email)
+
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
@@ -119,13 +120,13 @@ namespace backend.Controllers
         {
             try
             {
-                var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
-                if (string.IsNullOrEmpty(userEmail))
+                var userNic = User.FindFirst(ClaimTypes.Name)?.Value;
+                if (string.IsNullOrEmpty(userNic))
                 {
                     return StatusCode(401, new { message = "Unauthorized" });
                 }
 
-                var user = await _userService.GetUserByEmailAsync(userEmail);
+                var user = await _userService.GetUserByNICAsync(userNic);
                 if (user == null)
                 {
                     return StatusCode(404, new { message = "User not found" });
@@ -139,6 +140,32 @@ namespace backend.Controllers
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
+
+
+
+        [HttpPut("profile/{nic}")]
+        public async Task<IActionResult> UpdateUserProfile([FromBody] UserModel updatedUser)
+        {
+            try
+            {
+                var isSuccess = await _userService.UpdateUserProfileAsync(updatedUser);
+                if (isSuccess)
+                {
+                    return Ok(new { success = true, message = "Profile updated successfully." });
+                }
+                else
+                {
+                    return NotFound(new { success = false, message = "User not found or no changes made." });
+                }
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                return StatusCode(500, new { success = false, message = "Internal server error", error = ex.Message });
+            }
+        }
+
+
 
 
     }
