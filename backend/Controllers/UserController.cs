@@ -75,14 +75,22 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            // You might want to perform additional validation on the newUser object
-            var isUserAdded = await _userService.AddUserAsync(newUser);
-            if (isUserAdded)
+            var isUserUniq = await _userService.GetUserByEmailOrNICAsync(newUser.Email, newUser.NIC);
+            if (isUserUniq)
             {
-                return Ok(new { success = true, message = "User registered successfully." });
-            }
+                var isUserAdded = await _userService.AddUserAsync(newUser);
+                if (isUserAdded)
+                {
+                    return Ok(new { status = 200, message = "User registered successfully." });
 
-            return StatusCode(500, new { success = false, message = "Failed to register user." });
+                }
+            }
+            if (!isUserUniq)
+            {
+                return Ok(new { status = 401, isSuccess = false, message = "User already exists", });
+            }
+            return StatusCode(501, new { success = false, message = "Failed to register user." });
+
         }
     }
 }

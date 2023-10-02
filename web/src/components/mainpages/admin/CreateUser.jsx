@@ -1,94 +1,99 @@
-import React, { useState } from "react";
-import axios from "axios";
+import React from "react";
+import { useFormik } from "formik";
+import * as Yup from "yup";
 import axiosInstance from "../../../DefaultHeader";
 
 function UserRegistration() {
-  // Define state variables to store user input
-  const [name, setName] = useState("");
-  const [nic, setNic] = useState("");
-  const [role, setRole] = useState("");
-  const [email, setEmail] = useState("");
+  const formik = useFormik({
+    initialValues: {
+      Username: "",
+      NIC: "",
+      Role: "",
+      Email: "",
+      Password: "",
+    },
+    validationSchema: Yup.object({
+      Username: Yup.string().required("Username is required"),
+      NIC: Yup.string()
+        .required("NIC is required")
+        .matches(/^\d{12}$/, "NIC must be 12 digits"),
+      Role: Yup.string().required("Role is required"),
+      Email: Yup.string()
+        .email("Invalid Email address")
+        .required("Email is required"),
+      Password: Yup.string().required("Password is required"),
+    }),
+    onSubmit: (values, { resetForm }) => {
+      axiosInstance
+        .post("/User/register", values)
+        .then((response) => {
+          if (response.data.status == "200") {
+            alert("You have successfully registered");
+            resetForm();
+          } else if (response.data.status == "401") {
+            alert("User already exists");
+          } else {
+            alert(response.message);
+          }
+        })
+        .catch((error) => {
+          console.error("Error occurred while registering user:", error);
+        });
+    },
+  });
 
-  // Handle form submission
-  const handleSubmit = (e) => {
-    e.preventDefault();
-
-    // Create a user object with the collected data
-    const user = {
-      Id: {},
-      Username: name,
-      NIC: nic,
-      Role: role,
-      Email: email,
-      Password: nic,
-    };
-
-    axiosInstance
-      .post("/User/register", user)
-      .then((response) => {
-        console.log("User registered successfully:", response.data);
-
-        setName("");
-        setNic("");
-        setRole("");
-        setEmail("");
-      })
-      .catch((error) => {
-        console.error("Error occurred while registering user:", error);
-      });
+  const handleNICChange = (e) => {
+    const nicValue = e.target.value;
+    formik.setFieldValue("NIC", nicValue);
+    formik.setFieldValue("Password", nicValue); // Set Password field to NIC value
   };
 
   return (
     <div>
       <h2>User Registration</h2>
-      <form onSubmit={handleSubmit}>
+      <form onSubmit={formik.handleSubmit}>
         <div>
-          <label>Name:</label>
-          <input
-            type="text"
-            value={name}
-            onChange={(e) => setName(e.target.value)}
-            required
-          />
+          <label>Username:</label>
+          <input type="text" {...formik.getFieldProps("Username")} />
+          {formik.touched.Username && formik.errors.Username ? (
+            <div className="error">{formik.errors.Username}</div>
+          ) : null}
         </div>
         <div>
           <label>NIC :</label>
           <input
             type="text"
-            value={nic}
-            onChange={(e) => setNic(e.target.value)}
-            required
+            {...formik.getFieldProps("NIC")}
+            onChange={handleNICChange}
           />
+          {formik.touched.NIC && formik.errors.NIC ? (
+            <div className="error">{formik.errors.NIC}</div>
+          ) : null}
         </div>
         <div>
           <label>Password:</label>
-          <input
-            type="password"
-            value={nic}
-            onChange={(e) => setNic(e.target.value)}
-            required
-          />
+          <input type="Password" {...formik.getFieldProps("Password")} />
+          {formik.touched.Password && formik.errors.Password ? (
+            <div className="error">{formik.errors.Password}</div>
+          ) : null}
         </div>
         <div>
           <label>Role:</label>
-          <select
-            value={role}
-            onChange={(e) => setRole(e.target.value)}
-            required
-          >
-            <option value="">Select a role</option>
+          <select {...formik.getFieldProps("Role")}>
+            <option value="">Select a Role</option>
             <option value="Back Officer">Back Officer</option>
             <option value="Travel Agent">Travel Agent</option>
           </select>
+          {formik.touched.Role && formik.errors.Role ? (
+            <div className="error">{formik.errors.Role}</div>
+          ) : null}
         </div>
         <div>
           <label>Email:</label>
-          <input
-            type="email"
-            value={email}
-            onChange={(e) => setEmail(e.target.value)}
-            required
-          />
+          <input type="Email" {...formik.getFieldProps("Email")} />
+          {formik.touched.Email && formik.errors.Email ? (
+            <div className="error">{formik.errors.Email}</div>
+          ) : null}
         </div>
         <div>
           <button type="submit">Register</button>

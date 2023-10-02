@@ -38,5 +38,17 @@ namespace backend.Services
                 return false;
             }
         }
+
+
+        public async Task<bool> GetUserByEmailOrNICAsync(string email, string nic)
+        {
+            var user = await _users.Find(u => u.Email == email || u.NIC == nic).FirstOrDefaultAsync();
+            if (user == null)
+            {
+                return (true);
+            }
+
+            return (false);
+        }
     }
 }
