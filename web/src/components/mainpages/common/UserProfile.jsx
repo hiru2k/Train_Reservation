@@ -1,10 +1,9 @@
 //View and Update Back Officer and Travel Agent Profiles by them selves
 import React, { useState, useEffect } from "react";
-import axios from "axios";
 import axiosInstance from "../../../DefaultHeader";
 
 function UserProfile() {
-  const [editedUser, seteditedUser] = useState({
+  const [user, setUser] = useState({
     username: "",
     email: "",
     password: "",
@@ -17,11 +16,10 @@ function UserProfile() {
   const [editedPassword, setEditedPassword] = useState("");
 
   useEffect(() => {
-    // Fetch user profile data from the API endpoint
     axiosInstance
       .get("User/profile")
       .then((response) => {
-        setUser(response.data); // Assuming the API response contains user data
+        setUser(response.data);
         setEditedName(response.data.username);
         setEditedEmail(response.data.email);
         setEditedPassword(response.data.password);
@@ -29,23 +27,23 @@ function UserProfile() {
       .catch((error) => {
         console.error("Error fetching user data:", error);
       });
-  }, []); // The empty dependency array ensures this effect runs once after the initial render
+  }, []);
 
   const handleSaveChanges = () => {
-    // Perform actions here to save the edited fields to the server
-    // For this example, let's assume there's a PUT API endpoint to update user data
-    axios
-      .put(`User/profile/update/${editedUser.email}`, {
+    axiosInstance
+      .put(`User/profile/${user.nic}`, {
         username: editedName,
         email: editedEmail,
         password: editedPassword,
       })
       .then((response) => {
-        // Handle success, if needed
-        console.log("Changes saved successfully!");
+        if (response.data.status == "200") {
+          alert("Successfully updated");
+        } else if (response.data.status == "201") {
+          alert("Content is changed");
+        }
       })
       .catch((error) => {
-        // Handle error, if needed
         console.error("Error saving changes:", error);
       });
   };
