@@ -71,7 +71,9 @@ namespace backend.Services
             var update = Builders<EndUserModel>.Update
                 .Set(u => u.Username, updatedUser.Username)
                 .Set(u => u.Email, updatedUser.Email)
-                .Set(u => u.Phone, updatedUser.Phone);
+                .Set(u => u.Phone, updatedUser.Phone)
+                .Set(u => u.Status, updatedUser.Status);
+
             // Add other properties you want to update
             // Optional: Update the last modified timestamp
 
