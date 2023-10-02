@@ -34,7 +34,7 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            var (isValid, role, email, nic) = await _userService.AuthenticateAsync(user.Username, user.Password);
+            var (isValid, role, email, nic) = await _userService.AuthenticateAsync(user);
             if (isValid)
             {
                 var token = GenerateJwtToken(nic, role, email);
@@ -143,19 +143,21 @@ namespace backend.Controllers
 
 
 
+
+
         [HttpPut("profile/{nic}")]
-        public async Task<IActionResult> UpdateUserProfile([FromBody] UserModel updatedUser)
+        public async Task<IActionResult> UpdateUserProfile(string nic, [FromBody] UserModel updatedUser)
         {
             try
             {
-                var isSuccess = await _userService.UpdateUserProfileAsync(updatedUser);
+                var isSuccess = await _userService.UpdateUserProfileAsync(nic, updatedUser);
                 if (isSuccess)
                 {
-                    return Ok(new { success = true, message = "Profile updated successfully." });
+                    return Ok(new { status = 200, message = "Profile Updated successfully." });
                 }
                 else
                 {
-                    return NotFound(new { success = false, message = "User not found or no changes made." });
+                    return Ok(new { status = 201, message = "Content not changed" });
                 }
             }
             catch (Exception ex)

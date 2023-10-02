@@ -12,15 +12,15 @@ namespace backend.Services
             _users = database.GetCollection<UserModel>("Users");
         }
 
-        public async Task<(bool, string, string)> AuthenticateAsync(string username, string password)
+        public async Task<(bool, string, string, string)> AuthenticateAsync(UserModel Luser)
         {
-            var user = await _users.Find(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
+            var user = await _users.Find(u => u.Username == Luser.Username && u.Password == Luser.Password).FirstOrDefaultAsync();
             if (user == null)
             {
-                return (false, null, null);
+                return (false, null, null, null);
             }
 
-            return (true, user.Role, user.Email);
+            return (true, user.Role, user.Email, user.NIC);
         }
 
 
@@ -58,10 +58,26 @@ namespace backend.Services
             return users;
         }
 
-        public async Task<UserModel> GetUserByEmailAsync(string email)
+        public async Task<UserModel> GetUserByNICAsync(string nic)
         {
-            var user = await _users.Find(u => u.Email == email).FirstOrDefaultAsync();
+            var user = await _users.Find(u => u.NIC == nic).FirstOrDefaultAsync();
             return user;
+        }
+
+
+        public async Task<bool> UpdateUserProfileAsync(String uNIC, UserModel updatedUser)
+        {
+            var filter = Builders<UserModel>.Filter.Eq(u => u.NIC, uNIC); // Assuming you have a unique identifier like UserId
+            var update = Builders<UserModel>.Update
+                .Set(u => u.Username, updatedUser.Username)
+                .Set(u => u.Email, updatedUser.Email)
+                .Set(u => u.Password, updatedUser.Password);
+            // Add other properties you want to update
+            // Optional: Update the last modified timestamp
+
+            var updateResult = await _users.UpdateOneAsync(filter, update);
+
+            return updateResult.ModifiedCount > 0;
         }
 
     }
