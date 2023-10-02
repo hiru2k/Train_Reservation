@@ -1,50 +1,106 @@
 import React, { useState } from "react";
 
 const UpdateTraveler = () => {
-  const [userInfo, setUserInfo] = useState({
-    name: "John Doe",
-    NIC: "123456789",
-    email: "johndoe@example.com",
-    password: "********", // Password should not be stored in plain text for security reasons
+  const [user, setUser] = useState({
+    username: "",
+    email: "",
+    password: "",
+    nic: "",
+    role: "",
   });
 
-  const handleNameChange = (e) => {
-    setUserInfo({ ...userInfo, name: e.target.value });
-  };
+  const [editedName, setEditedName] = useState("");
+  const [editedEmail, setEditedEmail] = useState("");
+  const [editedPassword, setEditedPassword] = useState("");
 
-  const handleNICChange = (e) => {
-    setUserInfo({ ...userInfo, NIC: e.target.value });
-  };
+  useEffect(() => {
+    axiosInstance
+      .get("User/profile")
+      .then((response) => {
+        setUser(response.data);
+        setEditedName(response.data.username);
+        setEditedEmail(response.data.email);
+        setEditedPassword(response.data.password);
+      })
+      .catch((error) => {
+        console.error("Error fetching user data:", error);
+      });
+  }, []);
 
-  const handleEmailChange = (e) => {
-    setUserInfo({ ...userInfo, email: e.target.value });
+  const handleSaveChanges = () => {
+    axiosInstance
+      .put(`User/profile/${user.nic}`, {
+        username: editedName,
+        email: editedEmail,
+        password: editedPassword,
+      })
+      .then((response) => {
+        if (response.data.status == "200") {
+          alert("Successfully updated");
+        } else if (response.data.status == "201") {
+          alert("Content is changed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error saving changes:", error);
+      });
   };
-
   return (
     <div>
-      <label>
-        Name:
-        <input type="text" value={userInfo.name} onChange={handleNameChange} />
-      </label>
-      <br />
-      <label>
-        NIC:
-        <input type="text" value={userInfo.NIC} onChange={handleNICChange} />
-      </label>
-      <br />
-      <label>
-        Email:
-        <input
-          type="email"
-          value={userInfo.email}
-          onChange={handleEmailChange}
-        />
-      </label>
-      <br />
-      <label>
-        Password: {userInfo.password}
-        {/* Display password without editing option */}
-      </label>
+      <h2>User Profile</h2>
+      <div>
+        <strong>Name:</strong>
+        {user.username}
+      </div>
+      <div>
+        <strong>NIC:</strong>
+        {user.nic}
+      </div>
+      <div>
+        <strong>Role:</strong>
+        {user.role}
+      </div>
+      <div>
+        <strong>Email:</strong>
+        {user.email}
+      </div>
+      <div>
+        <strong>Password:</strong>
+        {user.password}
+      </div>
+      <div>
+        <button onClick={handleSaveChanges}>Save Changes</button>
+      </div>
+      <div>
+        <label>
+          Edit Name:
+          <input
+            type="text"
+            value={editedName}
+            onChange={(e) => setEditedName(e.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Edit Email:
+          <input
+            type="email"
+            value={editedEmail}
+            onChange={(e) => setEditedEmail(e.target.value)}
+          />
+        </label>
+      </div>
+      <div>
+        <label>
+          Edit Password:
+          <input
+            type="password"
+            value={editedPassword}
+            onChange={(e) => setEditedPassword(e.target.value)}
+          />
+        </label>
+      </div>
     </div>
   );
 };
