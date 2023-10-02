@@ -1,7 +1,7 @@
+//Token attched default header
 import axios from "axios";
 
 const baseURL = import.meta.env.VITE_API_URL;
-const token = localStorage.getItem("token");
 
 const axiosInstance = axios.create({
   baseURL: baseURL,
