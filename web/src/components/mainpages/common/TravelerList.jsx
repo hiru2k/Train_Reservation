@@ -1,6 +1,7 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Switch from "react-switch"; // Import the react-switch component
-
+import axiosInstance from "../../../DefaultHeader";
+import { useNavigate } from "react-router-dom";
 const ToggleSwitch = ({ isActive, onToggle }) => {
   return (
     <Switch
@@ -20,22 +21,35 @@ const ToggleSwitch = ({ isActive, onToggle }) => {
 };
 
 const TravelerList = () => {
-  const [users, setUsers] = useState([
-    { id: 1, name: "User 1", isActive: true },
-    { id: 2, name: "User 2", isActive: false },
-    { id: 3, name: "User 3", isActive: true },
-  ]);
+  const navigate = useNavigate();
+  const [users, setUsers] = useState([]);
 
-  const handleDelete = (id) => {
-    const updatedUsers = users.filter((user) => user.id !== id);
-    setUsers(updatedUsers);
-  };
+  useEffect(() => {
+    axiosInstance
+      .get("/EndUser/getAllUsers")
+      .then((response) => {
+        // Ensure that each user object has the 'isActive' property
+        const usersWithActiveFlag = response.data.map((user) => ({
+          ...user,
+          isActive: true, // You can set a default value or get it from the API response if available
+        }));
+        setUsers(usersWithActiveFlag);
+      })
+      .catch((error) => {
+        console.error("Error fetching users:", error);
+      });
+  }, []);
 
-  const handleToggle = (id) => {
-    const updatedUsers = users.map((user) =>
-      user.id === id ? { ...user, isActive: !user.isActive } : user
-    );
-    setUsers(updatedUsers);
+  const handleNICClick = (nic) => {
+    navigate(`/endUserProfile/${nic}`);
+    // axiosInstance
+    // .get(`/EndUser/oneUser/${nic}`)
+    //.then((response) => {
+    // console.log(response.data);
+    // })
+    //.catch((error) => {
+    // console.error("Error fetching user details:", error);
+    // });
   };
 
   return (
@@ -44,27 +58,24 @@ const TravelerList = () => {
       <table>
         <thead>
           <tr>
-            <th>ID</th>
+            <th>NIC</th>
             <th>Name</th>
+            <th>Email</th>
             <th>Status</th>
-            <th>Actions</th>
           </tr>
         </thead>
         <tbody>
-          {users.map((user) => (
-            <tr key={user.id}>
-              <td>{user.id}</td>
-              <td>{user.name}</td>
-              <td>
-                <ToggleSwitch
-                  isActive={user.isActive}
-                  onToggle={() => handleToggle(user.id)}
-                />
+          {users.map((user, index) => (
+            <tr key={index}>
+              <td
+                onClick={() => handleNICClick(user.nic)}
+                style={{ cursor: "pointer" }}
+              >
+                {user.nic}
               </td>
-              <td>
-                <button onClick={() => handleDelete(user.id)}>Delete</button>
-                <button>Update</button>
-              </td>
+              <td>{user.username}</td>
+              <td>{user.email}</td>
+              <td>{user.status}</td>
             </tr>
           ))}
         </tbody>
