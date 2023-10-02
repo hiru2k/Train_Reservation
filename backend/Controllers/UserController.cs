@@ -34,22 +34,23 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            var (isValid, role) = await _userService.AuthenticateAsync(user.Username, user.Password);
+            var (isValid, role, email) = await _userService.AuthenticateAsync(user.Username, user.Password);
             if (isValid)
             {
-                var token = GenerateJwtToken(user.Username, role);
+                var token = GenerateJwtToken(user.Username, role, email);
                 return Ok(new { success = true, message = "Login successful!", token, role });
             }
 
             return Unauthorized(new { success = false, message = "Invalid username or password." });
         }
 
-        private string GenerateJwtToken(string username, string role)
+        private string GenerateJwtToken(string username, string role, string email)
         {
             var claims = new[]
             {
                 new Claim(ClaimTypes.Name, username),
-                new Claim(ClaimTypes.Role, role)
+                new Claim(ClaimTypes.Role, role),
+                new Claim(ClaimTypes.Email, email)
             };
 
             var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtSettings.Key));
@@ -89,8 +90,56 @@ namespace backend.Controllers
             {
                 return Ok(new { status = 401, isSuccess = false, message = "User already exists", });
             }
-            return StatusCode(501, new { success = false, message = "Failed to register user." });
+            return Ok(new { status = 405, isSuccess = false, message = "Admin access denied", });
 
         }
+
+
+        [HttpGet]
+        public async Task<IActionResult> GetAllUsers()
+        {
+            try
+            {
+                var users = await _userService.GetAllUsersAsync();
+                return Ok(users);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+
+
+
+
+        [HttpGet("profile")]
+        public async Task<IActionResult> GetLoggedInUserProfile()
+        {
+            try
+            {
+                var userEmail = User.FindFirst(ClaimTypes.Email)?.Value;
+                if (string.IsNullOrEmpty(userEmail))
+                {
+                    return StatusCode(401, new { message = "Unauthorized" });
+                }
+
+                var user = await _userService.GetUserByEmailAsync(userEmail);
+                if (user == null)
+                {
+                    return StatusCode(404, new { message = "User not found" });
+                }
+
+                return Ok(user);
+            }
+            catch (Exception ex)
+            {
+                // Log the error
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
+
+
     }
 }

@@ -12,15 +12,15 @@ namespace backend.Services
             _users = database.GetCollection<UserModel>("Users");
         }
 
-        public async Task<(bool, string)> AuthenticateAsync(string username, string password)
+        public async Task<(bool, string, string)> AuthenticateAsync(string username, string password)
         {
             var user = await _users.Find(u => u.Username == username && u.Password == password).FirstOrDefaultAsync();
             if (user == null)
             {
-                return (false, null);
+                return (false, null, null);
             }
 
-            return (true, user.Role);
+            return (true, user.Role, user.Email);
         }
 
 
@@ -50,5 +50,19 @@ namespace backend.Services
 
             return (false);
         }
+
+
+        public async Task<List<UserModel>> GetAllUsersAsync()
+        {
+            var users = await _users.Find(user => true).ToListAsync();
+            return users;
+        }
+
+        public async Task<UserModel> GetUserByEmailAsync(string email)
+        {
+            var user = await _users.Find(u => u.Email == email).FirstOrDefaultAsync();
+            return user;
+        }
+
     }
 }
