@@ -11,6 +11,7 @@ function UserRegistration() {
       Role: "",
       Email: "",
       Password: "",
+      Phone: "",
     },
     validationSchema: Yup.object({
       Username: Yup.string().required("Username is required"),
@@ -22,6 +23,9 @@ function UserRegistration() {
         .email("Invalid Email address")
         .required("Email is required"),
       Password: Yup.string().required("Password is required"),
+      Phone: Yup.string()
+        .required("Phone number is required")
+        .matches(/^\d{10}$/, "Phone number must be 10 digits"),
     }),
     onSubmit: (values, { resetForm }) => {
       axiosInstance
@@ -95,6 +99,13 @@ function UserRegistration() {
           <input type="Email" {...formik.getFieldProps("Email")} />
           {formik.touched.Email && formik.errors.Email ? (
             <div className="error">{formik.errors.Email}</div>
+          ) : null}
+        </div>
+        <div>
+          <label>Phone:</label>
+          <input type="text" {...formik.getFieldProps("Phone")} />
+          {formik.touched.Phone && formik.errors.Phone ? (
+            <div className="error">{formik.errors.Phone}</div>
           ) : null}
         </div>
         <div>
