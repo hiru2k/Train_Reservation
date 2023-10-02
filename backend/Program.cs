@@ -54,6 +54,7 @@ builder.Services.AddSingleton(database);
 // custom services
 builder.Services.AddTransient<ITrainService, TrainService>();
 builder.Services.AddTransient<IUserService, UserService>();
+builder.Services.AddTransient<IEndUserService, EndUserService>();
 
 var app = builder.Build();
 
