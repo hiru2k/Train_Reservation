@@ -14,7 +14,7 @@ const EndUserProfile = () => {
       .then((response) => {
         setUser(response.data.user);
         setEditedUser(response.data.user);
-        setIsStatusEditable(response.data.AdditionalInfo === "Back officer");
+        setIsStatusEditable(response.data.accRole == "Back Officer");
       })
       .catch((error) => {
         console.error("Error fetching user details:", error);
@@ -51,7 +51,7 @@ const EndUserProfile = () => {
         <strong>NIC:</strong> {user?.nic}
       </p>
       <div>
-        <strong>Status:</strong>{" "}
+        <strong>Status:</strong>
         {isStatusEditable ? (
           <div>
             <label>
@@ -59,7 +59,7 @@ const EndUserProfile = () => {
                 type="radio"
                 name="status"
                 value="Pending"
-                checked={editedUser?.status === "Pending"}
+                checked={editedUser.status === "Pending"}
                 onChange={handleInputChange}
               />
               Pending
@@ -69,7 +69,7 @@ const EndUserProfile = () => {
                 type="radio"
                 name="status"
                 value="Active"
-                checked={editedUser?.status === "Active"}
+                checked={editedUser.status === "Active"}
                 onChange={handleInputChange}
               />
               Active
@@ -79,7 +79,7 @@ const EndUserProfile = () => {
                 type="radio"
                 name="status"
                 value="Deactive"
-                checked={editedUser?.status === "Deactive"}
+                checked={editedUser.status === "Deactive"}
                 onChange={handleInputChange}
               />
               Deactive
@@ -89,6 +89,7 @@ const EndUserProfile = () => {
           editedUser?.status
         )}
       </div>
+
       <div>
         <label htmlFor="name">Name:</label>
         <input
