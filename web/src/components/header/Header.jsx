@@ -1,24 +1,77 @@
 import React from "react";
-import { useAuth } from "../../AuthContext";
+import "./header.css";
+import { useUserContext } from "../../UserContext";
 
 function Header() {
-  const { isAuthenticated, login, logout } = useAuth();
+  const { isLoggedIn, role, setIsLoggedIn, setRole } = useUserContext();
 
-  const handleLoginClick = () => {
-    login(); // Call the login function from the context
+  const handleLogout = () => {
+    localStorage.removeItem("token"); //remove token when loggout
+    setIsLoggedIn(false); //update the global state
+    setRole(null);
   };
 
-  const handleLogoutClick = () => {
-    logout(); // Call the logout function from the context
+  const renderButtons = () => {
+    if (isLoggedIn) {
+      if (role === "Travel Agent") {
+        return (
+          <div>
+            <button type="button">
+              <a href="/travelAgentHome">Home</a>
+            </button>
+            <button type="button">
+              <a href="/userProfile">Profile</a>
+            </button>
+            <button type="button">
+              <a href="/travelerList">Traveler Management</a>
+            </button>
+          </div>
+        );
+      } else if (role === "Back Officer") {
+        return (
+          <div>
+            <button type="button">
+              <a href="/backOfficerHome">Home</a>
+            </button>
+            <button type="button">
+              <a href="/userProfile">Profile</a>
+            </button>
+            <button type="button">
+              <a href="/travelerList">Traveler Management</a>
+            </button>
+          </div>
+        );
+      }
+    }
+
+    return null;
+  };
+
+  const renderLoginButton = () => {
+    if (isLoggedIn) {
+      return (
+        <button type="button" onClick={handleLogout}>
+          <a href="/login">Logout</a>
+        </button>
+      );
+    } else {
+      return (
+        <button type="button">
+          <a href="/login">Login</a>
+        </button>
+      );
+    }
   };
 
   return (
-    <div>
-      {isAuthenticated ? (
-        <button onClick={handleLogoutClick}>Logout</button>
-      ) : (
-        <button onClick={handleLoginClick}>Login</button>
-      )}
+    <div className="header">
+      <div>
+        <h1>My App</h1>
+      </div>
+      <div className="buttons">
+        {renderButtons()}
+        {renderLoginButton()}
+      </div>
     </div>
   );
 }
