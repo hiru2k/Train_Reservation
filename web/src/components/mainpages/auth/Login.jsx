@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
-import axios from "axios";
 import "./login.css";
 import axiosInstance from "../../../DefaultHeader";
+import { useUserContext } from "../../../UserContext";
 
 function Login() {
+  const { setIsLoggedIn, setRole } = useUserContext();
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const [loggedIn, setLoggedIn] = useState(false);
+
   const navigate = useNavigate();
 
   const handleLogin = () => {
@@ -15,39 +16,35 @@ function Login() {
 
     axiosInstance
       .post(apiUrl, {
-        Username: username,
-        Password: password,
+        username: username,
+        password: password,
       })
       .then((response) => {
         const data = response.data;
+
         if (data.success) {
-          setLoggedIn(true);
+          setIsLoggedIn(true); //update the global state
+          setRole(data.role);
+
           localStorage.setItem("token", data.token);
 
-          // Check user role and redirect accordingly
           if (data.role == "Admin") {
             navigate("/createUser");
           } else if (data.role == "Back Officer") {
-            navigate("/userProfile");
+            navigate("/travelerList");
           } else {
-            navigate("/createTraveler");
+            navigate("/travelerList");
           }
 
           alert("sucessfully login.");
         } else {
-          alert(data.message); // Show the error message from the server
+          alert(data.message);
         }
       })
       .catch((error) => {
         console.error("Error:", error);
         alert("Error occurred while processing your request.");
       });
-  };
-
-  const handleLogout = () => {
-    setLoggedIn(false);
-    setUsername("");
-    setPassword("");
   };
 
   return (
