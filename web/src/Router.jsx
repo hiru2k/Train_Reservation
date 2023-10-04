@@ -8,6 +8,8 @@ import CreateTraveler from "./components/mainpages/travelAgent/CreateTraveler";
 import TravelerList from "./components/mainpages/common/TravelerList";
 import UpdateTraveler from "./components/mainpages/travelAgent/UpdateTraveler";
 import EndUserProfile from "./components/mainpages/common/EndUserProfile";
+import BackOfficerHome from "./components/mainpages/backOfficer/BackOfficerHome";
+import TravelAgentHome from "./components/mainpages/travelAgent/TravelAgentHome";
 
 function Router() {
   return (
@@ -20,6 +22,8 @@ function Router() {
         <Route path="/travelerList" element={<TravelerList />} />
         <Route path="/updateTraveler" element={<UpdateTraveler />} />
         <Route path="/endUserProfile/:nic" element={<EndUserProfile />} />
+        <Route path="/backOfficerHome" element={<BackOfficerHome />} />
+        <Route path="/travelAgentHome" element={<TravelAgentHome />} />
 
         {}
       </Routes>
