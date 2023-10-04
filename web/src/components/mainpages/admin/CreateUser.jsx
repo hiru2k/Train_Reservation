@@ -56,7 +56,7 @@ function UserRegistration() {
 
   return (
     <div>
-      <h2>User Registration</h2>
+      <h2>Create User Profile</h2>
       <form onSubmit={formik.handleSubmit}>
         <div>
           <label>Username:</label>
