@@ -1,11 +1,14 @@
 import React from "react";
-import Routes from "./Router"; // Make sure to adjust the import path if necessary
+import Routes from "./Router";
+import Header from "./components/header/Header";
+import { UserProvider } from "./UserContext";
 
 function App() {
   return (
-    <div className="App">
+    <UserProvider>
+      <Header />
       <Routes />
-    </div>
+    </UserProvider>
   );
 }
 
