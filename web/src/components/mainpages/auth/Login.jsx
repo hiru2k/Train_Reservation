@@ -31,9 +31,9 @@ function Login() {
           if (data.role == "Admin") {
             navigate("/createUser");
           } else if (data.role == "Back Officer") {
-            navigate("/travelerList");
+            navigate("/backOfficerHome");
           } else {
-            navigate("/travelerList");
+            navigate("/travelAgentHome");
           }
 
           alert("sucessfully login.");
