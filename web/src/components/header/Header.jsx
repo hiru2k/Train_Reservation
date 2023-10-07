@@ -54,19 +54,13 @@ function Header() {
           <a href="/login">Logout</a>
         </button>
       );
-    } else {
-      return (
-        <button type="button">
-          <a href="/login">Login</a>
-        </button>
-      );
     }
   };
 
   return (
     <div className="header">
       <div>
-        <h1>My App</h1>
+        <h1>Train Booking Management</h1>
       </div>
       <div className="buttons">
         {renderButtons()}
