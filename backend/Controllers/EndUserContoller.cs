@@ -1,7 +1,6 @@
 ﻿using backend.Data;
 using backend.Models;
 using backend.Services;
-using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -69,7 +68,7 @@ namespace backend.Controllers
         }
 
         [HttpPost("register")]
-        [Authorize(Roles = "Travel Agent")]
+
         public async Task<IActionResult> Register([FromBody] EndUserModel newUser)
         {
             if (newUser == null || string.IsNullOrEmpty(newUser.Username) || string.IsNullOrEmpty(newUser.Password))
