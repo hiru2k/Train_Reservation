@@ -2,9 +2,10 @@ package com.example.train_reservation.utils;
 
 import android.content.ContentValues;
 import android.content.Context;
-import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+
+import com.example.train_reservation.models.User;
 
 public class SQLiteManager extends SQLiteOpenHelper {
     // Database details
@@ -40,38 +41,21 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-
+        db.execSQL("DROP TABLE IF EXISTS " + TABLE_USERS);
+        onCreate(db);
     }
 
-    public boolean registerUser(String username, String password, String nic, String role, String email, String phone, String status) {
+    public void insertUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
-        values.put(COLUMN_NIC, nic);
-        values.put(COLUMN_USERNAME, username);
-        values.put(COLUMN_PASSWORD, password);
-        values.put(COLUMN_ROLE, role);
-        values.put(COLUMN_EMAIL,email);
-        values.put(COLUMN_PHONE, phone);
-        values.put(COLUMN_STATUS, status);
-
-
-
-
-
-        // Check if NIC already exists
-        Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_NIC + " = ?", new String[]{nic});
-        if (cursor.getCount() > 0) {
-            cursor.close();
-            db.close();
-            return false; // NIC already exists,
-        }
-        cursor.close();
-
-
-        // Insert the new user into the database
-        long result = db.insert(TABLE_USERS, null, values);
+        values.put(COLUMN_USERNAME, user.getUsername());
+        values.put(COLUMN_NIC, user.getNic());
+        values.put(COLUMN_ROLE, user.getRole());
+        values.put(COLUMN_PASSWORD, user.getPassword());
+        values.put(COLUMN_EMAIL, user.getEmail());
+        values.put(COLUMN_PHONE, user.getPhone());
+        values.put(COLUMN_STATUS, user.getStatus());
+        db.insert(TABLE_USERS, null, values);
         db.close();
-
-        return result != -1; // Returns true if registration is successful, false otherwise
     }
 }
