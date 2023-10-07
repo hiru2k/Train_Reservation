@@ -72,18 +72,17 @@ public class LoginActivity extends AppCompatActivity {
                     call.enqueue(new Callback<Void>() {
                         @Override
                         public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.isSuccessful()) {
-                                // Login successful, navigate to the next activity (for example, home screen)
-                                // For example:
-                                // Intent intent = new Intent(LoginActivity.this, HomeActivity.class);
-                                // startActivity(intent);
-                                // finish();
+                            if (response.code()==200) {
 
                                 Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                             } else {
-                                // Login failed, show an error message to the user
-                                Toast.makeText(LoginActivity.this, "Login failed. Please try again.", Toast.LENGTH_SHORT).show();
-                            }
+                                if(response.code()==403) {
+
+                                    Toast.makeText(LoginActivity.this, "You have to wait till activate your account", Toast.LENGTH_SHORT).show();
+                                }if(response.code()==401){
+                                    Toast.makeText(LoginActivity.this, "Invalid Username or Password", Toast.LENGTH_SHORT).show();
+                                }
+                                }
                         }   @Override
                         public void onFailure(Call<Void> call, Throwable t) {
 
