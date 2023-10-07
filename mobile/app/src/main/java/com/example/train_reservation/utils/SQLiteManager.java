@@ -40,7 +40,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     @Override
     public void onUpgrade(SQLiteDatabase db, int oldVersion, int newVersion) {
-        // Handle database schema upgrades here
+
     }
 
     public boolean registerUser(String username, String password, String nic, String role, String email, String phone, String status) {
@@ -56,20 +56,17 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
 
 
-        // Add other values to 'values' for other columns
+
 
         // Check if NIC already exists
         Cursor cursor = db.rawQuery("SELECT * FROM " + TABLE_USERS + " WHERE " + COLUMN_NIC + " = ?", new String[]{nic});
         if (cursor.getCount() > 0) {
             cursor.close();
             db.close();
-            return false; // NIC already exists, registration failed
+            return false; // NIC already exists,
         }
         cursor.close();
 
-        // NIC doesn't exist, proceed with registration
-        // Add other values to 'values' for other columns
-        // ...
 
         // Insert the new user into the database
         long result = db.insert(TABLE_USERS, null, values);
