@@ -1,10 +1,10 @@
-import React from "react";
-import Routes from "./Router"; // Make sure to adjust the import path if necessary
+import AppRoutes from "./AppRouter";
+import 'bootstrap/dist/css/bootstrap.min.css'; 
 
 function App() {
   return (
     <div className="App">
-      <Routes />
+      <AppRoutes />
     </div>
   );
 }
