@@ -13,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.train_reservation.R;
+import com.example.train_reservation.models.User;
 import com.example.train_reservation.utils.RegisterAPIInterface;
-import com.example.train_reservation.utils.RegisterRequestData;
 import com.example.train_reservation.utils.RegistrationInputValidation;
 import com.example.train_reservation.utils.SQLiteManager;
 
@@ -64,20 +64,6 @@ public class RegisterActivity extends AppCompatActivity {
 
                 if (RegistrationInputValidation.validateAllFields(username, nic, "Users", email, password, phone)) {
 
-                  //  boolean isRegistered = sqLiteManager.registerUser(username, password, nic, "Users", email, phone, "Pending");
-                 //   if (isRegistered) {
-                    //    Toast.makeText(RegisterActivity.this, "Registration successful!", Toast.LENGTH_SHORT).show();
-
-                //    } else {
-                     //   Toast.makeText(RegisterActivity.this, "Registration failed. NIC already exists.", Toast.LENGTH_SHORT).show();
-                //    }
-             //   } else {
-
-              //      Toast.makeText(RegisterActivity.this, "Invalid input. Please check the fields.", Toast.LENGTH_SHORT).show();
-
-
-
-
                     // Retrofit initialization
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("http://192.168.8.101:5059/api/EndUser/")
@@ -93,17 +79,10 @@ public class RegisterActivity extends AppCompatActivity {
                     // Create an instance of API interface
                     RegisterAPIInterface registerAPIInterface = retrofit.create(RegisterAPIInterface.class);
 
-                    RegisterRequestData registerData = new RegisterRequestData();
-                    registerData.setUsername(username);
-                    registerData.setPassword(password);
-                    registerData.setNIC(nic);
-                    registerData.setRole("User");
-                    registerData.setEmail(email);
-                    registerData.setPhone(phone);
-                    registerData.setStatus("Pending");
+                    User user = new User(username,nic,"User",password,email,phone,"Pending");
 
                     // Call API endpoint
-                    Call<Void> call = registerAPIInterface.registerUser(registerData);
+                    Call<Void> call = registerAPIInterface.registerUser(user);
 
                     call.enqueue(new Callback<Void>() {
                         @Override
@@ -122,10 +101,10 @@ public class RegisterActivity extends AppCompatActivity {
                                 Intent intent = new Intent(RegisterActivity.this, LoginActivity.class);
                                 startActivity(intent);
                                 finish();
-                            } else {
-
-                                Toast.makeText(RegisterActivity.this, "Registration failed. Please try again later.", Toast.LENGTH_SHORT).show();
                             }
+                            if (response.code()==401)
+                            {  Toast.makeText(RegisterActivity.this, "User is already exist in same NIC", Toast.LENGTH_SHORT).show(); }
+
                         }
 
                         @Override
