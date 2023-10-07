@@ -12,9 +12,10 @@ import android.widget.EditText;
 import android.widget.Toast;
 
 import com.example.train_reservation.R;
+import com.example.train_reservation.models.User;
 import com.example.train_reservation.utils.LoginAPIInterface;
-import com.example.train_reservation.utils.LoginRequestData;
-import com.example.train_reservation.utils.RegisterRequestData;
+import com.example.train_reservation.utils.LoginResponse;
+import com.example.train_reservation.utils.SQLiteManager;
 
 import java.util.concurrent.TimeUnit;
 
@@ -48,6 +49,8 @@ public class LoginActivity extends AppCompatActivity {
                     String password = etPassword.getText().toString().trim();
 
 
+
+
                     // Retrofit initialization
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("http://192.168.8.101:5059/api/EndUser/")
@@ -62,17 +65,30 @@ public class LoginActivity extends AppCompatActivity {
 
                     LoginAPIInterface loginAPIInterface = retrofit.create(LoginAPIInterface.class);
 
-                    LoginRequestData loginData = new LoginRequestData();
-                    loginData.setUsername(username);
-                    loginData.setPassword(password);
+                   User user = new User();
+                    user.setUsername(username);
+                    user.setPassword(password);
 
+                    //call the api login
+                    Call<LoginResponse> call = loginAPIInterface.loginUser(user);
 
-                    Call<Void> call = loginAPIInterface.loginUser(loginData);
-
-                    call.enqueue(new Callback<Void>() {
+                    call.enqueue(new Callback<LoginResponse>() {
                         @Override
-                        public void onResponse(Call<Void> call, Response<Void> response) {
-                            if (response.code()==200) {
+                        public void onResponse(Call<LoginResponse> call, Response<LoginResponse> response) {
+                            if (response.code()==200 && response.body() != null) {
+                              LoginResponse loginResponse = response.body();
+
+
+                                User user = loginResponse.getUser();
+
+
+                                // Insert the User object into the SQLite database
+                                SQLiteManager dbHelper = new SQLiteManager(LoginActivity.this);
+                                dbHelper.insertUser(user);
+                                System.out.print(user.getEmail());
+
+
+
 
                                 Toast.makeText(LoginActivity.this, "Login successful!", Toast.LENGTH_SHORT).show();
                             } else {
@@ -84,7 +100,7 @@ public class LoginActivity extends AppCompatActivity {
                                 }
                                 }
                         }   @Override
-                        public void onFailure(Call<Void> call, Throwable t) {
+                        public void onFailure(Call<LoginResponse> call, Throwable t) {
 
                             Toast.makeText(LoginActivity.this, "Login failed. Please try again later.", Toast.LENGTH_SHORT).show();
                         }
