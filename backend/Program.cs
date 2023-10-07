@@ -24,6 +24,8 @@ builder.Services.AddCors((o) =>
         conf.WithOrigins("http://localhost:3000", "http://localhost:3000/");
         conf.AllowAnyHeader();
         conf.AllowAnyMethod();
+        conf.AllowAnyOrigin();
+
     });
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -65,7 +67,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-app.UseHttpsRedirection();
+
 
 app.UseCors("Allow FE");
 
