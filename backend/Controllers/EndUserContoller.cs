@@ -33,16 +33,16 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            var (isValid, role, email, nic, status) = await _userService.AuthenticateAsync(user);
+            var (isValid, User) = await _userService.AuthenticateAsync(user);
             if (isValid)
             {
-                if (status == "Active")
+                if (User.Status == "Active")
                 {
-                    var token = GenerateJwtToken(nic, role, email);
-                    return Ok(new { success = true, message = "Login successful!", token, role });//code 200
+                    var token = GenerateJwtToken(User.NIC, User.Role, User.Email);
+                    return Ok(new { success = true, message = "Login successful!", token, User });//code 200
                 }
 
-                if (status == "Pending")
+                if (User.Status == "Pending")
                 {
 
                     return StatusCode(403, new { success = false, message = "You have to wait till acivate your account" });
@@ -97,7 +97,7 @@ namespace backend.Controllers
             }
             if (!isUserUniq)
             {
-                return Ok(new { status = 401, isSuccess = false, message = "User already exists", });
+                return StatusCode(401, new { isSuccess = false, message = "User already exists", });
             }
             return Ok(new { status = 405, isSuccess = false, message = "Admin access denied", });
 
