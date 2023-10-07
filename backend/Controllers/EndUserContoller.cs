@@ -33,14 +33,23 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            var (isValid, role, email, nic) = await _userService.AuthenticateAsync(user);
+            var (isValid, role, email, nic, status) = await _userService.AuthenticateAsync(user);
             if (isValid)
             {
-                var token = GenerateJwtToken(nic, role, email);
-                return Ok(new { success = true, message = "Login successful!", token, role });
+                if (status == "Active")
+                {
+                    var token = GenerateJwtToken(nic, role, email);
+                    return Ok(new { success = true, message = "Login successful!", token, role });//code 200
+                }
+
+                if (status == "Pending")
+                {
+
+                    return StatusCode(403, new { success = false, message = "You have to wait till acivate your account" });
+                }
             }
 
-            return Unauthorized(new { success = false, message = "Invalid username or password." });
+            return Unauthorized(new { success = false, message = "Invalid username or password." });//code 401
         }
 
         private string GenerateJwtToken(string nic, string role, string email)
