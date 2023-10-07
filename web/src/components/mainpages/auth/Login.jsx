@@ -1,6 +1,7 @@
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
+import loginImage from "../../../../public/assets/login1.jpg";
 import axiosInstance from "../../../DefaultHeader";
 import { useUserContext } from "../../../UserContext";
 
@@ -51,23 +52,30 @@ function Login() {
     <div className="login">
       <div className="background">
         <div>
-          <h2>Login</h2>
+          <img src={loginImage} alt="Description of the image" />
+        </div>
+        <div className="form">
+          <h2 className="formTitle">Login</h2>
+
           <input
+            className="formFields"
             type="text"
             placeholder="Username"
             value={username}
             onChange={(e) => setUsername(e.target.value)}
           />
+
           <input
+            className="formFields"
             type="password"
             placeholder="Password"
             value={password}
             onChange={(e) => setPassword(e.target.value)}
           />
 
-          <div>
-            <button onClick={handleLogin}>Login</button>
-          </div>
+          <button className="formBtn" onClick={handleLogin}>
+            Login
+          </button>
         </div>
       </div>
     </div>
