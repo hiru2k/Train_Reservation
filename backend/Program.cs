@@ -16,6 +16,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<TrainServices>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors((o) =>
 {
@@ -52,7 +53,7 @@ var database = client.GetDatabase(databaseName);
 builder.Services.AddSingleton(database);
 
 // custom services
-builder.Services.AddTransient<ITrainService, TrainService>();
+
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IEndUserService, EndUserService>();
 
