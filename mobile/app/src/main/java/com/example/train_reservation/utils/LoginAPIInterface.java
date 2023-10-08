@@ -11,6 +11,6 @@ import retrofit2.http.POST;
 public interface LoginAPIInterface
 
 {
-    @POST("login") // endpoint// endpoint for login
+    @POST("login") // <LoginRespose> is not void cause it return user obj
     Call<LoginResponse> loginUser(@Body User loginUser);
 }
