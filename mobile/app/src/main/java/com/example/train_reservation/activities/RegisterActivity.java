@@ -15,7 +15,7 @@ import android.widget.Toast;
 import com.example.train_reservation.R;
 import com.example.train_reservation.models.User;
 import com.example.train_reservation.utils.RegisterAPIInterface;
-import com.example.train_reservation.utils.RegistrationInputValidation;
+import com.example.train_reservation.utils.UserInputValidation;
 import com.example.train_reservation.utils.SQLiteManager;
 
 import java.util.concurrent.TimeUnit;
@@ -62,11 +62,11 @@ public class RegisterActivity extends AppCompatActivity {
                 String phone = etPhone.getText().toString().trim();
 
 
-                if (RegistrationInputValidation.validateAllFields(username, nic, "Users", email, password, phone)) {
+                if (UserInputValidation.validateAllFields(username, nic, email, password, phone)) {
 
                     // Retrofit initialization
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://192.168.8.101:5059/api/EndUser/")
+                            .baseUrl("http://192.168.8.103:5059/api/EndUser/")
                             .client(new OkHttpClient.Builder()
                                     // Allow SSL redirects
                                     .connectTimeout(30, TimeUnit.SECONDS) // Adjust the timeout duration as needed
@@ -79,7 +79,14 @@ public class RegisterActivity extends AppCompatActivity {
                     // Create an instance of API interface
                     RegisterAPIInterface registerAPIInterface = retrofit.create(RegisterAPIInterface.class);
 
-                    User user = new User(username,nic,"User",password,email,phone,"Pending");
+                    User user = new User();
+                    user.username=username;
+                    user.nic=nic;
+                    user.role="User";
+                    user.password=password;
+                    user.email=email;
+                    user.phone=phone;
+                    user.status="Pending";
 
                     // Call API endpoint
                     Call<Void> call = registerAPIInterface.registerUser(user);
