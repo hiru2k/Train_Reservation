@@ -59,11 +59,18 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Edit Profile"/>
+
         <Button
             android:id="@+id/btnDeactivate"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Deactivate"/>
+
+        <Button
+            android:id="@+id/btnLogout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Logout"/>
 
 
 
