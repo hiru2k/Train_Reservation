@@ -39,7 +39,7 @@ namespace backend.Controllers
                 if (User.Status == "Active")
                 {
                     var token = GenerateJwtToken(User.NIC, User.Role, User.Email);
-                    return Ok(new { success = true, message = "Login successful!", token, User });//code 200
+                    return Ok(new { status = 200, message = "Login successful!", token, User });//code 200
                 }
 
                 if (User.Status == "Pending")
@@ -47,6 +47,12 @@ namespace backend.Controllers
 
                     return StatusCode(403, new { success = false, message = "You have to wait till acivate your account" });
                 }
+                if (User.Status == "Deactivate")
+                {
+
+                    return StatusCode(200, new { success = true, message = "You have deactivated your account", User });
+                }
+
             }
 
             return Unauthorized(new { success = false, message = "Invalid username or password." });//code 401
