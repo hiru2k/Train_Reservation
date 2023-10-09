@@ -14,6 +14,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.train_reservation.R;
@@ -41,14 +42,26 @@ public class LoginActivity extends AppCompatActivity {
     private EditText etPassword;
     private Button btnLogin;
 
+    private TextView signUpLink;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_login);
 
-        etUsername = findViewById(R.id.etUsername); // Replace with your EditText ID
+        etUsername = findViewById(R.id.etUsername);
         etPassword = findViewById(R.id.etPassword);
-        btnLogin = findViewById(R.id.btnLogin);// Replace with your EditText ID
+        btnLogin = findViewById(R.id.btnLogin);
+        signUpLink= findViewById(R.id.signUpLink);
+
+
+        signUpLink.setOnClickListener((new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(LoginActivity.this, RegisterActivity.class); // Replace LoginActivity.class with your login activity class
+                startActivity(intent);
+            }
+        }));
 
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -118,8 +131,8 @@ public class LoginActivity extends AppCompatActivity {
 
                                    // Build an alert dialog
                                    AlertDialog.Builder builder = new AlertDialog.Builder(LoginActivity.this);
-                                   builder.setTitle("Deactivate Account");
-                                   builder.setMessage("Your acount has deactivated , Are you sure you want to deactivate your account?");
+                                   builder.setTitle("Activate Account");
+                                   builder.setMessage("Your account has deactivated , Are you sure you want to reactivate your account?");
 
                                    //  "Yes" button
                                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
