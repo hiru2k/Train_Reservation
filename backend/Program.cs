@@ -1,8 +1,15 @@
 using backend.Data;
+using backend.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+
+builder.Services.Configure < DatabaseSettings>(
+                    builder.Configuration.GetSection("ConnectionString"));
+
+builder.Services.AddSingleton<ReservationServices>();
+builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
