@@ -12,6 +12,7 @@ export default function NewReservation() {
   const navigate = useNavigate(); 
 
   const [formData, setFormData] = useState({
+    id: "",
     trainName: "",
     departureStation: "",
     arrivalStation: "",
@@ -25,18 +26,37 @@ export default function NewReservation() {
     currency: "USD",
     selectedSeats: [],
     maxSeatNumber: 0,
+    bookedDate: "",
+    startTime: "",
+    endTime: "",
   });
 
   useEffect(() => {
     const storedBookingData = JSON.parse(localStorage.getItem("booking"));
     if (storedBookingData) {
       const selectedTrain = trainData.find(
-        (train) => train.name === storedBookingData.trainName
+        (train) => train.id === storedBookingData.trainID
       );
       if (selectedTrain) {
+        const bookedTimeDate = storedBookingData.bookedDate.substring(0, 10);
+        const bookedTimeTime = storedBookingData.bookedDate.substring(11, 16);
+
+        const startTimeDate = storedBookingData.startTime.substring(0, 10);
+        const startTimeTime = storedBookingData.startTime.substring(11, 16);
+      
+        const endTimeDate = storedBookingData.endTime.substring(0, 10);
+        const endTimeTime = storedBookingData.endTime.substring(11, 16);
+
+        const bookedDateTime = bookedTimeDate + " " + bookedTimeTime;
+        const startDateTime = startTimeDate + " " + startTimeTime;
+        const endDateTime = endTimeDate + " " + endTimeTime;
+
         setFormData({
           ...storedBookingData,
           maxSeatNumber: selectedTrain.maxSeatNumber,
+          bookedDate: bookedDateTime,
+          startTime: startDateTime,
+          endTime: endDateTime,
         });
       }
     } else {
@@ -53,6 +73,9 @@ export default function NewReservation() {
         currency: "USD",
         selectedSeats: [],
         maxSeatNumber: 0,
+        bookedDate: "",
+        startTime: "",
+        endTime: "",
       });
     }
   }, []);
@@ -200,6 +223,26 @@ export default function NewReservation() {
                   required
                 />
               </Form.Group>
+              <Form.Group controlId="nic">
+                <Form.Label>Booked Date</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="nic"
+                  value={formData.bookedDate}
+                  onChange={handleChange}
+                  disabled
+                />
+              </Form.Group>
+              <Form.Group controlId="nic">
+                <Form.Label>Starting Date & Time</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="nic"
+                  value={formData.startTime}
+                  onChange={handleChange}
+                  disabled
+                />
+              </Form.Group>
             </Col>
             <Col md={6}>
               <Form.Group controlId="passengerName">
@@ -256,6 +299,16 @@ export default function NewReservation() {
                   value={formData.seatsNeeded}
                   onChange={handleChange}
                   required
+                />
+              </Form.Group>
+              <Form.Group controlId="nic">
+                <Form.Label>Ending Date & Time</Form.Label>
+                <Form.Control
+                  type="text"
+                  name="nic"
+                  value={formData.endTime}
+                  onChange={handleChange}
+                  disabled
                 />
               </Form.Group>
             </Col>

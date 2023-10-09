@@ -1,6 +1,7 @@
 const bookingsData = [
   {
     id: 1,
+    trainID: 1,
     trainName: "Express Train 123",
     departureStation: "Station A",
     arrivalStation: "Station B",
@@ -19,6 +20,7 @@ const bookingsData = [
   },
   {
     id: 2,
+    trainID: 2,
     trainName: "Local Train 456",
     departureStation: "Station X",
     arrivalStation: "Station Y",
@@ -26,7 +28,7 @@ const bookingsData = [
     passengerAddress: "456 Elm St",
     emergencyContact: "555-555-5555",
     nic: "98765-43210-5678",
-    status: "APPROVED",
+    status: "APPROVED-UPDATABLE",
     fare: 20.0,
     currency: "EUR",
     seatsNeeded: 3,
@@ -37,6 +39,7 @@ const bookingsData = [
   },
   {
     id: 3,
+    trainID: 3,
     trainName: "High-Speed Train 789",
     departureStation: "Station P",
     arrivalStation: "Station Q",
@@ -55,6 +58,7 @@ const bookingsData = [
   },
   {
     id: 4,
+    trainID: 4,
     trainName: "Express Train 789",
     departureStation: "Station C",
     arrivalStation: "Station D",
@@ -73,6 +77,7 @@ const bookingsData = [
   },
   {
     id: 5,
+    trainID: 5,
     trainName: "Local Train 101",
     departureStation: "Station M",
     arrivalStation: "Station N",
@@ -80,7 +85,7 @@ const bookingsData = [
     passengerAddress: "101 Pine St",
     emergencyContact: "555-555-5555",
     nic: "98765-43210-5678",
-    status: "APPROVED",
+    status: "APPROVED-UPDATABLE",
     fare: 18.0,
     currency: "EUR",
     seatsNeeded: 3,
@@ -91,6 +96,7 @@ const bookingsData = [
   },
   {
     id: 6,
+    trainID: 6,
     trainName: "High-Speed Train 222",
     departureStation: "Station E",
     arrivalStation: "Station F",
@@ -109,6 +115,7 @@ const bookingsData = [
   },
   {
     id: 7,
+    trainID: 7,
     trainName: "Express Train 555",
     departureStation: "Station G",
     arrivalStation: "Station H",
@@ -127,6 +134,7 @@ const bookingsData = [
   },
   {
     id: 8,
+    trainID: 8,
     trainName: "Local Train 333",
     departureStation: "Station I",
     arrivalStation: "Station J",
@@ -134,7 +142,7 @@ const bookingsData = [
     passengerAddress: "333 Redwood St",
     emergencyContact: "555-555-5555",
     nic: "98765-43210-5678",
-    status: "APPROVED",
+    status: "APPROVED-UPDATABLE",
     fare: 22.0,
     currency: "EUR",
     seatsNeeded: 3,
@@ -145,6 +153,7 @@ const bookingsData = [
   },
   {
     id: 9,
+    trainID: 9,
     trainName: "High-Speed Train 777",
     departureStation: "Station K",
     arrivalStation: "Station L",
@@ -163,6 +172,7 @@ const bookingsData = [
   },
   {
     id: 10,
+    trainID: 10,
     trainName: "Express Train 999",
     departureStation: "Station O",
     arrivalStation: "Station P",
@@ -181,6 +191,7 @@ const bookingsData = [
   },
   {
     id: 11,
+    trainID: 11,
     trainName: "Local Train 777",
     departureStation: "Station R",
     arrivalStation: "Station S",
@@ -199,6 +210,7 @@ const bookingsData = [
   },
   {
     id: 12,
+    trainID:12,
     trainName: "Express Train 777",
     departureStation: "Station T",
     arrivalStation: "Station U",
@@ -206,7 +218,7 @@ const bookingsData = [
     passengerAddress: "777 Maple St",
     emergencyContact: "555-555-5555",
     nic: "54321-09876-4321",
-    status: "APPROVED",
+    status: "APPROVED-UPDATABLE",
     fare: 65.0,
     currency: "EUR",
     seatsNeeded: 3,
@@ -217,6 +229,7 @@ const bookingsData = [
   },
   {
     id: 13,
+    trainID:13,
     trainName: "Local Train 999",
     departureStation: "Station V",
     arrivalStation: "Station W",
@@ -235,6 +248,7 @@ const bookingsData = [
   },
   {
     id: 14,
+    trainID:14,
     trainName: "High-Speed Train 555",
     departureStation: "Station X",
     arrivalStation: "Station Y",
@@ -253,6 +267,7 @@ const bookingsData = [
   },
   {
     id: 15,
+    trainID: 15,
     trainName: "Express Train 555",
     departureStation: "Station Z",
     arrivalStation: "Station AA",
@@ -260,7 +275,7 @@ const bookingsData = [
     passengerAddress: "555 Willow St",
     emergencyContact: "555-555-5555",
     nic: "54321-09876-4321",
-    status: "APPROVED",
+    status: "APPROVED-UNUPDATABLE",
     fare: 75.0,
     currency: "EUR",
     seatsNeeded: 3,

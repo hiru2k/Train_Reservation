@@ -57,16 +57,27 @@ export default function BookingList({ bookingsData }) {
                   Rejected
                 </Nav.Link>
               </Nav.Item>
+              <Nav.Item>
+                <Nav.Link eventKey={3} className="text-primary">
+                  Expired
+                </Nav.Link>
+              </Nav.Item>
             </Nav>
             <Tab.Content>
               <Tab.Pane eventKey={0}>
                 {renderBookings(filterBookingsByStatus("PENDING"))}
               </Tab.Pane>
               <Tab.Pane eventKey={1}>
-                {renderBookings(filterBookingsByStatus("APPROVED"))}
+                {renderBookings(filterBookingsByStatus("APPROVED-UPDATABLE"))}
+              </Tab.Pane>
+              <Tab.Pane eventKey={1}>
+                {renderBookings(filterBookingsByStatus("APPROVED-UNUPDATABLE"))}
               </Tab.Pane>
               <Tab.Pane eventKey={2}>
                 {renderBookings(filterBookingsByStatus("REJECTED"))}
+              </Tab.Pane>
+              <Tab.Pane eventKey={2}>
+                {renderBookings(filterBookingsByStatus("EXPIRED"))}
               </Tab.Pane>
             </Tab.Content>
           </Tab.Container>

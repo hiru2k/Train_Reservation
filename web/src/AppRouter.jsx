@@ -10,6 +10,7 @@ const AppRoutes = () => {
         <Route path="/" element={<Login />} />
         <Route path="/bookings" element={<BookingsHome />} />
         <Route path="/bookings/add" element={<NewReservation />} />
+        <Route path="/bookings/add/:id" element={<NewReservation />} />
       </Routes>
     </BrowserRouter>
   );
