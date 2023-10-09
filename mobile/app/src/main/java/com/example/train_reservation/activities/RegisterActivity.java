@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.train_reservation.R;
@@ -36,6 +37,7 @@ public class RegisterActivity extends AppCompatActivity {
     private EditText etPhone;
     private Button btnRegister;
     private SQLiteManager sqLiteManager;
+    private TextView signInLink;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -50,6 +52,17 @@ public class RegisterActivity extends AppCompatActivity {
         etEmail = findViewById(R.id.etEmail);
         etPhone = findViewById(R.id.etPhone);
         btnRegister = findViewById(R.id.btnRegister);
+        signInLink = findViewById(R.id.signInLink);
+        signInLink.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                Intent intent = new Intent(RegisterActivity.this, LoginActivity.class); // Replace LoginActivity.class with your login activity class
+                startActivity(intent);
+            }
+        });
+
+
 
         btnRegister.setOnClickListener(new View.OnClickListener() {
             @Override
