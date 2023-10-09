@@ -12,7 +12,13 @@ BookingCard.propTypes = {
 
 export default function BookingCard({ booking }) {
   const [expanded, setExpanded] = useState(false);
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+
+  const startTimeDate = booking.startTime.substring(0, 10);
+  const startTimeTime = booking.startTime.substring(11, 16);
+
+  const endTimeDate = booking.endTime.substring(0, 10);
+  const endTimeTime = booking.endTime.substring(11, 16);
 
   const handleExpand = () => {
     setExpanded(!expanded);
@@ -22,9 +28,9 @@ export default function BookingCard({ booking }) {
     try {
       // Send a DELETE request to your backend API to delete the booking
       await axios.delete(`your_backend_api_url/${booking.id}`);
-  
+
       // Optionally, you can show a success message to the user here
-  
+
       // Redirect to the /bookings page or perform any other necessary actions
       navigate("/bookings");
     } catch (error) {
@@ -33,7 +39,6 @@ export default function BookingCard({ booking }) {
       // Handle the error, show an error message to the user, etc.
     }
   };
-  
 
   return (
     <Card className="my-2" bg="light" border="primary">
@@ -81,31 +86,48 @@ export default function BookingCard({ booking }) {
             <Row>
               <Col>
                 <Card.Text className="font-weight-bold">
-                  Status: {booking.status}
+                  Passenger Name: <br/>{booking.passengerName}
+                </Card.Text>
+                <Card.Text className="font-weight-bold">
+                  NIC: <br/>{booking.nic}
+                </Card.Text>
+                <Card.Text className="font-weight-bold">
+                  Booked Date: <br/>{booking.bookedDate}
+                </Card.Text>
+                <Card.Text className="font-weight-bold">
+                  Emergency Contact: <br/>{booking.emergencyContact}
                 </Card.Text>
               </Col>
               <Col>
-                <Card.Text className="font-weight-bold">
-                  Passenger Name: {booking.passengerName}
-                </Card.Text>
-              </Col>
-              <Col xs="auto">
+                {" "}
                 <Card.Text className="font-weight-bold">
                   Fare: {booking.currency} {booking.fare}
+                </Card.Text>
+                <Card.Text className="font-weight-bold">
+                  How many seats?: {booking.seatsNeeded}
+                </Card.Text>
+                <Card.Text className="font-weight-bold">
+                  Starting Date & Time: <br/>{startTimeDate} {startTimeTime}
+                </Card.Text>
+                <Card.Text className="font-weight-bold">
+                  End Time: <br/>{endTimeDate} {endTimeTime}
                 </Card.Text>
               </Col>
             </Row>
             <Row className="mt-2">
               <div className="d-flex justify-content-end">
                 {booking.status === "REJECTED" && (
-                  <Button 
-                  variant="danger" 
-                  className="mr-2 mx-1" 
-                  onClick={() => {handleDeleteBooking(booking) }}>
+                  <Button
+                    variant="danger"
+                    className="mr-2 mx-1"
+                    onClick={() => {
+                      handleDeleteBooking(booking);
+                    }}
+                  >
                     Delete
                   </Button>
                 )}
-                {booking.status === "APPROVED" && (
+                {booking.status === "APPROVED-UPDATABLE" && (
                   <>
                     <Link
                       to={{
@@ -126,13 +148,26 @@ export default function BookingCard({ booking }) {
                         Update
                       </Button>
                     </Link>
+
+                    <Button
+                      variant="danger"
+                      className="mr-2 mx-1"
+                      onClick={() => {
+                        localStorage.setItem(
+                          "booking",
+                          JSON.stringify(booking)
+                        );
+                      }}
+                    >
+                      Cancel
+                    </Button>
                   </>
                 )}
                 {booking.status === "PENDING" && (
                   <>
                     <Link
                       to={{
-                        pathname: "/bookings/add",
+                        pathname: "/bookings/add/" + booking.id,
                         state: { bookingData: booking },
                       }}
                     >
