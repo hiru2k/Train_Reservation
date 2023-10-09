@@ -1,80 +1,185 @@
 <?xml version="1.0" encoding="utf-8"?>
 <androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+
+    android:background="#004785">
+
     <LinearLayout
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
+        android:id="@+id/welcomeLayout"
+        android:layout_width="320dp"
+        android:layout_height="wrap_content"
+        android:layout_marginLeft="40dp"
         android:orientation="vertical"
-        android:padding="16dp">
-
+        android:layout_marginTop="1000dp"
+        android:padding="16dp"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintBaseline_toTopOf="parent">
         <TextView
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
             android:text="Profile"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
+            android:textColor="@color/white"
             android:textAlignment="center"
-            android:textSize="100px"
-            />
-        <EditText
-            android:id="@+id/etUsername"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Username"
-            android:inputType="text"
-            android:layout_marginBottom="16dp"/>
-
+            android:textSize="24sp"
+            android:textStyle="bold"/>
         <TextView
-            android:id="@+id/etNIC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:hint="NIC"
-
-            android:layout_marginBottom="16dp"/>
-        <EditText
-            android:id="@+id/etPassword"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Password"
-            android:inputType="textPassword"
-            android:layout_marginBottom="16dp"/>
-
-        <EditText
-            android:id="@+id/etEmail"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Email"
-            android:inputType="text"
-            android:layout_marginBottom="16dp"/>
-        <EditText
-            android:id="@+id/etPhone"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:hint="Phone"
-            android:inputType="text"
-            android:layout_marginBottom="16dp"/>
-
-
-        <Button
-            android:id="@+id/btnEditProf"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Edit Profile"/>
-
-        <Button
-            android:id="@+id/btnDeactivate"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Deactivate"/>
-
-        <Button
-            android:id="@+id/btnLogout"
-            android:layout_width="match_parent"
-            android:layout_height="wrap_content"
-            android:text="Logout"/>
-
-
-
-
+            android:text="Your profile details"
+            android:textColor="@color/white"
+            android:textAlignment="center"
+            android:textSize="20sp"
+            />
     </LinearLayout>
+
+
+    <androidx.cardview.widget.CardView
+        android:id="@+id/cardView"
+        android:layout_width="410dp"
+        android:layout_height="590dp"
+        android:layout_gravity="bottom"
+        android:layout_margin="0dp"
+
+        app:cardCornerRadius="30dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintLeft_toLeftOf="parent"
+        app:layout_constraintRight_toRightOf="parent">
+
+        <LinearLayout
+            android:layout_width="340dp"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="40dp"
+            android:orientation="vertical"
+            android:padding="16dp">
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:orientation="horizontal">
+
+            <TextView
+
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="35dp"
+
+                android:drawableStart="@drawable/icon_nic"
+                android:layout_marginBottom="16dp"
+                android:paddingRight="20dp"
+                android:paddingLeft="12dp"/>
+                <TextView
+                    android:id="@+id/etNIC"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_marginTop="35dp"
+                    android:hint="NIC"
+                    android:textColor="@color/primaryColor"
+                    android:textStyle="bold"
+                    android:layout_marginBottom="16dp"/>
+
+
+            </LinearLayout>
+
+            <EditText
+                android:id="@+id/etUsername"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/icon_username"
+                android:drawablePadding="20dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Username"
+                android:inputType="text"
+                android:textSize="16sp"
+                android:padding="13dp"
+              />
+
+            <EditText
+                android:id="@+id/etEmail"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/icon_email"
+                android:drawablePadding="20dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Email"
+                android:inputType="text"
+                android:textSize="16sp"
+                android:padding="13dp"
+          />
+            <EditText
+                android:id="@+id/etPhone"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/icon_phone"
+                android:drawablePadding="20dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Phone"
+                android:inputType="text"
+                android:textSize="16sp"
+                android:padding="13dp"
+                />
+
+
+            <EditText
+                android:id="@+id/etPassword"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:drawableStart="@drawable/icon_password"
+                android:drawablePadding="20dp"
+                android:layout_marginBottom="16dp"
+                android:hint="Password"
+                android:inputType="textPassword"
+                android:textSize="16sp"
+                android:padding="13dp"
+
+
+                />
+
+            <Button
+                android:id="@+id/btnEditProf"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:background="@drawable/primary_button"
+                android:textColor="@color/white"
+                android:text="Edit Details"
+
+                app:cornerRadius="800dip" />
+            <Button
+                android:id="@+id/btnDeactivate"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:background="@drawable/secondary_button"
+                app:backgroundTint="@color/black"
+                android:text="Deactivate"
+                app:cornerRadius="800dip" />
+            <Button
+                android:id="@+id/btnLogout"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:textColor="@color/white"
+                android:background="@drawable/primary_button"
+                android:text="Logout"
+
+                app:cornerRadius="800dip" />
+
+            <LinearLayout
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal"
+                android:padding="1dp">
+
+
+            </LinearLayout>
+        </LinearLayout>
+    </androidx.cardview.widget.CardView>
+
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
