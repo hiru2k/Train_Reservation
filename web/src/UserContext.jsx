@@ -1,3 +1,9 @@
+/*
+ * Filename: UseContext.jsx
+ * Description: Contains the global state management for the application(used for role based rendering)
+ * Author: Hiruni Mudannayake
+ */
+
 import React, { createContext, useContext, useState, useEffect } from "react";
 
 const UserContext = createContext();

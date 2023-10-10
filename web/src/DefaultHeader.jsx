@@ -1,4 +1,8 @@
-//Token attched default header
+/*
+ * Filename: DefaultHeader.jsx
+ * Description: Contains token attached default header for all requests
+ * Author: Hiruni Mudannayake
+ */
 import axios from "axios";
 
 const baseURL = import.meta.env.VITE_API_URL;

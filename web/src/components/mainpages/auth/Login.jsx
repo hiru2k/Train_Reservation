@@ -1,3 +1,8 @@
+/*
+ * Filename: Login.jsx
+ * Description: Contains the UI and functionality for user logging(admin, back officer, travel agent)
+ * Author: Hiruni Mudannayake
+ */
 import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import "./login.css";
@@ -49,10 +54,10 @@ function Login() {
   };
 
   return (
-    <div className="login">
+    <login>
       <div className="background">
         <div>
-          <img src={loginImage} alt="Description of the image" />
+          <img src={loginImage} alt="" />
         </div>
         <div className="form">
           <h2 className="formTitle">Login</h2>
@@ -78,7 +83,7 @@ function Login() {
           </button>
         </div>
       </div>
-    </div>
+    </login>
   );
 }
 
