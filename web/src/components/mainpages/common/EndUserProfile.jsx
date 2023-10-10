@@ -1,6 +1,14 @@
+/*
+ * Filename: EndUserProfile.jsx
+ * Description: Contains the UI and functionality for viewing and updating end traveler profiles
+ * Author: Hiruni Mudannayake
+ */
 import React, { useState, useEffect } from "react";
 import { useParams } from "react-router-dom";
 import axiosInstance from "../../../DefaultHeader";
+import "./endUserProfile.css";
+import BackgroundImage from "../../../../public/assets/prof_background1.jpg";
+import AvatarImage from "../../../../public/assets/avatar1.png";
 
 const EndUserProfile = () => {
   const { nic } = useParams();
@@ -45,83 +53,90 @@ const EndUserProfile = () => {
   }
 
   return (
-    <div>
-      <h2>Useddr Details</h2>
-      <p>
-        <strong>NIC:</strong> {user?.nic}
-      </p>
-      <div>
-        <strong>Status:</strong>
-        {isStatusEditable ? (
-          <div>
-            <label>
-              <input
-                type="radio"
-                name="status"
-                value="Pending"
-                checked={editedUser.status === "Pending"}
-                onChange={handleInputChange}
-              />
-              Pending
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="status"
-                value="Active"
-                checked={editedUser.status === "Active"}
-                onChange={handleInputChange}
-              />
-              Active
-            </label>
-            <label>
-              <input
-                type="radio"
-                name="status"
-                value="Deactive"
-                checked={editedUser.status === "Deactive"}
-                onChange={handleInputChange}
-              />
-              Deactive
-            </label>
-          </div>
-        ) : (
-          editedUser?.status
-        )}
-      </div>
+    <endUserProfile>
+      <div className="background">
+        <div className="imagesColumn">
+          <img className="BackgroundImage" src={BackgroundImage} alt="" />
+          <img className="AvatarImage" src={AvatarImage} alt="" />
+        </div>
 
-      <div>
-        <label htmlFor="name">Name:</label>
-        <input
-          type="text"
-          id="name"
-          name="name"
-          value={editedUser.username}
-          onChange={handleInputChange}
-        />
+        <div className="backgroundFirstItem">
+          <p>
+            <strong style={{ fontFamily: "Arial" }}>NIC:</strong> {user?.nic}
+          </p>
+        </div>
+        <div>
+          {isStatusEditable ? (
+            <div className="radioButtons">
+              <label className="lablePending">
+                <input
+                  type="radio"
+                  name="status"
+                  value="Pending"
+                  checked={editedUser.status === "Pending"}
+                  onChange={handleInputChange}
+                />
+                Pending
+              </label>
+              <label className="lableActive">
+                <input
+                  type="radio"
+                  name="status"
+                  value="Active"
+                  checked={editedUser.status === "Active"}
+                  onChange={handleInputChange}
+                />
+                Active
+              </label>
+              <label className="lableDeactive">
+                <input
+                  type="radio"
+                  name="status"
+                  value="Deactive"
+                  checked={editedUser.status === "Deactive"}
+                  onChange={handleInputChange}
+                />
+                Deactive
+              </label>
+            </div>
+          ) : (
+            editedUser?.status
+          )}
+        </div>
+
+        <div>
+          <input
+            className="fields"
+            type="text"
+            id="name"
+            name="name"
+            value={editedUser.username}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <input
+            className="fields"
+            type="email"
+            id="email"
+            name="email"
+            value={editedUser.email}
+            onChange={handleInputChange}
+          />
+        </div>
+        <div>
+          <input
+            className="fields"
+            type="name"
+            id="phone"
+            name="phone"
+            value={editedUser.phone}
+            onChange={handleInputChange}
+          />
+        </div>
+        <button onClick={handleUpdateUser}>Update</button>
       </div>
-      <div>
-        <label htmlFor="email">Email:</label>
-        <input
-          type="email"
-          id="email"
-          name="email"
-          value={editedUser.email}
-          onChange={handleInputChange}
-        />
-      </div>
-      <div>
-        <label htmlFor="phone">Contact No:</label>
-        <input
-          type="name"
-          id="phone"
-          name="phone"
-          value={editedUser.phone}
-          onChange={handleInputChange}
-        />
-      </div>
-      <button onClick={handleUpdateUser}>Update</button>
-    </div>
+    </endUserProfile>
   );
 };
 
