@@ -1,4 +1,10 @@
-﻿using backend.Data;
+﻿/*
+ * Filename: EndUserController.cs
+ * Description: Contains endpoints of endUserSevice management such as account creation, logging, update accounts......
+ * Author: Hiruni Mudannayake
+ */
+
+using backend.Data;
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
@@ -19,11 +25,14 @@ namespace backend.Controllers
         private readonly IEndUserService _userService;
         private readonly JwtSettings _jwtSettings;
 
+        // Initializes the traveler controller with traveler service and JWT settings
         public EndUserController(IEndUserService userService, IOptions<JwtSettings> jwtSettings)
         {
             _userService = userService;
             _jwtSettings = jwtSettings.Value;
         }
+
+        // Endpoint for traveler login
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EndUserModel user)
@@ -58,6 +67,7 @@ namespace backend.Controllers
             return Unauthorized(new { success = false, message = "Invalid username or password." });//code 401
         }
 
+        // Helper method to generate JWT token with nic(primary key, role and mail)
         private string GenerateJwtToken(string nic, string role, string email)
         {
             var claims = new[]
@@ -81,6 +91,8 @@ namespace backend.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        // Endpoint for traveller registration
 
         [HttpPost("register")]
 
@@ -110,6 +122,7 @@ namespace backend.Controllers
         }
 
 
+        // Endpoint to get all travellers who are created accounts
         [HttpGet("getAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -120,14 +133,14 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
 
 
-
+        // Endpoint to get logged-in travel user's profile
 
         [HttpGet("profile")]
         public async Task<IActionResult> GetLoggedInUserProfile()
@@ -150,12 +163,12 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
-
+        // Endpoint to get a specific traveller  by NIC(primary key)
         [HttpGet("oneUser/{nic}")]
         public async Task<IActionResult> GetOneUserByNIC(string nic)
         {
@@ -172,12 +185,12 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
-
+        // Endpoint to update traveller profile by NIC
 
         [HttpPut("profile/{nic}")]
         public async Task<IActionResult> UpdateUserProfile(string nic, [FromBody] EndUserModel updatedUser)
@@ -196,7 +209,7 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+
                 return StatusCode(500, new { success = false, message = "Internal server error", error = ex.Message });
             }
         }

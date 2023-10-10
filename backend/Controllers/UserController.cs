@@ -1,4 +1,9 @@
-﻿using backend.Data;
+﻿/*
+ * Filename: UserController.cs
+ * Description: Contains endpoints of Back officer and travel agent  management services such as account creation, update accounts.
+ * Author: Hiruni Mudannayake
+ */
+using backend.Data;
 using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Authorization;
@@ -20,11 +25,14 @@ namespace backend.Controllers
         private readonly IUserService _userService;
         private readonly JwtSettings _jwtSettings;
 
+        // Initializes the (backofficer+traveler) controller with traveler (backofficer+traveler) and JWT settings
         public UserController(IUserService userService, IOptions<JwtSettings> jwtSettings)
         {
             _userService = userService;
             _jwtSettings = jwtSettings.Value;
         }
+
+        // Endpoint for (backofficer+traveler) user login 
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] UserModel user)
@@ -44,6 +52,7 @@ namespace backend.Controllers
             return Unauthorized(new { success = false, message = "Invalid username or password." });
         }
 
+        // Helper method to generate JWT token with nic(primary key, role and mail)
         private string GenerateJwtToken(string nic, string role, string email)
         {
             var claims = new[]
@@ -67,6 +76,8 @@ namespace backend.Controllers
 
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
+
+        // Endpoint for for (backofficer+traveler) account creation
 
         [HttpPost("register")]
         [Authorize(Roles = "Admin")]
@@ -96,23 +107,8 @@ namespace backend.Controllers
         }
 
 
-        [HttpGet]
-        public async Task<IActionResult> GetAllUsers()
-        {
-            try
-            {
-                var users = await _userService.GetAllUsersAsync();
-                return Ok(users);
-            }
-            catch (Exception ex)
-            {
-                // Log the error
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
-            }
-        }
 
-
-
+        // Endpoint to get logged-in (backofficer+traveler) user's profile details
 
 
         [HttpGet("profile")]
@@ -136,7 +132,7 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
@@ -144,7 +140,7 @@ namespace backend.Controllers
 
 
 
-
+        // Endpoint to update (backofficer+traveler) profile by NIC
         [HttpPut("profile/{nic}")]
         public async Task<IActionResult> UpdateUserProfile(string nic, [FromBody] UserModel updatedUser)
         {
@@ -162,7 +158,7 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-                // Log the error
+
                 return StatusCode(500, new { success = false, message = "Internal server error", error = ex.Message });
             }
         }

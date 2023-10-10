@@ -1,4 +1,10 @@
-﻿using backend.Models;
+﻿/*
+ * Filename: EndUserService.cs
+ * Description: Contains the services which are re used in end user controller 
+ * Author: Hiruni Mudannayake
+ */
+
+using backend.Models;
 using MongoDB.Driver;
 
 namespace backend.Services
@@ -12,6 +18,9 @@ namespace backend.Services
             _users = database.GetCollection<EndUserModel>("EndUsers");
         }
 
+        // Authenticates a user based on the provided traveler(enduser) model credentials.
+        // Returns a boolean value and enduser obj 
+
         public async Task<(bool, EndUserModel)> AuthenticateAsync(EndUserModel Luser)
         {
             var user = await _users.Find(u => u.Username == Luser.Username && u.Password == Luser.Password).FirstOrDefaultAsync();
@@ -23,8 +32,8 @@ namespace backend.Services
             return (true, user);
         }
 
-
-
+        // Adds a new travel user to the database asynchronously.
+        // Returns true if the user was added successfully,
         public async Task<bool> AddUserAsync(EndUserModel newUser)
         {
             try
@@ -34,12 +43,13 @@ namespace backend.Services
             }
             catch (Exception ex)
             {
-                // Handle the exception (log, return false, etc.)
+
                 return false;
             }
         }
 
-
+        // Checks if a user with the provided email or NIC(primary key) already exists in the database.
+        // Returns true if the user does not exist
         public async Task<bool> GetUserByEmailOrNICAsync(string email, string nic)
         {
             var user = await _users.Find(u => u.Email == email || u.NIC == nic).FirstOrDefaultAsync();
@@ -51,31 +61,35 @@ namespace backend.Services
             return (false);
         }
 
-
+        // Retrieves all travelers from the database asynchronously.
+        // Returns a list of EndUserModel objects.
         public async Task<List<EndUserModel>> GetAllUsersAsync()
         {
             var users = await _users.Find(user => true).ToListAsync();
             return users;
         }
 
+
+        // Retrieves a user by their NIC (National Identification Card) asynchronously.
+        // Returns the EndUserModel object
         public async Task<EndUserModel> GetUserByNICAsync(string nic)
         {
             var user = await _users.Find(u => u.NIC == nic).FirstOrDefaultAsync();
             return user;
         }
 
-
+        // Updates the user profile based on the NIC 
+        // Returns true if the user profile was updated successfully
         public async Task<bool> UpdateUserProfileAsync(String uNIC, EndUserModel updatedUser)
         {
-            var filter = Builders<EndUserModel>.Filter.Eq(u => u.NIC, uNIC); // Assuming you have a unique identifier like UserId
+            var filter = Builders<EndUserModel>.Filter.Eq(u => u.NIC, uNIC);
             var update = Builders<EndUserModel>.Update
                 .Set(u => u.Username, updatedUser.Username)
                 .Set(u => u.Email, updatedUser.Email)
                 .Set(u => u.Phone, updatedUser.Phone)
                 .Set(u => u.Status, updatedUser.Status);
 
-            // Add other properties you want to update
-            // Optional: Update the last modified timestamp
+
 
             var updateResult = await _users.UpdateOneAsync(filter, update);
 

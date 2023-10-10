@@ -1,4 +1,9 @@
-﻿namespace backend.Data;
+﻿/*
+ * Filename: JwtSettings.cs
+ * Description:  Contains properties like Issuer,Audience,Key , which are used to generate token.
+ * Author: Hiruni Mudannayake
+ */
+namespace backend.Data;
 
 public class JwtSettings
 {

@@ -1,4 +1,9 @@
-﻿using backend.Models;
+﻿/*
+ * Filename: IUserService.cs
+ * Description: Interface contains the services which are re used in travel agent + back officer apis
+ * Author: Hiruni Mudannayake
+ */
+using backend.Models;
 
 namespace backend.Services
 {
@@ -8,7 +13,7 @@ namespace backend.Services
         Task<bool> AddUserAsync(UserModel newUser);
         Task<bool> GetUserByEmailOrNICAsync(string email, string nic);
 
-        Task<List<UserModel>> GetAllUsersAsync();
+
         Task<UserModel> GetUserByNICAsync(string nic);
 
         Task<bool> UpdateUserProfileAsync(String uNIC, UserModel updatedUser);

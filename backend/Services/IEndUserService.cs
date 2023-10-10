@@ -1,4 +1,9 @@
-﻿using backend.Models;
+﻿/*
+ * Filename: IEndUserService.cs
+ * Description:  Interfcae which Contains the services which are re used in end user controller 
+ * Author: Hiruni Mudannayake
+ */
+using backend.Models;
 
 namespace backend.Services
 {
