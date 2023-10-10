@@ -7,14 +7,14 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// configs
+// configs db and jwt
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DB"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
-// Add services to the container.
+
 
 builder.Services.AddControllers();
-// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
+
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors((o) =>
