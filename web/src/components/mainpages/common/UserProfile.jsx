@@ -1,6 +1,13 @@
-//View and Update Back Officer and Travel Agent Profiles by them selves
+/*
+ * Filename: UserProfile.jsx
+ * Description: Contains the UI and functionality for viewing and updating Back Officer and Travel Agent Profiles by them selves
+ * Author: Hiruni Mudannayake
+ */
+
 import React, { useState, useEffect } from "react";
 import axiosInstance from "../../../DefaultHeader";
+import "./userProfile.css";
+import BackgroundImage from "../../../../public/assets/prof_background3.jpg";
 
 function UserProfile() {
   const [user, setUser] = useState({
@@ -48,62 +55,70 @@ function UserProfile() {
       });
   };
   return (
-    <div>
-      <h2>User Profile</h2>
-      <div>
-        <strong>Name:</strong>
-        {user.username}
+    <userProfile>
+      <img src={BackgroundImage} alt="" />
+      <div className="background">
+        <div className="userDetailsView">
+          <h2>User Profile</h2>
+          <div className="userDetailsFirstViewItem">
+            <lable>Username:</lable>
+            {user.username}
+          </div>
+          <div className="userDetailsViewItems">
+            <lable>National Identity Card(NIC):</lable>
+            {user.nic}
+          </div>
+          <div className="userDetailsViewItems">
+            <lable>Role:</lable>
+            {user.role}
+          </div>
+          <div className="userDetailsViewItems">
+            <lable>Email Address:</lable>
+            {user.email}
+          </div>
+          <div className="userDetailsViewItems">
+            <lable>Phone No</lable>
+            {user.password}
+          </div>
+        </div>
+        <div className="userDetailsEdit">
+          <h2>Edit User Details</h2>
+          <div className="userDetailsEditItems">
+            <label>
+              Username:
+              <input
+                type="text"
+                value={editedName}
+                onChange={(e) => setEditedName(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className="userDetailsEditItems">
+            <label>
+              Email:
+              <input
+                type="email"
+                value={editedEmail}
+                onChange={(e) => setEditedEmail(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className="userDetailsEditItems">
+            <label>
+              Password:
+              <input
+                type="password"
+                value={editedPassword}
+                onChange={(e) => setEditedPassword(e.target.value)}
+              />
+            </label>
+          </div>
+          <div>
+            <button onClick={handleSaveChanges}>Save Changes</button>
+          </div>
+        </div>
       </div>
-      <div>
-        <strong>NIC:</strong>
-        {user.nic}
-      </div>
-      <div>
-        <strong>Role:</strong>
-        {user.role}
-      </div>
-      <div>
-        <strong>Email:</strong>
-        {user.email}
-      </div>
-      <div>
-        <strong>Password:</strong>
-        {user.password}
-      </div>
-      <div>
-        <button onClick={handleSaveChanges}>Save Changes</button>
-      </div>
-      <div>
-        <label>
-          Edit Name:
-          <input
-            type="text"
-            value={editedName}
-            onChange={(e) => setEditedName(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Edit Email:
-          <input
-            type="email"
-            value={editedEmail}
-            onChange={(e) => setEditedEmail(e.target.value)}
-          />
-        </label>
-      </div>
-      <div>
-        <label>
-          Edit Password:
-          <input
-            type="password"
-            value={editedPassword}
-            onChange={(e) => setEditedPassword(e.target.value)}
-          />
-        </label>
-      </div>
-    </div>
+    </userProfile>
   );
 }
 
