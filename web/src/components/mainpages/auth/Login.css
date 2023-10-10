@@ -1,51 +1,60 @@
-.login {
+/*
+ * Filename: login.css
+ * Description: Contains the styling for the login page
+ * Author: Hiruni Mudannayake
+ */
+login {
   display: flex;
   justify-content: center;
   color: #f8f8f8;
 }
 
-.login .background {
-  box-shadow: 0 4px 8px 8px rgba(0, 0, 0, 0.1);
+login .background {
+  box-shadow: 0 4px 8px 8px rgba(0, 0, 0, 0.2);
   border-radius: 30px;
   display: flex;
   flex-direction: row;
-  justify-content: center;
   height: 600px;
-  width: 1200px;
+  width: 1500px;
   margin-top: 10px;
   align-items: center;
+  margin-top: 40px;
 }
 
-.login img {
+login img {
   height: 600px;
-  width: 600px;
+  width: 750px;
   border-radius: 30px;
   padding-right: 150px;
 }
 
-.login .form {
+login .form {
   display: flex;
   flex-direction: column;
+  align-items: center;
+  padding-right: 150px;
+  margin-bottom: 60px;
 }
 
-.login .formTitle {
+login .formTitle {
   color: black;
+  font-family: Arial;
 }
 
-.login .formFields {
+login .formFields {
   display: flex;
   flex-direction: column;
   box-sizing: border-box;
-  width: 300px;
+  width: 500px;
   height: 40px;
   margin-top: 20px;
-  margin-right: 150px;
+  padding-left: 20px;
 }
 
-.login .formBtn {
-  width: 300px;
+login .formBtn {
+  width: 500px;
   margin-top: 20px;
-  background-color: #004785;
+  background-color: #1e80c1;
   color: white;
   padding: 14px 20px;
   border: none;
