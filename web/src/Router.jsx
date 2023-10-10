@@ -1,5 +1,5 @@
 import React from "react";
-import { BrowserRouter, Route, Routes } from "react-router-dom"; // Import BrowserRouter and Route from react-router-dom
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useUserContext } from "./UserContext";
 
 import Login from "./components/mainpages/auth/Login";
