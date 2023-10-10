@@ -1,24 +1,12 @@
+/*
+ * Filename: TravelerList.jsx
+ * Description: Contains the UI and functionality for viewing all end travelers in a list and navigating to their profiles
+ * Author: Hiruni Mudannayake
+ */
 import React, { useState, useEffect } from "react";
-import Switch from "react-switch"; // Import the react-switch component
 import axiosInstance from "../../../DefaultHeader";
 import { useNavigate } from "react-router-dom";
-const ToggleSwitch = ({ isActive, onToggle }) => {
-  return (
-    <Switch
-      onChange={onToggle}
-      checked={isActive}
-      onColor="#86d3ff"
-      onHandleColor="#2693e6"
-      handleDiameter={20}
-      uncheckedIcon={false}
-      checkedIcon={false}
-      boxShadow="0px 1px 5px rgba(0, 0, 0, 0.6)"
-      activeBoxShadow="0px 0px 1px 10px rgba(0, 0, 0, 0.2)"
-      height={15}
-      width={40}
-    />
-  );
-};
+import "./travelerList.css";
 
 const TravelerList = () => {
   const navigate = useNavigate();
@@ -28,10 +16,9 @@ const TravelerList = () => {
     axiosInstance
       .get("/EndUser/getAllUsers")
       .then((response) => {
-        // Ensure that each user object has the 'isActive' property
         const usersWithActiveFlag = response.data.map((user) => ({
           ...user,
-          isActive: true, // You can set a default value or get it from the API response if available
+          isActive: true,
         }));
         setUsers(usersWithActiveFlag);
       })
@@ -42,45 +29,82 @@ const TravelerList = () => {
 
   const handleNICClick = (nic) => {
     navigate(`/endUserProfile/${nic}`);
-    // axiosInstance
-    // .get(`/EndUser/oneUser/${nic}`)
-    //.then((response) => {
-    // console.log(response.data);
-    // })
-    //.catch((error) => {
-    // console.error("Error fetching user details:", error);
-    // });
+  };
+
+  const getStatusColor = (status) => {
+    switch (status) {
+      case "Active":
+        return "#005aff";
+      case "Deactive":
+        return "#c94c4c";
+      case "Pending":
+        return "black";
+      default:
+        return "white";
+    }
+  };
+
+  const handleCreateTravelerClick = () => {
+    navigate("/createTraveler"); // Navigate to the add traveler page
   };
 
   return (
-    <div>
-      <h2>User List</h2>
-      <table>
-        <thead>
-          <tr>
-            <th>NIC</th>
-            <th>Name</th>
-            <th>Email</th>
-            <th>Status</th>
-          </tr>
-        </thead>
-        <tbody>
-          {users.map((user, index) => (
-            <tr key={index}>
-              <td
-                onClick={() => handleNICClick(user.nic)}
-                style={{ cursor: "pointer" }}
-              >
-                {user.nic}
-              </td>
-              <td>{user.username}</td>
-              <td>{user.email}</td>
-              <td>{user.status}</td>
+    <travelerList>
+      <div className="row1">
+        <h2>Travelers</h2>
+        <button onClick={handleCreateTravelerClick}>
+          Create traveler account
+        </button>
+      </div>
+      <div className="background">
+        <table>
+          <thead>
+            <tr>
+              <th>NIC</th>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Status</th>
             </tr>
-          ))}
-        </tbody>
-      </table>
-    </div>
+          </thead>
+          <tbody>
+            {users.map((user, index) => (
+              <tr key={index}>
+                <td
+                  onClick={() => handleNICClick(user.nic)}
+                  style={{
+                    cursor: "pointer",
+                    fontWeight: "bold",
+                    textDecoration: "underline",
+                    textDecorationColor: "grey",
+                    textDecorationThickness: "3px",
+                  }}
+                >
+                  {user.nic}
+                </td>
+                <td>{user.username}</td>
+                <td>{user.email}</td>
+                <td>
+                  <div
+                    style={{
+                      width: "100px",
+                      height: "30px",
+                      borderRadius: "8px",
+                      marginLeft: "150px",
+                      fontSize: "16px",
+                      color: "white",
+                      padding: "2px",
+                      backgroundColor: getStatusColor(user.status),
+                    }}
+                  >
+                    {user.status}
+                  </div>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+    </travelerList>
   );
 };
 
