@@ -77,7 +77,7 @@ public class LoginActivity extends AppCompatActivity {
 
                     // Retrofit initialization
                     Retrofit retrofit = new Retrofit.Builder()
-                            .baseUrl("http://192.168.8.102:5059/api/EndUser/")
+                            .baseUrl("http://192.168.1.104:5059/api/EndUser/")
                             .client(new OkHttpClient.Builder()
                                     // Allow SSL redirects
                                     .connectTimeout(30, TimeUnit.SECONDS)
