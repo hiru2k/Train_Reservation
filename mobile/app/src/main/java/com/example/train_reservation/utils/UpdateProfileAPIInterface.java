@@ -1,3 +1,8 @@
+/*
+ * Filename: UpdateProfileAPIInterface.java
+ * Description: Contains the functionality of calling the API for updating the profile
+ * Author: Hiruni Mudannayake
+*/
 package com.example.train_reservation.utils;
 
 import com.example.train_reservation.models.User;
@@ -11,5 +16,3 @@ public interface UpdateProfileAPIInterface {
     @PUT("profile/{nic}")
     Call<Void> updateUserProfile(@Path("nic") String nic, @Body User user);
 }
-
-

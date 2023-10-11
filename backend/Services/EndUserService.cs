@@ -96,5 +96,23 @@ namespace backend.Services
             return updateResult.ModifiedCount > 0;
         }
 
+
+
+        // Delete the traveler profile based on the NIC 
+        // Returns true if the user profile was deleted successfully
+        public async Task<bool> DeleteUserByNICAsync(string nic)
+        {
+            var user = await _users.Find(u => u.NIC == nic).FirstOrDefaultAsync();
+
+            if (user == null)
+            {
+                return false;
+            }
+
+            await _users.DeleteOneAsync(u => u.NIC == nic);
+
+            return true;
+        }
+
     }
 }

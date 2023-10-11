@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Filename: image_rounded_corners.xml
+ * Description: Contains the background of the image view which is used in the login, register and profile screens
+ * Author: Hiruni Mudannayake
+-->
 <shape xmlns:android="http://schemas.android.com/apk/res/android"
     android:shape="rectangle">
     <solid android:color="#fff"/>

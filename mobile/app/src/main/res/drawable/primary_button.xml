@@ -1,4 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
+<!--
+ * Filename: primary_button.xml
+ * Description: Contains the background of the primary button 
+ * Author: Hiruni Mudannayake
+-->
 <selector xmlns:android="http://schemas.android.com/apk/res/android">
 
     <item >

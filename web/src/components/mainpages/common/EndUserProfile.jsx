@@ -52,6 +52,24 @@ const EndUserProfile = () => {
     return <div>Loading...</div>;
   }
 
+  const handleDeleteUser = () => {
+    axiosInstance
+      .delete(`/EndUser/delete/${nic}`)
+      .then((response) => {
+        if (response.data.status == "200") {
+          alert("Successfully updated");
+        } else if (response.data.status == "201") {
+          alert("Content is not changed");
+        }
+      })
+      .catch((error) => {
+        console.error("Error updating user details:", error);
+      });
+  };
+  if (!user) {
+    return <div>Loading...</div>;
+  }
+
   return (
     <endUserProfile>
       <div className="background">
@@ -134,7 +152,14 @@ const EndUserProfile = () => {
             onChange={handleInputChange}
           />
         </div>
-        <button onClick={handleUpdateUser}>Update</button>
+        <div className="buttonRow">
+          <button className="btnUpdate" onClick={handleUpdateUser}>
+            Update
+          </button>
+          <button className="btnDelete" onClick={handleDeleteUser}>
+            Delete
+          </button>
+        </div>
       </div>
     </endUserProfile>
   );

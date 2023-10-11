@@ -18,5 +18,7 @@ namespace backend.Services
 
         Task<bool> UpdateUserProfileAsync(String uNIC, EndUserModel updatedUser);
 
+        Task<bool> DeleteUserByNICAsync(string nic);
+
     }
 }

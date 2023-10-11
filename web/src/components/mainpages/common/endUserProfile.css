@@ -110,3 +110,16 @@ endUserProfile .AvatarImage {
   width: 270px;
   height: 270px;
 }
+endUserProfile .buttonRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 300px;
+}
+
+endUserProfile .btnUpdate {
+  background-color: black;
+}
+endUserProfile .btnDelete {
+  background-color: #c94c4c;
+}

@@ -1,3 +1,8 @@
+/*
+ * Filename: SQLiteManager.java
+ * Description: Contains the functionality of the SQLite database and the queries like insert, update, delete, select
+ * Author: Hiruni Mudannayake
+*/
 package com.example.train_reservation.utils;
 
 import android.annotation.SuppressLint;
@@ -14,7 +19,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
     private static final String DATABASE_NAME = "train_reservation.db";
     private static final int DATABASE_VERSION = 1;
     private static final String TABLE_USERS = "users";
-
     private static final String COLUMN_USERNAME = "Username";
     private static final String COLUMN_NIC = "NIC";
     private static final String COLUMN_ROLE = "Role";
@@ -61,7 +65,6 @@ public class SQLiteManager extends SQLiteOpenHelper {
         db.close();
     }
 
-
     public void updateUser(User user) {
         SQLiteDatabase db = this.getWritableDatabase();
         ContentValues values = new ContentValues();
@@ -71,10 +74,9 @@ public class SQLiteManager extends SQLiteOpenHelper {
         values.put(COLUMN_PHONE, user.phone);
         values.put(COLUMN_STATUS, user.status);
 
-        db.update(TABLE_USERS, values, COLUMN_NIC + " = ?", new String[]{user.nic});
+        db.update(TABLE_USERS, values, COLUMN_NIC + " = ?", new String[] { user.nic });
         db.close();
     }
-
 
     @SuppressLint("Range")
     public User getUserByNIC(String nic) {
@@ -90,7 +92,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
         };
 
         String selection = COLUMN_NIC + " = ?";
-        String[] selectionArgs = {nic};
+        String[] selectionArgs = { nic };
 
         Cursor cursor = db.query(TABLE_USERS, columns, selection, selectionArgs, null, null, null);
 
@@ -115,7 +117,7 @@ public class SQLiteManager extends SQLiteOpenHelper {
 
     public void deleteUserByNIC(String nic) {
         SQLiteDatabase db = this.getWritableDatabase();
-        db.delete(TABLE_USERS, COLUMN_NIC + " = ?", new String[]{nic});
+        db.delete(TABLE_USERS, COLUMN_NIC + " = ?", new String[] { nic });
         db.close();
     }
 

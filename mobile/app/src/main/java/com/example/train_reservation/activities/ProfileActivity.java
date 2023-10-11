@@ -1,3 +1,8 @@
+/*
+ * Filename: ProfileActivity.java
+ * Description: Contains the functionality of traveler profile page with edit and deactivate account options.
+ * Author: Hiruni Mudannayake
+*/
 package com.example.train_reservation.activities;
 
 import androidx.appcompat.app.AlertDialog;
@@ -32,18 +37,17 @@ import retrofit2.Response;
 import retrofit2.Retrofit;
 import retrofit2.converter.gson.GsonConverterFactory;
 
-
 public class ProfileActivity extends AppCompatActivity {
 
-    //Update CAN NOT done without internet cause ,when user logging if password has been changed , user can't log.
-    // because, changed password  is not in mongo db.
+    // Update CAN NOT done without internet cause ,when user logging if password has
+    // been changed , user can't log.
+    // because, changed password is not in mongo db.
 
     private EditText etUsername, etPassword, etEmail, etPhone;
     private TextView etNIC;
-    private Button btnEditProf, btnDeactivate,btnLogout;
+    private Button btnEditProf, btnDeactivate, btnLogout;
     private User user;
     private SQLiteManager dbHelper;
-
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -62,11 +66,10 @@ public class ProfileActivity extends AppCompatActivity {
 
         btnDeactivate = findViewById(R.id.btnDeactivate);
 
-       //get nic from local storage
+        // get nic from local storage
 
         SharedPreferences prefs = getSharedPreferences("MyPrefs", MODE_PRIVATE);
         String nic = prefs.getString("nic", null);
-
 
         user = dbHelper.getUserByNIC(nic);
 
@@ -78,80 +81,81 @@ public class ProfileActivity extends AppCompatActivity {
             etPhone.setText(user.phone);
         }
 
+        btnEditProf.setOnClickListener(new View.OnClickListener() {
 
-                btnEditProf.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if (isNetworkAvailable()) {
 
-                    @Override
-                    public void onClick(View v) {
-                        if (isNetworkAvailable()) {
+                    String editedUsername = etUsername.getText().toString();
+                    String editedPassword = etPassword.getText().toString();
+                    String editedEmail = etEmail.getText().toString();
+                    String editedPhone = etPhone.getText().toString();
 
-                        String editedUsername = etUsername.getText().toString();
-                        String editedPassword = etPassword.getText().toString();
-                        String editedEmail = etEmail.getText().toString();
-                        String editedPhone = etPhone.getText().toString();
+                    if (UserInputValidation.validateAllFields(editedUsername, nic, editedEmail, editedPassword,
+                            editedPhone)) {
 
-                            if (UserInputValidation.validateAllFields(editedUsername, nic,editedEmail, editedPassword, editedPhone)) {
+                        // Retrofit initialization
+                        Retrofit retrofit = new Retrofit.Builder()
+                                .baseUrl("http://192.168.8.102:5059/api/EndUser/")
+                                .client(new OkHttpClient.Builder()
+                                        // Allow SSL redirects
+                                        .connectTimeout(30, TimeUnit.SECONDS)
+                                        .readTimeout(30, TimeUnit.SECONDS)
+                                        .writeTimeout(30, TimeUnit.SECONDS)
+                                        .build())
+                                .addConverterFactory(GsonConverterFactory.create())
+                                .build();
 
-                                // Retrofit initialization
-                                Retrofit retrofit = new Retrofit.Builder()
-                                        .baseUrl("http://192.168.8.103:5059/api/EndUser/")
-                                        .client(new OkHttpClient.Builder()
-                                                // Allow SSL redirects
-                                                .connectTimeout(30, TimeUnit.SECONDS) // Adjust the timeout duration as needed
-                                                .readTimeout(30, TimeUnit.SECONDS)
-                                                .writeTimeout(30, TimeUnit.SECONDS)
-                                                .build())
-                                        .addConverterFactory(GsonConverterFactory.create())
-                                        .build();
+                        // Create an instance of API interface
+                        UpdateProfileAPIInterface registerAPIInterface = retrofit
+                                .create(UpdateProfileAPIInterface.class);
 
-                                // Create an instance of API interface
-                                UpdateProfileAPIInterface registerAPIInterface = retrofit.create(UpdateProfileAPIInterface.class);
+                        // Update the user object with edited values
+                        user.username = editedUsername;
+                        user.password = editedPassword;
+                        user.email = editedEmail;
+                        user.phone = editedPhone;
+                        user.status = "Active";
 
-                                // Update the user object with edited values
-                                user.username = editedUsername;
-                                user.password=editedPassword;
-                                user.email = editedEmail;
-                                user.phone = editedPhone;
-                                user.status = "Active";
+                        // Call API endpoint
+                        Call<Void> call = registerAPIInterface.updateUserProfile(nic, user);
 
-                                // Call API endpoint
-                                Call<Void> call = registerAPIInterface.updateUserProfile(nic,user);
+                        call.enqueue(new Callback<Void>() {
+                            @Override
+                            public void onResponse(Call<Void> call, Response<Void> response) {
+                                if (response.isSuccessful()) {
 
-                                call.enqueue(new Callback<Void>() {
-                                    @Override
-                                    public void onResponse(Call<Void> call, Response<Void> response) {
-                                        if (response.isSuccessful()) {
+                                    Toast.makeText(ProfileActivity.this, "Updated Sucessful!,", Toast.LENGTH_SHORT)
+                                            .show();
 
-                                            Toast.makeText(ProfileActivity.this, "Updated Sucessful!,", Toast.LENGTH_SHORT).show();
+                                }
 
-
-                                        }
-
-                                    }
-
-                                    @Override
-                                    public void onFailure(Call<Void> call, Throwable t) {
-
-                                        Toast.makeText(ProfileActivity.this, "Edition failed. Please try again later.", Toast.LENGTH_SHORT).show();
-                                    }
-                                });
                             }
 
+                            @Override
+                            public void onFailure(Call<Void> call, Throwable t) {
 
-                    }}
-                });
+                                Toast.makeText(ProfileActivity.this, "Edition failed. Please try again later.",
+                                        Toast.LENGTH_SHORT).show();
+                            }
+                        });
+                    }
+
+                }
+            }
+        });
         btnDeactivate.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
 
                 if (isNetworkAvailable()) {
 
-
                     Retrofit retrofit = new Retrofit.Builder()
                             .baseUrl("http://192.168.8.103:5059/api/EndUser/")
                             .client(new OkHttpClient.Builder()
                                     // Allow SSL redirects
-                                    .connectTimeout(30, TimeUnit.SECONDS) // Adjust the timeout duration as needed
+                                    .connectTimeout(30, TimeUnit.SECONDS)
                                     .readTimeout(30, TimeUnit.SECONDS)
                                     .writeTimeout(30, TimeUnit.SECONDS)
                                     .build())
@@ -161,58 +165,59 @@ public class ProfileActivity extends AppCompatActivity {
                     // Create an instance of API interface
                     UpdateProfileAPIInterface registerAPIInterface = retrofit.create(UpdateProfileAPIInterface.class);
 
+                    // Build an alert dialog
+                    AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
+                    builder.setTitle("Deactivate Account");
+                    builder.setMessage("Are you sure you want to deactivate your account?");
 
-                // Build an alert dialog
-                AlertDialog.Builder builder = new AlertDialog.Builder(ProfileActivity.this);
-                builder.setTitle("Deactivate Account");
-                builder.setMessage("Are you sure you want to deactivate your account?");
+                    // "Yes" button
+                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Update the user status to deactivate in the database
+                            user.status = "Deactivate";
+                            // Call API endpoint
+                            Call<Void> call = registerAPIInterface.updateUserProfile(nic, user);
 
-                //  "Yes" button
-                builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Update the user status to deactivate in the database
-                        user.status = "Deactivate";
-                        // Call API endpoint
-                        Call<Void> call = registerAPIInterface.updateUserProfile(nic,user);
+                            call.enqueue(new Callback<Void>() {
+                                @Override
+                                public void onResponse(Call<Void> call, Response<Void> response) {
+                                    if (response.isSuccessful()) {
 
-                        call.enqueue(new Callback<Void>() {
-                            @Override
-                            public void onResponse(Call<Void> call, Response<Void> response) {
-                                if (response.isSuccessful()) {
+                                        Toast.makeText(ProfileActivity.this, "Deactivated Sucessful!,",
+                                                Toast.LENGTH_SHORT).show();
 
-                                    Toast.makeText(ProfileActivity.this, "Deactivated Sucessful!,", Toast.LENGTH_SHORT).show();
-
-                                    // Navigate to the login activity
-                                    Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
-                                    startActivity(intent);
-                                    finish();
+                                        Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
+                                        startActivity(intent);
+                                        finish();
+                                    }
                                 }
-                            }
-                            @Override
-                            public void onFailure(Call<Void> call, Throwable t) {
 
-                                Toast.makeText(ProfileActivity.this, "Deactivation failed. Please try again later.", Toast.LENGTH_SHORT).show();
-                            }
-                        });
-                    }
-                });
+                                @Override
+                                public void onFailure(Call<Void> call, Throwable t) {
 
-                // Add "No" button with no functionality (closes the dialog)
-                builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        // Dismiss the dialog (do nothing)
-                        dialog.dismiss();
-                    }
-                });
+                                    Toast.makeText(ProfileActivity.this, "Deactivation failed. Please try again later.",
+                                            Toast.LENGTH_SHORT).show();
+                                }
+                            });
+                        }
+                    });
 
-                // Show the alert dialog
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
-            }}
+                    // Add "No" button with no functionality (closes the dialog)
+                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            // Dismiss the dialog (do nothing)
+                            dialog.dismiss();
+                        }
+                    });
+
+                    // Show the alert dialog
+                    AlertDialog alertDialog = builder.create();
+                    alertDialog.show();
+                }
+            }
         });
-
 
         Button btnLogout = findViewById(R.id.btnLogout);
         btnLogout.setOnClickListener(new View.OnClickListener() {
@@ -222,15 +227,13 @@ public class ProfileActivity extends AppCompatActivity {
                 removeTokenFromLocalStorage();
                 dbHelper.deleteUserByNIC(nic);
 
-
                 Intent intent = new Intent(ProfileActivity.this, LoginActivity.class);
                 startActivity(intent);
                 finish();
             }
         });
 
-
-            }
+    }
 
     private boolean isNetworkAvailable() {
         ConnectivityManager connectivityManager = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
@@ -240,7 +243,6 @@ public class ProfileActivity extends AppCompatActivity {
         }
         return false;
     }
-
 
     private void removeTokenFromLocalStorage() {
         // Get SharedPreferences editor
@@ -252,9 +254,5 @@ public class ProfileActivity extends AppCompatActivity {
         // Apply the changes
         editor.apply();
     }
-
-
-
-
 
 }

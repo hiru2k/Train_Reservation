@@ -214,7 +214,35 @@ namespace backend.Controllers
             }
         }
 
+        // Endpoint to delete a traveler account based on the NIC(primary key)
+        [HttpDelete("delete/{nic}")]
+        public async Task<IActionResult> DeleteUserByNIC(string nic)
+        {
+            try
+            {
 
+
+                var user = await _userService.GetUserByNICAsync(nic);
+                if (user == null)
+                {
+                    return StatusCode(404, new { message = "User not found" });
+                }
+
+                var isSuccess = await _userService.DeleteUserByNICAsync(nic);
+                if (isSuccess)
+                {
+                    return Ok(new { status = 200, message = "User deleted successfully." });
+                }
+                else
+                {
+                    return StatusCode(500, new { status = 500, message = "Failed to delete user." });
+                }
+            }
+            catch (Exception ex)
+            {
+                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
+            }
+        }
 
 
     }

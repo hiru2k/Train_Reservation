@@ -1,3 +1,9 @@
+/*
+ * Filename: User.java
+ * Description: Contains the traveler properties 
+ * Author: Hiruni Mudannayake
+*/
+
 package com.example.train_reservation.models;
 
 import com.google.gson.annotations.SerializedName;
@@ -25,10 +31,7 @@ public class User {
     @SerializedName("status")
     public String status;
 
-    // Constructors, getters, and setters
-
     public User() {
     }
-
 
 }
