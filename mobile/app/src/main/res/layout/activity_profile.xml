@@ -3,13 +3,13 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent">
     <LinearLayout
-        xmlns:android="http://schemas.android.com/apk/res/android"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:orientation="vertical"
         android:padding="16dp">
+
         <TextView
-            android:text="Register"
+            android:text="Profile"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:textAlignment="center"
@@ -23,12 +23,12 @@
             android:inputType="text"
             android:layout_marginBottom="16dp"/>
 
-        <EditText
+        <TextView
             android:id="@+id/etNIC"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:hint="NIC"
-            android:inputType="text"
+
             android:layout_marginBottom="16dp"/>
         <EditText
             android:id="@+id/etPassword"
@@ -55,10 +55,19 @@
 
 
         <Button
-            android:id="@+id/btnRegister"
+            android:id="@+id/btnEditProf"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Register"/>
+            android:text="Edit Profile"/>
+        <Button
+            android:id="@+id/btnDeactivate"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Deactivate"/>
+
+
+
 
     </LinearLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
