@@ -7,7 +7,7 @@ function App() {
   return (
     <UserProvider>
       <Header />
-      <Routes />
+      <AppRoutes />
     </UserProvider>
   );
 }

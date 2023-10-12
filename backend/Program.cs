@@ -13,6 +13,12 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 
 
 
+builder.Services.Configure < DatabaseSettings>(
+                    builder.Configuration.GetSection("ConnectionString"));
+
+builder.Services.AddSingleton<ReservationServices>();
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
