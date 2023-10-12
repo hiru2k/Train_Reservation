@@ -8,6 +8,7 @@ function App() {
     <UserProvider>
       <Header />
       <AppRoutes />
+      <Routes />
     </UserProvider>
   );
 }
