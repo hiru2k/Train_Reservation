@@ -13,6 +13,12 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 
 // Add services to the container.
 
+builder.Services.Configure < DatabaseSettings>(
+                    builder.Configuration.GetSection("ConnectionString"));
+
+builder.Services.AddSingleton<ReservationServices>();
+builder.Services.AddControllersWithViews();
+
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
