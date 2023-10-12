@@ -1,22 +1,13 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { useUserContext } from "./UserContext";
-
-import Login from "./components/mainpages/auth/Login";
+import EndUserProfile from "./components/mainpages/common/EndUserProfile";
 import CreateUser from "./components/mainpages/admin/CreateUser";
 import UserProfile from "./components/mainpages/common/UserProfile";
 import CreateTraveler from "./components/mainpages/travelAgent/CreateTraveler";
 import TravelerList from "./components/mainpages/common/TravelerList";
 
-import EndUserProfile from "./components/mainpages/common/EndUserProfile";
-import BackOfficerHome from "./components/mainpages/backOfficer/BackOfficerHome";
-import TravelAgentHome from "./components/mainpages/travelAgent/TravelAgentHome";
-import CreateUser from "./components/mainpages/admin/CreateUser";
-import UserProfile from "./components/mainpages/common/UserProfile";
-import CreateTraveler from "./components/mainpages/travelAgent/CreateTraveler";
-import TravelerList from "./components/mainpages/common/TravelerList";
 
-import EndUserProfile from "./components/mainpages/common/EndUserProfile";
 import BackOfficerHome from "./components/mainpages/backOfficer/BackOfficerHome";
 import TravelAgentHome from "./components/mainpages/travelAgent/TravelAgentHome";
 
