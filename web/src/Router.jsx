@@ -21,7 +21,7 @@ import BackOfficerHome from "./components/mainpages/backOfficer/BackOfficerHome"
 import TravelAgentHome from "./components/mainpages/travelAgent/TravelAgentHome";
 
 function Router() {
-  const { role } = useUserContext();
+
   const { role } = useUserContext();
   return (
     <BrowserRouter>
