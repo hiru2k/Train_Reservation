@@ -37,6 +37,10 @@ function Router() {
             <Route path="/endUserProfile/:nic" element={<EndUserProfile />} />
           </>
         )}
+
+
+
+
       </Routes>
     </BrowserRouter>
   );
