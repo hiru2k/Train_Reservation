@@ -20,6 +20,12 @@ import EndUserProfile from "./components/mainpages/common/EndUserProfile";
 import BackOfficerHome from "./components/mainpages/backOfficer/BackOfficerHome";
 import TravelAgentHome from "./components/mainpages/travelAgent/TravelAgentHome";
 
+import Login from "./components/mainpages/auth/Login";
+import BookingsHome from "./components/mainpages/ticket-booking";
+import NewReservation from "./components/mainpages/ticket-booking/new-reservation";
+
+
+
 function Router() {
 
   const { role } = useUserContext();
@@ -47,8 +53,10 @@ function Router() {
           </>
         )}
 
-
-
+        <Route path="/bookings" element={<Login />}></Route>
+        <Route path="/bookings/add" element={<BookingsHome />}></Route>
+        <Route path="/bookings/add" element={<NewReservation />}></Route>
+        <Route path="/bookings/add/:id" element={<NewReservation />}></Route>
 
       </Routes>
     </BrowserRouter>
