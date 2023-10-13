@@ -1,4 +1,10 @@
-﻿using backend.Models;
+﻿/*
+ * Filename: ReservationController.cs
+ * Description: contains the endpoints and  functionality of Reservation management creating ,displaying, updating and cancelling operations
+ * Author: Himanka Manimendra
+ */
+
+using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
@@ -6,8 +12,9 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace backend.Controllers
 {
-    [Route("api/reservation")]
     [ApiController]
+    [Route("api/[controller]")]
+    
     public class ReservationController : ControllerBase
     {
         private readonly ReservationServices _reservationServices;
@@ -17,12 +24,12 @@ namespace backend.Controllers
             _reservationServices = reservationServices;
         }
         // GET: api/reservation
-        [HttpGet]
+        [HttpGet("getAllReservations")]
         public async Task<List<Reservation>> Get() => await _reservationServices.GetAsync();
 
 
-        // GET api/reservation/6522382ab944b840e2fa2bfa
-        [HttpGet("{length(24)}")]
+        // GET api/reservation/id
+        [HttpGet("{id:length(24)}")]
         public async Task<ActionResult<Reservation>> Get(string id)
         {
             Reservation reservation = await _reservationServices.GetAsync(id);
@@ -35,7 +42,7 @@ namespace backend.Controllers
 
 
         // POST api/reservation
-        [HttpPost]
+        [HttpPost("newReservation")]
         public async Task<ActionResult<Reservation>> Post(Reservation newReservation)
             {
             await _reservationServices.CreateAsync(newReservation);
@@ -47,8 +54,8 @@ namespace backend.Controllers
         
         
 
-        // PUT api/reservation/6522382ab944b840e2fa2bfa
-        [HttpPut("{id:length(24)}")]
+        // PUT api/reservation/id
+        [HttpPut("updateReservation/{id}")]
         public async Task<ActionResult> Put(string id, Reservation updateReservation) 
         {
             Reservation reservation = await _reservationServices.GetAsync(id);
@@ -61,8 +68,8 @@ namespace backend.Controllers
             return Ok("Updated Successfully");
         }
 
-        // DELETE api/reservation/6522382ab944b840e2fa2bfa
-        [HttpDelete("{id}")]
+        // DELETE api/reservation/id
+        [HttpDelete("deleteReservation/{id}")]
         public async Task<ActionResult> Delete(String id)
         {
             Reservation reservation = await _reservationServices.GetAsync(id);

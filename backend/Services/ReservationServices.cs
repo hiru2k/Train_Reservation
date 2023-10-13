@@ -1,44 +1,32 @@
-﻿using Microsoft.Extensions.Options;
-using MongoDB.Driver;
+﻿/*
+ * Filename: TrainServices.cs
+ * Description: Contains the services functions of train timetable 
+ * Author: Himanka Manimendra
+ */
+
 using backend.Models;
-using backend.Data;
-using System.Security.Cryptography.X509Certificates;
+using MongoDB.Driver;
+using System.Drawing.Printing;
 
 namespace backend.Services
+
 {
-    public class ReservationServices
+    public class TrainServices
     {
-        private readonly IMongoCollection<Reservation> _reservationcollection;
+        private readonly IMongoCollection<Train> _trainCollection;
 
-        public ReservationServices(IOptions<DatabaseSettings> settings)
+        public TrainServices(IMongoDatabase database)
         {
-            var mongoClient = new MongoClient(settings.Value.Connection);
-            var mongoDb = mongoClient.GetDatabase(settings.Value.DatabaseName);
-            _reservationcollection = mongoDb.GetCollection<Reservation>(settings.Value.CollectionName);
+
+            _trainCollection = database.GetCollection<Train>("Trains");
         }
+        //get all trains
+        public async Task<List<Train>> GetAsync() => await _trainCollection.Find(_ => true).ToListAsync();
 
-        //get all reservations
-        public async Task<List<Reservation>> GetAsync() => await _reservationcollection.Find(_ => true).ToListAsync();
+        //get train by id
+        public async Task<Train> GetAsync(string id)=>
+            await _trainCollection.Find(x => x.Id == id).FirstOrDefaultAsync();
 
-        //get reservation by id
-        public async Task<Reservation> GetAsync(String id) =>
-        await _reservationcollection.Find(x => x.Id == id).FirstOrDefaultAsync();
-
-        //add new reservation
-        public async Task CreateAsync(Reservation newReservation) =>
-        await _reservationcollection.InsertOneAsync(newReservation);
-
-        //Update Reservation
-
-        public async Task UpdateAsync(String id, Reservation UpdateReservation) =>
-        await _reservationcollection.ReplaceOneAsync(x => x.Id == id, UpdateReservation);
-
-        //delete Reservation
-        public async Task RemoveAsync(String id) =>
-        await _reservationcollection.DeleteOneAsync(x => x.Id == id);
 
     }
-
-        }
-    
-
+}
