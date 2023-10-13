@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Filename: TrainController.cs
 * Description: contains the endpoints and  functionality of train schedule creating ,displaying, updating and cancelling operations
 * Author: Sathinka Wijesinghe

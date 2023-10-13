@@ -1,4 +1,4 @@
-﻿/*
+/*
 * Filename: Train.cs
 * Description: contains the train model with train scheduling attributes like trainName, trainNumber, start station.....
 * Author: Sathinka Wijesinghe
