@@ -16,6 +16,7 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 builder.Services.AddControllers();
 
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<TrainServices>();
 builder.Services.AddSwaggerGen();
 builder.Services.AddCors((o) =>
 {
@@ -28,6 +29,8 @@ builder.Services.AddCors((o) =>
 
     });
 });
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(o =>
     {
@@ -54,7 +57,7 @@ var database = client.GetDatabase(databaseName);
 builder.Services.AddSingleton(database);
 
 // custom services
-builder.Services.AddTransient<ITrainService, TrainService>();
+
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IEndUserService, EndUserService>();
 
@@ -69,7 +72,8 @@ if (app.Environment.IsDevelopment())
 
 
 
-app.UseCors("Allow FE");
+// app.UseCors("Allow FE");
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

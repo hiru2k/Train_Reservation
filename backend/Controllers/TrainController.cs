@@ -1,67 +1,86 @@
-﻿using backend.Models;
+/*
+* Filename: TrainController.cs
+* Description: contains the endpoints and  functionality of train schedule creating ,displaying, updating and cancelling operations
+* Author: Sathinka Wijesinghe
+*/
+
+using backend.Models;
 using backend.Services;
 using Microsoft.AspNetCore.Mvc;
 
+// For more information on enabling Web API for empty projects, visit https://go.microsoft.com/fwlink/?LinkID=397860
+
 namespace backend.Controllers
 {
+    [Route("api/train")]
     [ApiController]
-    [Route("api/[controller]")]
     public class TrainController : ControllerBase
     {
-        private readonly ITrainService _trainService;
+        private readonly TrainServices _trainServices;
 
-        public TrainController(ITrainService trainService)
+        public TrainController(TrainServices trainServices)
         {
-            _trainService = trainService;
+            _trainServices = trainServices;
         }
 
+
+        // GET: api/train
         [HttpGet]
-        public ActionResult<List<TrainModel>> GetTrains()
+        public async Task<List<Train>> Get() => await _trainServices.GetAsync();
+       
+
+        // GET api/train/6521bf677a5813a7538d6648
+        [HttpGet("{id:length(24)}")]
+            
+        public async Task<ActionResult<Train>> Get(string id)
         {
-            var trains = _trainService.GetTrains();
-            return Ok(trains);
+            Train train = await _trainServices.GetAsync(id);
+            if(train == null)
+            {
+                return NotFound();
+            }
+            return train;
         }
 
-        [HttpGet("{trainNumber}")]
-        public ActionResult<TrainModel> GetTrainByNumber(string trainNumber)
+        // POST api/train
+        [HttpPost]
+        public async Task<ActionResult<Train>> Post(Train newTrain)
         {
-            var train = _trainService.GetTrainByNumber(trainNumber);
+            await _trainServices.CreateAsync(newTrain);
+              return CreatedAtAction(nameof(Get), new {id = newTrain.Id }, newTrain);
+        }
+
+        // PUT api/train/6521bf677a5813a7538d6648
+        [HttpPut("{id:length(24)}")]
+        public async Task<ActionResult> Put(string id, Train updateTrain)
+        {
+            Train train=await _trainServices.GetAsync(id);
             if (train == null)
             {
-                return NotFound();
+                return NotFound("There is no train with this id:"+id);
             }
-            return Ok(train);
+
+            updateTrain.Id = train.Id;
+            await _trainServices.UpdateAsync(id, updateTrain);
+            return Ok("updated successfully");
+
         }
 
-        [HttpPost]
-        public IActionResult AddTrain(TrainModel train)
-        {
-            _trainService.AddTrain(train);
-            return Ok(train);
-        }
 
-        [HttpPut("{trainNumber}")]
-        public IActionResult UpdateTrain(string trainNumber, TrainModel trainIn)
+        // DELETE api/train/6521bf677a5813a7538d6648
+        [HttpDelete("{id:length(24)}")]
+        public async Task<ActionResult> Delete(string id)
         {
-            var existingTrain = _trainService.GetTrainByNumber(trainNumber);
-            if (existingTrain == null)
+            Train train = await _trainServices.GetAsync(id);
+            if (train == null)
             {
-                return NotFound();
+                return NotFound("There is no train with this id:" + id);
             }
-            _trainService.UpdateTrain(trainNumber, trainIn);
-            return NoContent();
-        }
 
-        [HttpDelete("{trainNumber}")]
-        public IActionResult DeleteTrain(string trainNumber)
-        {
-            var existingTrain = _trainService.GetTrainByNumber(trainNumber);
-            if (existingTrain == null)
-            {
-                return NotFound();
-            }
-            _trainService.DeleteTrain(trainNumber);
-            return NoContent();
+           
+            await _trainServices.RemoveAsync(id);
+            return Ok("deleted successfully");
+
         }
     }
 }

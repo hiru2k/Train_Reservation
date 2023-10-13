@@ -12,6 +12,11 @@ import EndUserProfile from "./components/mainpages/common/EndUserProfile";
 import BackOfficerHome from "./components/mainpages/backOfficer/BackOfficerHome";
 import TravelAgentHome from "./components/mainpages/travelAgent/TravelAgentHome";
 
+import TrainForm from "./components/TrainManagement/CreateShedule";
+import TrainShedules from "./components/TrainManagement/RetrieveSchedules";
+import TrainDetails from "./components/TrainManagement/TrainDetais";
+import EditShedule from "./components/TrainManagement/EditShedule";
+
 function Router() {
   const { role } = useUserContext();
   return (
@@ -35,7 +40,12 @@ function Router() {
             <Route path="/travelerList" element={<TravelerList />} />
 
             <Route path="/endUserProfile/:nic" element={<EndUserProfile />} />
-          </>
+          </>        <Route path="/trainForm" element={<TrainForm />} />
+        <Route path="/trainShedules" element={<TrainShedules />} />
+        <Route path="/trainDetails/:id" element={<TrainDetails />} />
+        <Route path="/editShedule/:id" element={<EditShedule />} />
+
+
         )}
       </Routes>
     </BrowserRouter>
