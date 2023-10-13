@@ -16,16 +16,41 @@ builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"))
 builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<TrainServices>();
 builder.Services.AddSwaggerGen();
-builder.Services.AddCors((o) =>
+// builder.Services.AddCors((o) =>
+// {
+//     o.AddPolicy("Allow FE", (conf) =>
+//     {
+//         conf.WithOrigins("http://localhost:3000", "http://localhost:3000/");
+//         conf.AllowAnyHeader();
+//         conf.AllowAnyMethod();
+//     });
+// });
+
+// builder.Services.AddCors(options =>
+// {
+//     options.AddDefaultPolicy(builder =>
+//     {
+//         builder.WithOrigins("http://localhost:3000")
+//                .AllowAnyMethod()
+//                .AllowAnyHeader();
+//     });
+// });
+
+// Add CORS configuration
+builder.Services.AddCors(options =>
 {
-    o.AddPolicy("Allow FE", (conf) =>
+    options.AddDefaultPolicy(builder =>
     {
-        conf.WithOrigins("http://localhost:3000", "http://localhost:3000/");
-        conf.AllowAnyHeader();
-        conf.AllowAnyMethod();
+        builder.WithOrigins("http://localhost:3000") // Replace with your frontend URL
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials(); // If you need to allow credentials (e.g., cookies)
     });
 });
+
+
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
     .AddJwtBearer(o =>
     {
@@ -52,7 +77,7 @@ var database = client.GetDatabase(databaseName);
 builder.Services.AddSingleton(database);
 
 // custom services
-builder.Services.AddTransient<ITrainService, TrainService>();
+
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IEndUserService, EndUserService>();
 
@@ -67,7 +92,8 @@ if (app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 
-app.UseCors("Allow FE");
+// app.UseCors("Allow FE");
+app.UseCors();
 
 app.UseAuthentication();
 app.UseAuthorization();

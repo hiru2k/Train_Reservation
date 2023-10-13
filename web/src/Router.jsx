@@ -9,6 +9,11 @@ import TravelerList from "./components/mainpages/common/TravelerList";
 import UpdateTraveler from "./components/mainpages/travelAgent/UpdateTraveler";
 import EndUserProfile from "./components/mainpages/common/EndUserProfile";
 
+import TrainForm from "./components/TrainManagement/CreateShedule";
+import TrainShedules from "./components/TrainManagement/RetrieveSchedules";
+import TrainDetails from "./components/TrainManagement/TrainDetais";
+import EditShedule from "./components/TrainManagement/EditShedule";
+
 function Router() {
   return (
     <BrowserRouter>
@@ -20,6 +25,11 @@ function Router() {
         <Route path="/travelerList" element={<TravelerList />} />
         <Route path="/updateTraveler" element={<UpdateTraveler />} />
         <Route path="/endUserProfile/:nic" element={<EndUserProfile />} />
+        <Route path="/trainForm" element={<TrainForm />} />
+        <Route path="/trainShedules" element={<TrainShedules />} />
+        <Route path="/trainDetails/:id" element={<TrainDetails />} />
+        <Route path="/editShedule/:id" element={<EditShedule />} />
+
 
         {}
       </Routes>
