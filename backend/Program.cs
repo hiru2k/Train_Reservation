@@ -1,3 +1,9 @@
+/*
+ * Filename: Program.cs
+ * Description: contains the endpoints and  functionality of train timetable
+ * Author: Himanka Manimendra
+ */
+
 using backend.Data;
 using backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -12,12 +18,6 @@ builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("D
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
 
-
-builder.Services.Configure < DatabaseSettings>(
-                    builder.Configuration.GetSection("ConnectionString"));
-
-builder.Services.AddSingleton<ReservationServices>();
-builder.Services.AddControllersWithViews();
 
 builder.Services.AddControllers();
 

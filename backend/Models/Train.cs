@@ -1,8 +1,8 @@
-/*
-* Filename: Train.cs
-* Description: contains the train model with train scheduling attributes like trainName, trainNumber, start station.....
-* Author: Sathinka Wijesinghe
-*/
+﻿/*
+ * Filename: Train.cs
+ * Description: Contains of train model
+ * Author: Himanka Manimendra
+ */
 
 using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
@@ -23,13 +23,6 @@ namespace backend.Models
 
         [BsonElement("trainname")]
         public string TrainName { get; set; } = "Train Name";
-
-        [BsonElement("traintype")]
-
-        public string TrainType { get; set; } = "Train Type";
-
-        [BsonElement("travelduration")]
-        public string TravelDuration { get; set; } = "Travel Duration";
 
 
         [BsonElement("class")]
@@ -56,12 +49,5 @@ namespace backend.Models
 
         [BsonElement("reserved")]
         public bool IsReserved { get; set; }
-
-
-         public List<string>? intermediateStops { get; set; }
-
-        public List<string>? seatClasses { get; set; }
-
-        public string? Number_of_seats { get; set; }
     }
 }
