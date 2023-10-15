@@ -115,28 +115,37 @@ export default function NewReservation() {
     setFormData({ ...formData, selectedSeats: updatedSelectedSeats });
   };
 
-  const handleSubmit = async () => {
+  const handleSubmit = async (formData) => {
     // Before submitting, update the formData status to "APPROVED"
     const updatedFormData = { ...formData, status: "APPROVED" };
     console.log("updatedFormData", updatedFormData);
 
-    // try {
-    //   // Send the updatedFormData to your backend API using Axios
-    //   const response = await axios.post(
-    //     "your_backend_api_url",
-    //     updatedFormData
-    //   );
+    var response = null;
 
-    //   // Handle success, e.g., show a success message or redirect
-    //   console.log("Response from the server:", response.data);
+    try {
+      if (formData) {
+        // Send the updatedFormData to your backend API using Axios
+        response = await axios.post(
+          `https://localhost:7103/api/Reservation/updateReservation/${formData.id}`,
+          updatedFormData
+        );
+      } else {
+        response = await axios.post(
+          "https://localhost:7103/api/Reservation/newReservation",
+          updatedFormData
+        );
+      }
 
-    //   // Redirect to /bookings page after successful submission
+      // Handle success, e.g., show a success message or redirect
+      console.log("Response from the server:", response.data);
+
+      // Redirect to /bookings page after successful submission
       
-    // } catch (error) {
-    //   // Handle errors, e.g., show an error message
-    //   console.error("Error:", error);
-    //   // Handle the error, show an error message to the user, etc.
-    // }
+    } catch (error) {
+      // Handle errors, e.g., show an error message
+      console.error("Error:", error);
+      // Handle the error, show an error message to the user, etc.
+    }
     localStorage.removeItem("booking");
     navigate("/bookings");
   };

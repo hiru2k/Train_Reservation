@@ -27,9 +27,10 @@ export default function BookingCard({ booking }) {
   const handleDeleteBooking = async (booking) => {
     try {
       // Send a DELETE request to your backend API to delete the booking
-      await axios.delete(`your_backend_api_url/${booking.id}`);
+      await axios.delete(`https://localhost:7103/api/Reservation/deleteReservation/${booking.id}`);
 
       // Optionally, you can show a success message to the user here
+      alert("Booking successfully deleted!");
 
       // Redirect to the /bookings page or perform any other necessary actions
       navigate("/bookings");
