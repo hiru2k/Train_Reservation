@@ -1,10 +1,4 @@
-﻿/*
- * Filename: UserModel.cs
- * Description: Contains propertiese of  user(back officer+travel agent)
- * Author: Hiruni Mudannayake
- */
-
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace backend.Models

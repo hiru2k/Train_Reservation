@@ -1,12 +1,7 @@
-﻿/*
- * Filename: EndUserController.cs
- * Description: Contains endpoints of endUserSevice management such as account creation, logging, update accounts......
- * Author: Hiruni Mudannayake
- */
-
-using backend.Data;
+﻿using backend.Data;
 using backend.Models;
 using backend.Services;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -25,14 +20,11 @@ namespace backend.Controllers
         private readonly IEndUserService _userService;
         private readonly JwtSettings _jwtSettings;
 
-        // Initializes the traveler controller with traveler service and JWT settings
         public EndUserController(IEndUserService userService, IOptions<JwtSettings> jwtSettings)
         {
             _userService = userService;
             _jwtSettings = jwtSettings.Value;
         }
-
-        // Endpoint for traveler login
 
         [HttpPost("login")]
         public async Task<IActionResult> Login([FromBody] EndUserModel user)
@@ -42,32 +34,16 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
-            var (isValid, User) = await _userService.AuthenticateAsync(user);
+            var (isValid, role, email, nic) = await _userService.AuthenticateAsync(user);
             if (isValid)
             {
-                if (User.Status == "Active")
-                {
-                    var token = GenerateJwtToken(User.NIC, User.Role, User.Email);
-                    return Ok(new { status = 200, message = "Login successful!", token, User });//code 200
-                }
-
-                if (User.Status == "Pending")
-                {
-
-                    return StatusCode(403, new { success = false, message = "You have to wait till acivate your account" });
-                }
-                if (User.Status == "Deactivate")
-                {
-
-                    return StatusCode(200, new { success = true, message = "You have deactivated your account", User });
-                }
-
+                var token = GenerateJwtToken(nic, role, email);
+                return Ok(new { success = true, message = "Login successful!", token, role });
             }
 
-            return Unauthorized(new { success = false, message = "Invalid username or password." });//code 401
+            return Unauthorized(new { success = false, message = "Invalid username or password." });
         }
 
-        // Helper method to generate JWT token with nic(primary key, role and mail)
         private string GenerateJwtToken(string nic, string role, string email)
         {
             var claims = new[]
@@ -92,10 +68,8 @@ namespace backend.Controllers
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
 
-        // Endpoint for traveller registration
-
         [HttpPost("register")]
-
+        [Authorize(Roles = "Travel Agent")]
         public async Task<IActionResult> Register([FromBody] EndUserModel newUser)
         {
             if (newUser == null || string.IsNullOrEmpty(newUser.Username) || string.IsNullOrEmpty(newUser.Password))
@@ -115,14 +89,13 @@ namespace backend.Controllers
             }
             if (!isUserUniq)
             {
-                return StatusCode(401, new { isSuccess = false, message = "User already exists", });
+                return Ok(new { status = 401, isSuccess = false, message = "User already exists", });
             }
             return Ok(new { status = 405, isSuccess = false, message = "Admin access denied", });
 
         }
 
 
-        // Endpoint to get all travellers who are created accounts
         [HttpGet("getAllUsers")]
         public async Task<IActionResult> GetAllUsers()
         {
@@ -133,14 +106,14 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-
+                // Log the error
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
 
 
-        // Endpoint to get logged-in travel user's profile
+
 
         [HttpGet("profile")]
         public async Task<IActionResult> GetLoggedInUserProfile()
@@ -163,12 +136,12 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-
+                // Log the error
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
-        // Endpoint to get a specific traveller  by NIC(primary key)
+
         [HttpGet("oneUser/{nic}")]
         public async Task<IActionResult> GetOneUserByNIC(string nic)
         {
@@ -185,12 +158,12 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-
+                // Log the error
                 return StatusCode(500, new { message = "Internal server error", error = ex.Message });
             }
         }
 
-        // Endpoint to update traveller profile by NIC
+
 
         [HttpPut("profile/{nic}")]
         public async Task<IActionResult> UpdateUserProfile(string nic, [FromBody] EndUserModel updatedUser)
@@ -209,40 +182,12 @@ namespace backend.Controllers
             }
             catch (Exception ex)
             {
-
+                // Log the error
                 return StatusCode(500, new { success = false, message = "Internal server error", error = ex.Message });
             }
         }
 
-        // Endpoint to delete a traveler account based on the NIC(primary key)
-        [HttpDelete("delete/{nic}")]
-        public async Task<IActionResult> DeleteUserByNIC(string nic)
-        {
-            try
-            {
 
-
-                var user = await _userService.GetUserByNICAsync(nic);
-                if (user == null)
-                {
-                    return StatusCode(404, new { message = "User not found" });
-                }
-
-                var isSuccess = await _userService.DeleteUserByNICAsync(nic);
-                if (isSuccess)
-                {
-                    return Ok(new { status = 200, message = "User deleted successfully." });
-                }
-                else
-                {
-                    return StatusCode(500, new { status = 500, message = "Failed to delete user." });
-                }
-            }
-            catch (Exception ex)
-            {
-                return StatusCode(500, new { message = "Internal server error", error = ex.Message });
-            }
-        }
 
 
     }

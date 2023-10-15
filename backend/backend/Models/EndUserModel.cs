@@ -1,10 +1,4 @@
-﻿/*
- * Filename: EndUserModel.cs
- * Description: Contains propertiese of end user(traveler)
- * Author: Hiruni Mudannayake
- */
-
-using MongoDB.Bson;
+﻿using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace backend.Models

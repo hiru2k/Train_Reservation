@@ -1,9 +1,16 @@
-﻿using MongoDB.Bson;
+﻿//file : Reservation.cs
+
+//IT Number:IT18161298
+
+//Description:This class defines the Reservation model for a train booking system.
+
+using MongoDB.Bson;
 using MongoDB.Bson.Serialization.Attributes;
 
 namespace backend.Models
 {
     [BsonIgnoreExtraElements]
+
     public class Reservation
     {
         [BsonId]
@@ -20,7 +27,7 @@ namespace backend.Models
         [BsonElement("nic")]
         public String NIC { get; set; } = "NIC";
         [BsonElement("passengername")]
-        public String PassengerName{ get; set; } = "Passenger Name";
+        public String PassengerName { get; set; } = "Passenger Name";
         [BsonElement("passengeraddress")]
         public String PassengerAddress { get; set; } = "Passenger Address";
         [BsonElement("fare")]
