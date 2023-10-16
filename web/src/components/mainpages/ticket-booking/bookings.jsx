@@ -19,6 +19,8 @@ export default function BookingList({ bookingsData }) {
       <BookingCard key={booking.id} booking={booking} />
     ));
 
+
+
   return (
     <Container fluid className="my-4">
       <Card bg="light" border="primary">
@@ -76,7 +78,7 @@ export default function BookingList({ bookingsData }) {
               <Tab.Pane eventKey={2}>
                 {renderBookings(filterBookingsByStatus("REJECTED"))}
               </Tab.Pane>
-              <Tab.Pane eventKey={2}>
+              <Tab.Pane eventKey={3}>
                 {renderBookings(filterBookingsByStatus("EXPIRED"))}
               </Tab.Pane>
             </Tab.Content>

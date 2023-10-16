@@ -4,15 +4,16 @@ import Layout from "../../../layout";
 import trainData from "./trainData";
 import stationData from "./stationData";
 import axios from "axios";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 
 const currencies = ["USD", "EUR", "GBP"];
 
 export default function NewReservation() {
-  const navigate = useNavigate(); 
+  const navigate = useNavigate();
+  const { id } = useParams();
 
   const [formData, setFormData] = useState({
-    id: "",
+    id:id,
     trainName: "",
     departureStation: "",
     arrivalStation: "",
@@ -31,6 +32,11 @@ export default function NewReservation() {
     endTime: "",
   });
 
+  function generateRandomHexId() {
+    return [...Array(24)].map(() => Math.floor(Math.random() * 16).toString(16)).join('');
+}
+
+
   useEffect(() => {
     const storedBookingData = JSON.parse(localStorage.getItem("booking"));
     if (storedBookingData) {
@@ -43,7 +49,7 @@ export default function NewReservation() {
 
         const startTimeDate = storedBookingData.startTime.substring(0, 10);
         const startTimeTime = storedBookingData.startTime.substring(11, 16);
-      
+
         const endTimeDate = storedBookingData.endTime.substring(0, 10);
         const endTimeTime = storedBookingData.endTime.substring(11, 16);
 
@@ -61,6 +67,7 @@ export default function NewReservation() {
       }
     } else {
       setFormData({
+        id:id,
         trainName: "",
         departureStation: "",
         arrivalStation: "",
@@ -115,21 +122,26 @@ export default function NewReservation() {
     setFormData({ ...formData, selectedSeats: updatedSelectedSeats });
   };
 
-  const handleSubmit = async (formData) => {
+  const handleSubmit = async (event) => {
+    event.preventDefault(); // prevent the default form submission behavior
+
     // Before submitting, update the formData status to "APPROVED"
     const updatedFormData = { ...formData, status: "APPROVED" };
+
+    updatedFormData.status = "APPROVED";
     console.log("updatedFormData", updatedFormData);
 
     var response = null;
 
     try {
-      if (formData) {
+      if (id) { // If an ID is present in the URL, it's an update
         // Send the updatedFormData to your backend API using Axios
-        response = await axios.post(
-          `https://localhost:7103/api/Reservation/updateReservation/${formData.id}`,
+        response = await axios.put(
+          `https://localhost:7103/api/Reservation/updateReservation/${id}`,
           updatedFormData
         );
       } else {
+        updatedFormData.id = generateRandomHexId();
         response = await axios.post(
           "https://localhost:7103/api/Reservation/newReservation",
           updatedFormData
@@ -137,10 +149,9 @@ export default function NewReservation() {
       }
 
       // Handle success, e.g., show a success message or redirect
-      console.log("Response from the server:", response.data);
+      console.log("Response from the server:", response);
 
       // Redirect to /bookings page after successful submission
-      
     } catch (error) {
       // Handle errors, e.g., show an error message
       console.error("Error:", error);
@@ -359,9 +370,9 @@ export default function NewReservation() {
               className="text-muted my-4 mx-4"
               style={{ fontSize: "0.9rem" }}
             >
-                {formData.selectedSeats && Array.isArray(formData.selectedSeats)
-                  ? formData.selectedSeats.join(", ")
-                  : "N/A"}
+              {formData.selectedSeats && Array.isArray(formData.selectedSeats)
+                ? formData.selectedSeats.join(", ")
+                : "N/A"}
             </Form.Text>
           </Form.Group>
 
