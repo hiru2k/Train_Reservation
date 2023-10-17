@@ -1,3 +1,8 @@
+//file : program.cs
+
+//IT Number:IT18161298
+
+//Description:program.cs file
 using backend.Data;
 using backend.Services;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
@@ -7,16 +12,19 @@ using System.Text;
 
 var builder = WebApplication.CreateBuilder(args);
 
-// configs db and jwt
+// configs
 builder.Services.Configure<DatabaseSettings>(builder.Configuration.GetSection("DB"));
 builder.Services.Configure<JwtSettings>(builder.Configuration.GetSection("Jwt"));
 
-
-
+// Add services to the container.
 builder.Services.AddControllers();
 
+
+// Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
+builder.Services.AddSingleton<ReservationServices>();
 builder.Services.AddSwaggerGen();
+builder.Services.AddSingleton<TrainServices>();
 builder.Services.AddCors((o) =>
 {
     o.AddPolicy("Allow FE", (conf) =>
@@ -24,8 +32,6 @@ builder.Services.AddCors((o) =>
         conf.WithOrigins("http://localhost:3000", "http://localhost:3000/");
         conf.AllowAnyHeader();
         conf.AllowAnyMethod();
-        conf.AllowAnyOrigin();
-
     });
 });
 builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
@@ -44,6 +50,7 @@ builder.Services.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
         };
     });
 
+
 // MongoDB Configuration
 var connectionString = builder.Configuration.GetSection("DB:ConnectionString").Value;
 var databaseName = builder.Configuration.GetSection("DB:DatabaseName").Value;
@@ -54,7 +61,7 @@ var database = client.GetDatabase(databaseName);
 builder.Services.AddSingleton(database);
 
 // custom services
-builder.Services.AddTransient<ITrainService, TrainService>();
+
 builder.Services.AddTransient<IUserService, UserService>();
 builder.Services.AddTransient<IEndUserService, EndUserService>();
 
@@ -67,7 +74,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+app.UseHttpsRedirection();
 
 app.UseCors("Allow FE");
 

@@ -1,8 +1,8 @@
-﻿/*
- * Filename: JwtSettings.cs
- * Description:  Contains properties like Issuer,Audience,Key , which are used to generate token.
- * Author: Hiruni Mudannayake
- */
+//file : JwtSettings.cs
+
+//IT Number:IT18161298
+
+//Description:Jwt setting file
 namespace backend.Data;
 
 public class JwtSettings
