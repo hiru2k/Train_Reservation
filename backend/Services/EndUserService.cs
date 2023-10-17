@@ -23,13 +23,15 @@ namespace backend.Services
 
         public async Task<(bool, EndUserModel)> AuthenticateAsync(EndUserModel Luser)
         {
-            var user = await _users.Find(u => u.Username == Luser.Username && u.Password == Luser.Password).FirstOrDefaultAsync();
-            if (user == null)
             {
-                return (false, null);
-            }
+                var user = await _users.Find(u => u.Username == Luser.Username).FirstOrDefaultAsync();
+                if (user == null || !VerifyPassword(Luser.Password, user.Password))
+                {
+                    return (false, null);
+                }
 
-            return (true, user);
+                return (true, user);
+            }
         }
 
         // Adds a new travel user to the database asynchronously.
@@ -113,6 +115,47 @@ namespace backend.Services
 
             return true;
         }
+
+
+
+        // Method to hash and salt a password
+        public string HashPassword(string password)
+        {
+            // Generate a random salt
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+
+            // Hash the password with the salt
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
+
+            return hashedPassword;
+        }
+
+        // Method to verify a password during login
+        public bool VerifyPassword(string enteredPassword, string hashedPassword)
+        {
+            // Verify the entered password with the stored hashed password
+            return BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPassword);
+        }
+
+        public async Task<bool> VerifyUserPasswordAsync(string nic, string enteredPassword)
+        {
+            // Retrieve the data of user with the provided NIC from your data storage
+            var user = await GetUserByNICAsync(nic);
+
+            if (user == null)
+            {
+
+                return false;
+            }
+
+            // Verify the entered password with the stored hashed password
+            bool isPasswordCorrect = VerifyPassword(enteredPassword, user.Password);
+
+            return isPasswordCorrect;
+        }
+
+
+
 
     }
 }

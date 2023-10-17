@@ -30,7 +30,7 @@ userProfile .userDetailsView {
 
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 650px;
   width: 400px;
 
   color: black;
@@ -72,7 +72,7 @@ userProfile .userDetailsEdit {
   background-color: white;
   display: flex;
   flex-direction: column;
-  height: 500px;
+  height: 650px;
   width: 400px;
   align-items: center;
   justify-content: center;

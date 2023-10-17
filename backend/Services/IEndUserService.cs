@@ -19,6 +19,8 @@ namespace backend.Services
         Task<bool> UpdateUserProfileAsync(String uNIC, EndUserModel updatedUser);
 
         Task<bool> DeleteUserByNICAsync(string nic);
+        string HashPassword(string password);
+        Task<bool> VerifyUserPasswordAsync(string nic, string enteredPassword);
 
     }
 }

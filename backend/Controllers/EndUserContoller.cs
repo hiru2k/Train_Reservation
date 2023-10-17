@@ -103,6 +103,10 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
+            // Hash the user's password before storing it in the database
+            newUser.Password = _userService.HashPassword(newUser.Password);
+
+
             var isUserUniq = await _userService.GetUserByEmailOrNICAsync(newUser.Email, newUser.NIC);
             if (isUserUniq)
             {

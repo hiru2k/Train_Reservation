@@ -71,7 +71,7 @@ namespace backend.Services
             return user;
         }
 
-        // Updates the user(travel agent + back officer) profile based on the provided NIC asynchronously.
+        // Updates the user(travel agent + back officer) profile without password based on the provided NIC asynchronously.
         // Returns true if the user profile was updated successfully, false otherwise.
         public async Task<bool> UpdateUserProfileWithoutPasswordAsync(String uNIC, UserModel updatedUser)
         {
@@ -88,6 +88,10 @@ namespace backend.Services
 
             return updateResult.ModifiedCount > 0;
         }
+
+
+        // Updates the user(travel agent + back officer) profile with password based on the provided NIC asynchronously.
+        // Returns true if the user profile was updated successfully, false otherwise.
         public async Task<bool> UpdateUserProfileWithPasswordAsync(String uNIC, UserModel updatedUser)
         {
             var filter = Builders<UserModel>.Filter.Eq(u => u.NIC, uNIC);
@@ -126,12 +130,12 @@ namespace backend.Services
 
         public async Task<bool> VerifyUserPasswordAsync(string nic, string enteredPassword)
         {
-            // Retrieve the stored hashed password for the user with the provided NIC from your data storage
-            var user = await GetUserByNICAsync(nic); // Replace this with your actual method to retrieve user by NIC
+            // Retrieve the data of user with the provided NIC from your data storage
+            var user = await GetUserByNICAsync(nic);
 
             if (user == null)
             {
-                // User not found
+
                 return false;
             }
 
