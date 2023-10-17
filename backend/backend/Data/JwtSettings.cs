@@ -1,4 +1,9 @@
-﻿namespace backend.Data;
+﻿//file : JwtSettings.cs
+
+//IT Number:IT18161298
+
+//Description:Jwt setting file
+namespace backend.Data;
 
 public class JwtSettings
 {
