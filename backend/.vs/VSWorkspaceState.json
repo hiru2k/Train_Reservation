@@ -1,7 +1,8 @@
 {
   "ExpandedNodes": [
-    ""
+    "",
+    "\\Services"
   ],
-  "SelectedNode": "\\backend.sln",
+  "SelectedNode": "\\Services\\TrainServices.cs",
   "PreviewInSolutionExplorer": false
 }
