@@ -20,7 +20,9 @@ function UserProfile() {
 
   const [editedName, setEditedName] = useState("");
   const [editedEmail, setEditedEmail] = useState("");
-  const [editedPassword, setEditedPassword] = useState("");
+  const [currentPassword, setCurrentPassword] = useState("");
+  const [newPassword, setNewPassword] = useState("");
+  const [confirmNewPassword, setConfirmNewPassword] = useState("");
 
   useEffect(() => {
     axiosInstance
@@ -37,17 +39,30 @@ function UserProfile() {
   }, []);
 
   const handleSaveChanges = () => {
+    // Check if new password matches the confirmed password
+    if (newPassword !== confirmNewPassword) {
+      alert("New password and confirm password do not match.");
+      return;
+    }
+
     axiosInstance
       .put(`User/profile/${user.nic}`, {
-        username: editedName,
-        email: editedEmail,
-        password: editedPassword,
+        updatedUser: {
+          username: editedName,
+          email: editedEmail,
+        },
+        currentPassword: currentPassword,
+        newPassword: newPassword,
       })
       .then((response) => {
         if (response.data.status == "200") {
           alert("Successfully updated");
         } else if (response.data.status == "201") {
           alert("Content is changed");
+        } else {
+          alert(
+            "Failed to update user details. Please check your current password."
+          );
         }
       })
       .catch((error) => {
@@ -78,7 +93,7 @@ function UserProfile() {
           </div>
           <div className="userDetailsViewItems">
             <lable>Phone No</lable>
-            {user.password}
+            {user.phone}
           </div>
         </div>
         <div className="userDetailsEdit">
@@ -103,13 +118,34 @@ function UserProfile() {
               />
             </label>
           </div>
+
           <div className="userDetailsEditItems">
             <label>
-              Password:
+              Current Password:
               <input
                 type="password"
-                value={editedPassword}
-                onChange={(e) => setEditedPassword(e.target.value)}
+                value={currentPassword}
+                onChange={(e) => setCurrentPassword(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className="userDetailsEditItems">
+            <label>
+              New Password:
+              <input
+                type="password"
+                value={newPassword}
+                onChange={(e) => setNewPassword(e.target.value)}
+              />
+            </label>
+          </div>
+          <div className="userDetailsEditItems">
+            <label>
+              Confirm New Password:
+              <input
+                type="password"
+                value={confirmNewPassword}
+                onChange={(e) => setConfirmNewPassword(e.target.value)}
               />
             </label>
           </div>

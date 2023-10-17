@@ -18,9 +18,8 @@ function Router() {
     <BrowserRouter>
       <Routes>
         <Route path="/login" element={<Login />} />
-        {role === "Admin" && (
-          <Route path="/createUser" element={<CreateUser />} />
-        )}
+        <Route path="/createUser" element={<CreateUser />} />
+
         {role === "Back Officer" && (
           <Route path="/backOfficerHome" element={<BackOfficerHome />} />
         )}

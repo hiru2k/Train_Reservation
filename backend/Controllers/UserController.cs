@@ -42,6 +42,7 @@ namespace backend.Controllers
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
 
+
             var (isValid, role, email, nic) = await _userService.AuthenticateAsync(user);
             if (isValid)
             {
@@ -87,6 +88,10 @@ namespace backend.Controllers
             {
                 return BadRequest(new { success = false, message = "Invalid user data." });
             }
+
+            // Hash the user's password before storing it in the database
+            newUser.Password = _userService.HashPassword(newUser.Password);
+
 
             var isUserUniq = await _userService.GetUserByEmailOrNICAsync(newUser.Email, newUser.NIC);
             if (isUserUniq)
@@ -140,21 +145,55 @@ namespace backend.Controllers
 
 
 
+
+
+
+
+
         // Endpoint to update (backofficer+traveler) profile by NIC
         [HttpPut("profile/{nic}")]
-        public async Task<IActionResult> UpdateUserProfile(string nic, [FromBody] UserModel updatedUser)
+        public async Task<IActionResult> UpdateUserProfile(string nic, [FromBody] UpdateUserRequest updateUserRequest)
         {
             try
             {
-                var isSuccess = await _userService.UpdateUserProfileAsync(nic, updatedUser);
-                if (isSuccess)
+                if (updateUserRequest.NewPassword == "")
                 {
-                    return Ok(new { status = 200, message = "Profile Updated successfully." });
+
+                    var isSuccess = await _userService.UpdateUserProfileWithoutPasswordAsync(nic, updateUserRequest.UpdatedUser);
+                    if (isSuccess)
+                    {
+                        return Ok(new { status = 200, message = "Profile Updated successfully." });
+                    }
+                    else
+                    {
+                        return Ok(new { status = 201, message = "Content not changed" });
+                    }
                 }
                 else
                 {
-                    return Ok(new { status = 201, message = "Content not changed" });
+
+                    // Verify the current password before proceeding with the update
+                    var isPasswordCorrect = await _userService.VerifyUserPasswordAsync(nic, updateUserRequest.CurrentPassword);
+                    if (isPasswordCorrect)
+                    {
+                        updateUserRequest.UpdatedUser.Password = _userService.HashPassword(updateUserRequest.NewPassword);
+
+                        var isSuccess = await _userService.UpdateUserProfileWithPasswordAsync(nic, updateUserRequest.UpdatedUser);
+
+                        if (isSuccess)
+                        {
+                            return Ok(new { status = 200, message = "Profile Updated successfully with password" });
+                        }
+                        else
+                        {
+                            return Ok(new { status = 201, message = "Content not changed" });
+                        }
+
+                    }
+                    return Ok(new { status = 201, message = "Current password is invalid" });
+
                 }
+
             }
             catch (Exception ex)
             {
@@ -165,6 +204,15 @@ namespace backend.Controllers
 
 
 
-
     }
+
+
+
+    public class UpdateUserRequest
+    {
+        public string CurrentPassword { get; set; } // Current password for verification
+        public string NewPassword { get; set; }     // New password for update
+        public UserModel UpdatedUser { get; set; }  // Updated user details (username, email, etc.)
+    }
+
 }

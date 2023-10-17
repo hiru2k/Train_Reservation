@@ -7,6 +7,7 @@
 using backend.Models;
 using MongoDB.Driver;
 
+
 namespace backend.Services
 {
     public class UserService : IUserService
@@ -20,8 +21,8 @@ namespace backend.Services
         // Authenticates a user(travel agent + back officer) based on the provided username,password
         public async Task<(bool, string, string, string)> AuthenticateAsync(UserModel Luser)
         {
-            var user = await _users.Find(u => u.Username == Luser.Username && u.Password == Luser.Password).FirstOrDefaultAsync();
-            if (user == null)
+            var user = await _users.Find(u => u.Username == Luser.Username).FirstOrDefaultAsync();
+            if (user == null || !VerifyPassword(Luser.Password, user.Password))
             {
                 return (false, null, null, null);
             }
@@ -72,10 +73,26 @@ namespace backend.Services
 
         // Updates the user(travel agent + back officer) profile based on the provided NIC asynchronously.
         // Returns true if the user profile was updated successfully, false otherwise.
-        public async Task<bool> UpdateUserProfileAsync(String uNIC, UserModel updatedUser)
+        public async Task<bool> UpdateUserProfileWithoutPasswordAsync(String uNIC, UserModel updatedUser)
         {
             var filter = Builders<UserModel>.Filter.Eq(u => u.NIC, uNIC);
             var update = Builders<UserModel>.Update
+
+                .Set(u => u.Username, updatedUser.Username)
+                .Set(u => u.Email, updatedUser.Email);
+
+
+
+
+            var updateResult = await _users.UpdateOneAsync(filter, update);
+
+            return updateResult.ModifiedCount > 0;
+        }
+        public async Task<bool> UpdateUserProfileWithPasswordAsync(String uNIC, UserModel updatedUser)
+        {
+            var filter = Builders<UserModel>.Filter.Eq(u => u.NIC, uNIC);
+            var update = Builders<UserModel>.Update
+
                 .Set(u => u.Username, updatedUser.Username)
                 .Set(u => u.Email, updatedUser.Email)
                 .Set(u => u.Password, updatedUser.Password);
@@ -85,6 +102,47 @@ namespace backend.Services
 
             return updateResult.ModifiedCount > 0;
         }
+
+
+
+        // Method to hash and salt a password
+        public string HashPassword(string password)
+        {
+            // Generate a random salt
+            string salt = BCrypt.Net.BCrypt.GenerateSalt();
+
+            // Hash the password with the salt
+            string hashedPassword = BCrypt.Net.BCrypt.HashPassword(password, salt);
+
+            return hashedPassword;
+        }
+
+        // Method to verify a password during login
+        public bool VerifyPassword(string enteredPassword, string hashedPassword)
+        {
+            // Verify the entered password with the stored hashed password
+            return BCrypt.Net.BCrypt.Verify(enteredPassword, hashedPassword);
+        }
+
+        public async Task<bool> VerifyUserPasswordAsync(string nic, string enteredPassword)
+        {
+            // Retrieve the stored hashed password for the user with the provided NIC from your data storage
+            var user = await GetUserByNICAsync(nic); // Replace this with your actual method to retrieve user by NIC
+
+            if (user == null)
+            {
+                // User not found
+                return false;
+            }
+
+            // Verify the entered password with the stored hashed password
+            bool isPasswordCorrect = VerifyPassword(enteredPassword, user.Password);
+
+            return isPasswordCorrect;
+        }
+
+
+
 
     }
 }

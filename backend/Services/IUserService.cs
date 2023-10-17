@@ -16,7 +16,9 @@ namespace backend.Services
 
         Task<UserModel> GetUserByNICAsync(string nic);
 
-        Task<bool> UpdateUserProfileAsync(String uNIC, UserModel updatedUser);
-
+        Task<bool> UpdateUserProfileWithPasswordAsync(String uNIC, UserModel updatedUser);
+        Task<bool> UpdateUserProfileWithoutPasswordAsync(String uNIC, UserModel updatedUser);
+        string HashPassword(string password);
+        Task<bool> VerifyUserPasswordAsync(string nic, string enteredPassword);
     }
 }
