@@ -39,13 +39,17 @@ function Router() {
             <Route path="/travelerList" element={<TravelerList />} />
 
             <Route path="/endUserProfile/:nic" element={<EndUserProfile />} />
-          </>        <Route path="/trainForm" element={<TrainForm />} />
-        <Route path="/trainShedules" element={<TrainShedules />} />
-        <Route path="/trainDetails/:id" element={<TrainDetails />} />
-        <Route path="/editShedule/:id" element={<EditShedule />} />
-
+              
+          </>
 
         )}
+
+
+        <Route path="/trainForm" element={<TrainForm />} />
+        <Route path="/trainShedules" element={<TrainShedules />} />
+        <Route path="/trainDetails/:id" element={<TrainDetails />} />
+        <Route path="/editShedule/:id" element={<EditShedule />}/>
+
       </Routes>
     </BrowserRouter>
   );
