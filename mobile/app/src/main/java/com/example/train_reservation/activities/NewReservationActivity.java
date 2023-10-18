@@ -65,6 +65,7 @@ public class NewReservationActivity extends AppCompatActivity {
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                String TrainName = trainNameTextView.getText().toString();
                 String arrivalStation = arrivalStationEditText.getText().toString();
                 String departureStation = departureStationEditText.getText().toString();
                 int seatCount = Integer.parseInt(seatCountEditText.getText().toString());
@@ -107,6 +108,7 @@ public class NewReservationActivity extends AppCompatActivity {
 
                     // Create a new Reservation object with the booking details
                     Reservation reservation = new Reservation();
+                    reservation.setTrainName(TrainName);
                     reservation.setArrivalStation(arrivalStation);
                     reservation.setDepartureStation(departureStation);
                     reservation.setSeatsNeeded(seatCount);
@@ -122,6 +124,8 @@ public class NewReservationActivity extends AppCompatActivity {
                                 // Booking was successful
                                 // Display a success message
                                 Toast.makeText(NewReservationActivity.this, "Booking Successful", Toast.LENGTH_SHORT).show();
+                                startActivity(new Intent(NewReservationActivity.this, ReservationListActivity.class));
+                                finish();
                             } else {
                                 // Handle the case when the server returns an error
                                 Toast.makeText(NewReservationActivity.this, "Booking Failed", Toast.LENGTH_SHORT).show();

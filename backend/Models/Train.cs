@@ -15,7 +15,7 @@ namespace backend.Models
         [BsonId]
         [BsonRepresentation(BsonType.ObjectId)]
 
-         public string Id { get; set; }= string.Empty;
+        public string Id { get; set; } = string.Empty;
 
         [BsonElement("trainnumber")]
         public int TrainNumber { get; set; }

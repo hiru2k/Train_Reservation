@@ -14,7 +14,7 @@ namespace backend.Controllers
 {
     [ApiController]
     [Route("api/[controller]")]
-    
+
     public class ReservationController : ControllerBase
     {
         private readonly ReservationServices _reservationServices;
@@ -44,24 +44,24 @@ namespace backend.Controllers
         // POST api/reservation
         [HttpPost("newReservation")]
         public async Task<ActionResult<Reservation>> Post(Reservation newReservation)
-            {
+        {
             await _reservationServices.CreateAsync(newReservation);
-            return CreatedAtAction(nameof(Get),new { id = newReservation.Id }, newReservation);
+            return CreatedAtAction(nameof(Get), new { id = newReservation.Id }, newReservation);
         }
-            
 
 
-        
-        
+
+
+
 
         // PUT api/reservation/id
         [HttpPut("updateReservation/{id}")]
-        public async Task<ActionResult> Put(string id, Reservation updateReservation) 
+        public async Task<ActionResult> Put(string id, Reservation updateReservation)
         {
             Reservation reservation = await _reservationServices.GetAsync(id);
-            if(reservation == null)
+            if (reservation == null)
             {
-                return NotFound("There is no Reservation with this id:"+ id);
+                return NotFound("There is no Reservation with this id:" + id);
             }
             updateReservation.Id = reservation.Id;
             await _reservationServices.UpdateAsync(id, updateReservation);

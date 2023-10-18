@@ -18,9 +18,9 @@ public interface ReservationAPIInterface {
 
     // method for updating a reservation
     @PUT("updateReservation/{id}")
-    Call<Void> updateReservation(@Path("reservationId") String reservationId, @Body Reservation reservation);
+    Call<Void> updateReservation(@Path("id") String reservationId, @Body Reservation reservation);
 
     // method for deleting a reservation
     @DELETE("deleteReservation/{id}")
-    Call<Void> deleteReservation(@Path("reservationId") String reservationId);
+    Call<Void> deleteReservation(@Path("id") String reservationId);
 }

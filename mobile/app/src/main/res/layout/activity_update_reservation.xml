@@ -13,7 +13,7 @@
         android:layout_height="195dp"
         android:background="@drawable/image_rounded_corners"
         android:elevation="10dp"
-        android:src="@drawable/register"
+        android:src="@drawable/trainur1"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.47"

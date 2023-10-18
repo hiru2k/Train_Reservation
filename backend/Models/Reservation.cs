@@ -32,7 +32,7 @@ namespace backend.Models
         public String NIC { get; set; } = "NIC";
 
         [BsonElement("passengername")]
-        public String PassengerName{ get; set; } = "Passenger Name";
+        public String PassengerName { get; set; } = "Passenger Name";
 
         [BsonElement("passengeraddress")]
         public String PassengerAddress { get; set; } = "Passenger Address";

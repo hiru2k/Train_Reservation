@@ -15,7 +15,7 @@ namespace backend.Controllers
     [ApiController]
 
     [Route("api/[controller]")]
-    
+
     public class TrainController : ControllerBase
     {
         private readonly TrainServices _trainServices;
@@ -29,15 +29,15 @@ namespace backend.Controllers
         // GET: api/train
         [HttpGet("getAllTrains")]
         public async Task<List<Train>> Get() => await _trainServices.GetAsync();
-       
+
 
         // GET api/train/6521bf677a5813a7538d6648
         [HttpGet("{id:length(24)}")]
-            
+
         public async Task<ActionResult<Train>> Get(string id)
         {
             Train train = await _trainServices.GetAsync(id);
-            if(train == null)
+            if (train == null)
             {
                 return NotFound();
             }
