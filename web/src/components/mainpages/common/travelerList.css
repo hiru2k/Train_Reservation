@@ -15,17 +15,6 @@ travelerList {
 
   flex-direction: column;
 }
-travelerList h2 {
-  font-family: Arial;
-  margin-left: 20px;
-  font-size: 30px;
-  font-weight: 500;
-  background-color: white;
-  width: 130px;
-  padding: 10px;
-  margin-top: 220px;
-  box-shadow: 0 4px 8px 8px rgba(0, 0, 0, 0.09);
-}
 
 travelerList .background {
   box-shadow: 0 4px 8px 8px rgba(0, 0, 0, 0.09);
@@ -35,7 +24,7 @@ travelerList .background {
   flex-direction: row;
   height: 900px;
   width: 1650px;
-  margin-top: -20px;
+  margin-top: 20px;
   align-items: center;
   justify-content: center;
 }
@@ -68,7 +57,7 @@ travelerList .row1 {
 travelerList .row1 button {
   width: 150px;
   height: 55px;
-  margin-top: 220px;
+  margin-top: 120px;
   cursor: pointer;
   background-color: black;
   border-radius: 4px;

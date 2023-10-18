@@ -59,6 +59,8 @@ function UserProfile() {
           alert("Successfully updated");
         } else if (response.data.status == "201") {
           alert("Content is changed");
+        } else if (response.data.status == "203") {
+          alert("Current Password is invalid");
         } else {
           alert(
             "Failed to update user details. Please check your current password."

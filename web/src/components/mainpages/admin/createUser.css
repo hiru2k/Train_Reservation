@@ -15,12 +15,11 @@ createUser .background {
   background-color: #dedede;
   display: flex;
   flex-direction: row;
-  height: 600px;
+  height: 650px;
   width: 800px;
   margin-top: 10px;
   align-items: center;
   justify-content: space-between;
-  margin-top: 40px;
 }
 
 createUser ul {
@@ -28,7 +27,7 @@ createUser ul {
   padding-right: 150px;
   margin-bottom: 60px;
   width: 0.1px;
-  height: 600px;
+  height: 650px;
   margin-top: 63px;
   color: aqua;
   border-top-left-radius: 30px; /* Round the left-top corner */
@@ -68,7 +67,7 @@ createUser .errorAndInput {
 createUser .error {
   color: red;
   font-size: 16px;
-  margin-top: 5px;
+  margin-top: 2px;
   margin-left: 95px;
 }
 

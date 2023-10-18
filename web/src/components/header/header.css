@@ -17,9 +17,9 @@ header ul {
   margin-top: -16px;
   margin-left: -8px;
   margin-right: -8px;
-  padding: 7px;
+  padding: 12px;
   overflow: hidden;
-  height: 80px;
+  height: 110px;
   background-color: #004785;
   display: flex;
   justify-content: space-between;

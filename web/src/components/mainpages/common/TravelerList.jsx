@@ -44,18 +44,8 @@ const TravelerList = () => {
     }
   };
 
-  const handleCreateTravelerClick = () => {
-    navigate("/createTraveler"); // Navigate to the add traveler page
-  };
-
   return (
     <travelerList>
-      <div className="row1">
-        <h2>Travelers</h2>
-        <button onClick={handleCreateTravelerClick}>
-          Create traveler account
-        </button>
-      </div>
       <div className="background">
         <table>
           <thead>

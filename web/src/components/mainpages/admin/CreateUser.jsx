@@ -65,7 +65,7 @@ function UserRegistration() {
           <li></li>
         </ul>
         <div className="form">
-          <h2 className="formTitle">Create backoffice user profile</h2>
+          <h2 className="formTitle">Create User Profile</h2>
           <form onSubmit={formik.handleSubmit}>
             <div className="errorAndInput">
               {formik.touched.Username && formik.errors.Username ? (

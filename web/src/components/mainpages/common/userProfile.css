@@ -21,7 +21,7 @@ userProfile .background {
   display: flex;
   flex-direction: row;
   align-items: center;
-  margin-top: 100px;
+  margin-top: 30px;
   justify-content: space-between;
 }
 
@@ -30,7 +30,7 @@ userProfile .userDetailsView {
 
   display: flex;
   flex-direction: column;
-  height: 650px;
+  height: 600px;
   width: 400px;
 
   color: black;
@@ -72,7 +72,7 @@ userProfile .userDetailsEdit {
   background-color: white;
   display: flex;
   flex-direction: column;
-  height: 650px;
+  height: 600px;
   width: 400px;
   align-items: center;
   justify-content: center;

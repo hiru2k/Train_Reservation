@@ -26,6 +26,7 @@ function Header() {
             <a href="/userProfile">Profile</a>
 
             <a href="/travelerList">Traveler Management</a>
+            <a href="/createTraveler">Traveler Creation</a>
           </div>
         );
       } else if (role === "Back Officer") {
