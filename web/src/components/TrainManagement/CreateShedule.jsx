@@ -4,7 +4,7 @@ import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import "./slidebar.css";
 import { Link, useNavigate } from "react-router-dom";
-import NavbarTM from "./NavBarTM";
+
 import Swal from "sweetalert2";
 
 function InputForm() {
@@ -89,7 +89,7 @@ function InputForm() {
     console.log(formData);
 
     try {
-      const response = await fetch("https://localhost:7103/api/train/", {
+      const response = await fetch("http://192.168.8.159:5059/api/train/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -141,7 +141,7 @@ function InputForm() {
 
   return (
     <div>
-      <NavbarTM />
+   
       <div className="container">
         <div className="row justify-content-center mt-5 mb-5">
           <Row>

@@ -9,7 +9,7 @@ import img1 from "../../../src/images/train.png";
 
 import { Link } from "react-router-dom";
 import "./slidebar.css";
-import NavbarTM from "./NavBarTM";
+
 
 function TrainShedules() {
   const navigate = useNavigate();
@@ -24,7 +24,7 @@ function TrainShedules() {
 
   useEffect(() => {
     // Fetch trains when the component mounts
-    fetch("https://localhost:7103/api/train/")
+    fetch("http://192.168.8.159:5059/api/train/")
       .then((response) => response.json())
       .then((data) => setTrains(data))
       .catch((error) => console.error("Error:", error));
@@ -40,7 +40,7 @@ function TrainShedules() {
 
   return (
     <div>
-      <NavbarTM />
+   
       <div className="container mt-5">
         <Row>
           {/* <Col sm={3}>

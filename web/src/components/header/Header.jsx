@@ -36,6 +36,7 @@ function Header() {
             <a href="/userProfile">Profile</a>
 
             <a href="/travelerList">Traveler Management</a>
+            <a href="/trainForm">Train Management</a>
           </div>
         );
       }

@@ -6,7 +6,7 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-import NavbarTM from "./NavBarTM";
+
 import Swal from "sweetalert2";
 
 function EditShedule() {
@@ -54,7 +54,7 @@ function EditShedule() {
 
   useEffect(() => {
     // Fetch the traveler's data using the provided ID
-    fetch(`https://localhost:7103/api/train/${id}`)
+    fetch(`http://192.168.8.159:5059/api/train/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setFormData(data); // Update the form data with fetched data
@@ -130,7 +130,7 @@ function EditShedule() {
     console.log(formData);
 
     try {
-      const response = await fetch(`https://localhost:7103/api/train/${id}`, {
+      const response = await fetch(`http://192.168.8.159:5059/api/train/${id}`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -152,7 +152,7 @@ function EditShedule() {
 
   return (
     <div>
-      <NavbarTM />
+    
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-lg-10">

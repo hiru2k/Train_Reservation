@@ -4,7 +4,7 @@ import { Row, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import NavbarTM from "./NavBarTM";
+
 import Swal from "sweetalert2";
 
 function TrainDetails() {
@@ -54,7 +54,7 @@ function TrainDetails() {
 
   useEffect(() => {
     // Fetch user data from the API
-    fetch(`https://localhost:7103/api/train/${id}`)
+    fetch(`http://192.168.8.159:5059/api/train/${id}`)
       .then((response) => response.json())
       .then((data) => {
         // Set the state values with the data from the API response
@@ -122,7 +122,7 @@ function TrainDetails() {
       confirmButtonText: "Yes, cancel it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`https://localhost:7103/api/train/${id}`, {
+        fetch(`http://192.168.8.159:5059/api/train/${id}`, {
           method: "DELETE",
         })
           .then((response) => {
@@ -214,7 +214,7 @@ function TrainDetails() {
   useEffect(() => {
     const delay = 1000; // 2 seconds (2000 milliseconds)
     const url =
-      "https://localhost:7103/api/Reservation/getReservationsByTrainName/" +
+      "http://192.168.8.159:5059/api/Reservation/getReservationsByTrainName/" +
       trainName +
       "/";
 
@@ -236,7 +236,7 @@ function TrainDetails() {
 
   return (
     <div>
-      <NavbarTM />
+     
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-lg-10">
