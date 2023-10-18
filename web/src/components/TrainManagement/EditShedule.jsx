@@ -54,7 +54,7 @@ function EditShedule() {
 
   useEffect(() => {
     // Fetch the traveler's data using the provided ID
-    fetch(`http://192.168.8.159:5059/api/train/${id}`)
+    fetch(`http://192.168.8.100:5059/api/train/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setFormData(data); // Update the form data with fetched data
@@ -130,13 +130,16 @@ function EditShedule() {
     console.log(formData);
 
     try {
-      const response = await fetch(`http://192.168.8.159:5059/api/train/${id}`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
-      });
+      const response = await fetch(
+        `http://192.168.8.100:5059/api/train/${id}`,
+        {
+          method: "PUT",
+          headers: {
+            "Content-Type": "application/json",
+          },
+          body: JSON.stringify(formData),
+        }
+      );
 
       if (response.ok) {
         Swal.fire("Success", "Data Updated successfully!", "success");
@@ -152,7 +155,6 @@ function EditShedule() {
 
   return (
     <div>
-    
       <div className="container mt-5">
         <div className="row justify-content-center">
           <div className="col-lg-10">
