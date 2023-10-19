@@ -1,4 +1,8 @@
-// InputForm.js
+/*
+ * Filename: EditSchedule.jsx
+ * Description: contains ui functionality for editing train schedules
+ * Author: Sathinka Wijesinghe
+ */
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
@@ -6,7 +10,6 @@ import { Link, useNavigate } from "react-router-dom";
 import { Button } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
-
 import Swal from "sweetalert2";
 
 function EditShedule() {
@@ -26,35 +29,16 @@ function EditShedule() {
     dateAndTime: "",
     number_of_seats: "",
     isReserved: false,
-    intermediateStops: [],
+    intermediateStops: [], //Initialize as an array
     seatClasses: [], // Initialize as an array
   });
 
   const [newStop, setNewStop] = useState([]);
   const [newClass, setNewClass] = useState([]);
 
-  //   const handleChange = (e) => {
-  //     const { name, value, type, checked } = e.target;
-  //     setFormData({
-  //       ...formData,
-  //       [name]: type === "checkbox" ? checked : value,
-  //       [name]: value,
-
-  //     });
-  //   };
-
-  // const handleChange = (e) => {
-  //     const { name, value, type, checked } = e.target;
-
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: type === "checkbox" ? checked : value,
-  //     }));
-  //   };
-
   useEffect(() => {
     // Fetch the traveler's data using the provided ID
-    fetch(`http://192.168.8.100:5059/api/train/${id}`)
+    fetch(`http://192.168.8.101:5059/api/train/${id}`)
       .then((response) => response.json())
       .then((data) => {
         setFormData(data); // Update the form data with fetched data
@@ -90,35 +74,11 @@ function EditShedule() {
     }
   };
 
-  // const handleSubmit = async (e) => {
-  //   e.preventDefault();
-
-  //   console.log(formData);
-
-  //   try {
-  //     const response = await fetch(`https://localhost:7103/api/train/${id}`, {
-  //       method: "PUT",
-  //       headers: {
-  //         "Content-Type": "application/json",
-  //       },
-  //       body: JSON.stringify(formData),
-  //     });
-
-  //     if (response.ok) {
-  //       alert("Data Updated successfully!");
-  //       navigate(`/trainDetails/${id}`);
-  //     } else {
-  //       alert("Error submitting data.");
-  //     }
-  //   } catch (error) {
-  //     console.error("Error:", error);
-  //   }
-  // };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+    //checking the train status
     if (formData.trainStatus === "Active") {
+      //swal error message
       Swal.fire({
         icon: "error",
         title: "Train Update Error",
@@ -131,7 +91,7 @@ function EditShedule() {
 
     try {
       const response = await fetch(
-        `http://192.168.8.100:5059/api/train/${id}`,
+        `http://192.168.8.101:5059/api/train/${id}`,
         {
           method: "PUT",
           headers: {
@@ -159,16 +119,16 @@ function EditShedule() {
         <div className="row justify-content-center">
           <div className="col-lg-10">
             <div className="card p-4">
-              {/* <h2 className="mb-4">Add New Train</h2> */}
+              {}
               <div className="text-center">
-                {/* <h2 className="mb-4">Add New Train</h2> */}
+                {}
                 <h2 className="mb-4">
                   <i className="fas fa-train"></i> Update Train
                 </h2>
               </div>
               <hr></hr>
               <form onSubmit={handleSubmit}>
-                {/* Train Number */}
+                {}
 
                 <Row>
                   <Col>
@@ -249,35 +209,7 @@ function EditShedule() {
                       />
                     </div>
 
-                    {/* Seat Classes
-                    <div className="mb-3">
-                      <label htmlFor="seatClasses" className="form-label">
-                      <strong>Seat Classes (comma-separated)</strong>
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="seatClasses"
-                        name="seatClasses"
-                        value={newClass}
-                        onChange={(e) => setNewClass(e.target.value)}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-secondary mt-2"
-                        onClick={() => {
-                          if (newClass) {
-                            setFormData({
-                              ...formData,
-                              seatClasses: [...formData.seatClasses, newClass],
-                            });
-                            setNewClass("");
-                          }
-                        }}
-                      >
-                        Add Class
-                      </button>
-                    </div> */}
+                    {}
                   </Col>
 
                   <Col>
@@ -370,57 +302,17 @@ function EditShedule() {
                       />
                     </div>
 
-                    {/* <div className="mb-3">
-                      <label htmlFor="intermediateStops" className="form-label">
-                      <strong>Intermediate Stops (comma-separated)</strong> 
-                      </label>
-                      <input
-                        type="text"
-                        className="form-control"
-                        id="intermediateStops"
-                        name="intermediateStops"
-                        value={newStop}
-                        onChange={(e) => setNewStop(e.target.value)}
-                      />
-                      <button
-                        type="button"
-                        className="btn btn-secondary mt-2"
-                        onClick={() => {
-                          if (newStop) {
-                            setFormData({
-                              ...formData,
-                              intermediateStops: [
-                                ...formData.intermediateStops,
-                                newStop,
-                              ],
-                            });
-                            setNewStop("");
-                          }
-                        }}
-                      >
-                        Add Stop
-                      </button>
-                    </div> */}
+                    {}
                   </Col>
                 </Row>
 
-                {/* Train Type */}
-                {/* Add similar input fields for other properties */}
-                {/* ... */}
+                {}
+                {}
+                {}
 
-                {/* <button type="submit" className="btn btn-primary">
-                Submit
-              </button> */}
-                {/* <div>
-              <button type="submit" className="btn btn-primary btn-lg mx-auto">
-  Submit
-</button>
-              </div> */}
-                {/* <div className="text-center">
-  <button type="submit" className="btn btn-primary btn-lg mt-3 btn-block">
-    Submit
-  </button>
-</div> */}
+                {}
+                {}
+                {}
                 <hr></hr>
 
                 <div className="text-center">

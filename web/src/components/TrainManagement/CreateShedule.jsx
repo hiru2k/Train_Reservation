@@ -1,10 +1,13 @@
-// InputForm.js
+/*
+ * Filename: CreateSchedule.jsx
+ * Description: contains ui functionality for creating train schedules
+ * Author: Sathinka Wijesinghe
+ */
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col } from "react-bootstrap";
 import "./slidebar.css";
 import { Link, useNavigate } from "react-router-dom";
-
 import Swal from "sweetalert2";
 
 function InputForm() {
@@ -38,25 +41,6 @@ function InputForm() {
     navigate("/trainForm");
   };
 
-  //   const handleChange = (e) => {
-  //     const { name, value, type, checked } = e.target;
-  //     setFormData({
-  //       ...formData,
-  //       [name]: type === "checkbox" ? checked : value,
-  //       [name]: value,
-
-  //     });
-  //   };
-
-  // const handleChange = (e) => {
-  //     const { name, value, type, checked } = e.target;
-
-  //     setFormData((prevData) => ({
-  //       ...prevData,
-  //       [name]: type === "checkbox" ? checked : value,
-  //     }));
-  //   };
-
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
 
@@ -89,7 +73,7 @@ function InputForm() {
     console.log(formData);
 
     try {
-      const response = await fetch("http://192.168.8.100:5059/api/train/", {
+      const response = await fetch("http://192.168.8.101:5059/api/train/", {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
@@ -124,8 +108,8 @@ function InputForm() {
           seatClasses: [],
         });
       } else {
-        // alert("Error submitting data.");
         // Handle errors, e.g., Swal alert for an error
+        //javascript confirming message for popup alerts using swal
         Swal.fire({
           icon: "error",
           title: "Oops! Something went wrong.",
@@ -173,16 +157,16 @@ function InputForm() {
             <Col sm={9}>
               <div className="col-lg-12">
                 <div className="card p-4">
-                  {/* <h2 className="mb-4">Add New Train</h2> */}
+                  {}
                   <div className="text-center">
-                    {/* <h2 className="mb-4">Add New Train</h2> */}
+                    {}
                     <h2 className="mb-4">
                       <i className="fas fa-train"></i> Add New Train
                     </h2>
                   </div>
                   <hr></hr>
                   <form onSubmit={handleSubmit}>
-                    {/* Train Number */}
+                    {}
 
                     <Row>
                       <Col>
@@ -195,6 +179,7 @@ function InputForm() {
                             className="form-control"
                             id="trainNumber"
                             name="trainNumber"
+                            //validate train number using 4 digits
                             pattern="^\d{4}$"
                             value={formData.trainNumber}
                             onChange={handleChange}
@@ -222,7 +207,7 @@ function InputForm() {
                             <option value=" Batticaloa"> Batticaloa</option>
                             <option value="Vavuniya">Vavuniya</option>
                             <option value="Jaffna">Jaffna</option>
-                            {/* Add more options as needed */}
+                            {}
                           </select>
                         </div>
 
@@ -253,6 +238,7 @@ function InputForm() {
                             value={formData.dateAndTime}
                             onChange={handleChange}
                             required
+                            //disable datetime earlier than min and datetime come after max
                             min={currentDateTime}
                           />
                         </div>
@@ -284,6 +270,7 @@ function InputForm() {
                             id="seatClasses"
                             name="seatClasses"
                             value={newClass}
+                            //seat classes input as an array
                             onChange={(e) => setNewClass(e.target.value)}
                           />
                           <button
@@ -333,7 +320,7 @@ function InputForm() {
                               Southern Express
                             </option>
                             <option value="Ruhunu Kumari">Ruhunu Kumari</option>
-                            {/* Add more options as needed */}
+                            {}
                           </select>
                         </div>
 
@@ -355,7 +342,7 @@ function InputForm() {
                             <option value="Badulla">Badulla</option>
                             <option value="Jaffna">Jaffna</option>
                             <option value="Anuradhapura">Anuradhapura</option>
-                            {/* Add more options as needed */}
+                            {}
                           </select>
                         </div>
 
@@ -427,6 +414,7 @@ function InputForm() {
                             id="intermediateStops"
                             name="intermediateStops"
                             value={newStop}
+                            //input as an array
                             onChange={(e) => setNewStop(e.target.value)}
                           />
                           <button
@@ -451,23 +439,13 @@ function InputForm() {
                       </Col>
                     </Row>
 
-                    {/* Train Type */}
-                    {/* Add similar input fields for other properties */}
-                    {/* ... */}
+                    {}
+                    {}
+                    {}
 
-                    {/* <button type="submit" className="btn btn-primary">
-                Submit
-              </button> */}
-                    {/* <div>
-              <button type="submit" className="btn btn-primary btn-lg mx-auto">
-  Submit
-</button>
-              </div> */}
-                    {/* <div className="text-center">
-  <button type="submit" className="btn btn-primary btn-lg mt-3 btn-block">
-    Submit
-  </button>
-</div> */}
+                    {}
+                    {}
+                    {}
                     <hr></hr>
 
                     <div className="text-center">

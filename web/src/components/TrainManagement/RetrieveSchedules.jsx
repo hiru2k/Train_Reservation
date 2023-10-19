@@ -1,12 +1,16 @@
+/*
+ * Filename: RetrieveSchedule.jsx
+ * Description: contains ui functionality for retrieving train schedules
+ * Author: Sathinka Wijesinghe
+ */
+
 import React, { useState, useEffect } from "react";
 import Container from "react-bootstrap/Container";
 import Row from "react-bootstrap/Row";
 import Col from "react-bootstrap/Col";
 import Button from "react-bootstrap/Button";
 import { useNavigate } from "react-router-dom";
-
 import img1 from "../../../src/images/train.png";
-
 import { Link } from "react-router-dom";
 import "./slidebar.css";
 
@@ -23,7 +27,7 @@ function TrainShedules() {
 
   useEffect(() => {
     // Fetch trains when the component mounts
-    fetch("http://192.168.8.100:5059/api/train/")
+    fetch("http://192.168.8.101:5059/api/train/")
       .then((response) => response.json())
       .then((data) => setTrains(data))
       .catch((error) => console.error("Error:", error));
@@ -36,23 +40,13 @@ function TrainShedules() {
     slidesToScroll: 1, // Number of slides to scroll at a time
     variableWidth: true, // Allows each slide to have variable width
   };
+  //display train schedule details as a list
 
   return (
     <div>
       <div className="container mt-5">
         <Row>
-          {/* <Col sm={3}>
-    <div className="sidebar">
-      <div className="sidebar-header">
-        Train Management
-      </div>
-      <div className="sidebar-buttons">
-        <button className="sidebar-button" onClick={handleAddTrainClickB}>Add Train</button>
-        <button className="sidebar-button" onClick={handleAddTrainClick}>View Trains </button>
-        <button className="sidebar-button" onClick={handleAddTrainClick}>Edit Trains</button>
-      </div>
-    </div>
-    </Col> */}
+          {}
 
           <Col sm={12}>
             <h1 className="text-center mb-4">

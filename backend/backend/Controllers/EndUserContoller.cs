@@ -178,7 +178,7 @@ namespace backend.Controllers
         {
             try
             {
-                var AccesserRole = User.FindFirst(ClaimTypes.Role)?.Value;
+                var AccesserRole = User.FindFirst(ClaimTypes.Role)?.Value;//check the logged user
                 var user = await _userService.GetUserByNICAsync(nic);
                 if (user == null)
                 {

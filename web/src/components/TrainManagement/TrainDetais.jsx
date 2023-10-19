@@ -1,10 +1,14 @@
+/*
+ * Filename: TrainDetails.jsx
+ * Description: contains ui functionality for dispalying  train schedules as a list
+ * Author: Sathinka Wijesinghe
+ */
 import React, { useState } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
 import { Row, Col, Form } from "react-bootstrap";
 import { useParams } from "react-router-dom";
 import { useEffect } from "react";
 import { Link, useNavigate } from "react-router-dom";
-
 import Swal from "sweetalert2";
 
 function TrainDetails() {
@@ -54,7 +58,7 @@ function TrainDetails() {
 
   useEffect(() => {
     // Fetch user data from the API
-    fetch(`http://192.168.8.100:5059/api/train/${id}`)
+    fetch(`http://192.168.8.101:5059/api/train/${id}`)
       .then((response) => response.json())
       .then((data) => {
         // Set the state values with the data from the API response
@@ -79,30 +83,8 @@ function TrainDetails() {
       .catch((error) => console.error("Error:", error));
   }, []); // T
 
-  /* eslint-disable no-restricted-globals */
-  // function deleteTrain(id) {
-  //   if (confirm("Are you sure you want to cancel this train?")) {
-  //     fetch(`https://localhost:7103/api/train/${id}`, {
-  //       method: "DELETE",
-  //     })
-  //       .then((response) => {
-  //         if (response.ok) {
-  //           // Successful deletion, you can perform any desired actions here
-  //           alert("Train Cancel successfully");
-
-  //           navigate("/trainShedules");
-  //         } else {
-  //           alert("Failed to delete train");
-  //         }
-  //       })
-  //       .catch((error) => {
-  //         console.error("Error:", error);
-  //         alert("An error occurred while deleting the train");
-  //       });
-  //   }
-  // }
-
   function deleteTrain(id) {
+    //delete only the trains that have not any reservations
     if (reservation.length > 0) {
       Swal.fire({
         icon: "error",
@@ -111,7 +93,7 @@ function TrainDetails() {
       });
       return; // Do not proceed with deletion
     }
-
+    //swal alert confirmation message
     Swal.fire({
       title: "Confirm Train Cancellation",
       text: "Are you sure you want to cancel this train?",
@@ -122,7 +104,7 @@ function TrainDetails() {
       confirmButtonText: "Yes, cancel it!",
     }).then((result) => {
       if (result.isConfirmed) {
-        fetch(`http://192.168.8.100:5059/api/train/${id}`, {
+        fetch(`http://192.168.8.101:5059/api/train/${id}`, {
           method: "DELETE",
         })
           .then((response) => {
@@ -177,6 +159,7 @@ function TrainDetails() {
         seatClasses: seatClasses,
       }),
     })
+      //updating the train status
       .then((response) => {
         if (response.ok) {
           // console.log("Account status updated successfully");
@@ -200,21 +183,11 @@ function TrainDetails() {
       });
   };
 
-  // useEffect(() => {
-  //   const url = 'https://localhost:7103/api/Reservation/getReservationsByTrainName/' + trainName + '/';
-
-  //   fetch(url)
-  //     .then((response) => response.json())
-  //     .then((data) => {
-  //       setReservation(data);
-  //     })
-  //     .catch((error) => console.error('Error fetching data: ', error));
-  // }, []); // The empty dependency array ensures the effect runs once when the component mounts
-
+  //fetch the reservation data for checking train cancelling
   useEffect(() => {
     const delay = 1000; // 2 seconds (2000 milliseconds)
     const url =
-      "http://192.168.8.100:5059/api/Reservation/getReservationsByTrainName/" +
+      "http://192.168.8.101:5059/api/Reservation/getReservationsByTrainName/" +
       trainName +
       "/";
 
@@ -271,18 +244,7 @@ function TrainDetails() {
                       <label htmlFor="startStation" className="form-label">
                         <strong>Start Station</strong>
                       </label>
-                      {/* <select
-                        className="form-select"
-                        id="startStation"
-                        name="startStation"
-                        value={startStation}
-                        disabled
-                      >
-                        <option value="">Select a Start Station</option>
-                        <option value="Station 1">Station 1</option>
-                        <option value="Station 2">Station 2</option>
-                
-                      </select> */}
+                      {}
                       <input
                         type="text"
                         className="form-control"
@@ -342,18 +304,7 @@ function TrainDetails() {
                       <label htmlFor="trainName" className="form-label">
                         <strong>Train Name</strong>
                       </label>
-                      {/* <select
-                        className="form-select"
-                        id="trainName"
-                        name="trainName"
-                        value={trainName}
-                        disabled
-                      >
-                        <option value="">Select a Train Name</option>
-                        <option value="Train 1">Train 1</option>
-                        <option value="Train 2">Train 2</option>
-                     
-                      </select> */}
+                      {}
                       <input
                         type="text"
                         className="form-control"
@@ -368,18 +319,7 @@ function TrainDetails() {
                       <label htmlFor="endStation" className="form-label">
                         <strong>End Station</strong>
                       </label>
-                      {/* <select
-                        className="form-select"
-                        id="endStation"
-                        name="endStation"
-                        value={endStation}
-                        disabled
-                      >
-                        <option value="">Select an End Station</option>
-                        <option value="Station 1">Station 1</option>
-                        <option value="Station 2">Station 2</option>
-                       
-                      </select> */}
+                      {}
                       <input
                         type="text"
                         className="form-control"
@@ -436,73 +376,13 @@ function TrainDetails() {
 
                 <hr></hr>
                 <div>
-                  {/* <table className="table">
-        <thead>
-          <tr>
-          <th>NIC</th>
-          <th>Passenger Name</th>
-       
-            <th>Departure Station</th>
-            <th>Arrival Station</th>
-      
-          
-        
-       
-            <th>Fare</th>
-            <th>Currency</th>
-            <th>Seats Needed</th>
-          </tr>
-        </thead>
-        <tbody>
-          {reservation.map((reservationItem, index) => (
-            <tr key={index}>
-                  <td>{reservationItem.nic}</td>
-                  <td>{reservationItem.passengerName}</td>
-            
-           
-              <td>{reservationItem.departureStation}</td>
-              <td>{reservationItem.arrivalStation}</td>
-           
-          
-          
-          
-              <td>{reservationItem.fare}</td>
-              <td>{reservationItem.currency}</td>
-              <td>{reservationItem.seatsNeeded}</td>
-            </tr>
-          ))}
-        </tbody>
-      </table> */}
+                  {}
+
                   <h2 className="mb-4">
                     <i className="fas fa-book"></i>&nbsp;&nbsp; Reservation
                     Details
                   </h2>
-                  {/* <table className="table table-striped table-bordered">
-  <thead className="thead-dark">
-    <tr>
-      <th>NIC</th>
-      <th>Passenger Name</th>
-      <th>Departure Station</th>
-      <th>Arrival Station</th>
-      <th>Fare</th>
-      <th>Currency</th>
-      <th>Seats Needed</th>
-    </tr>
-  </thead>
-  <tbody>
-    {reservation.map((reservationItem, index) => (
-      <tr key={index}>
-        <td>{reservationItem.nic}</td>
-        <td>{reservationItem.passengerName}</td>
-        <td>{reservationItem.departureStation}</td>
-        <td>{reservationItem.arrivalStation}</td>
-        <td>{reservationItem.fare}</td>
-        <td>{reservationItem.currency}</td>
-        <td>{reservationItem.seatsNeeded}</td>
-      </tr>
-    ))}
-  </tbody>
-</table> */}
+                  {}
 
                   <div>
                     <table className="table table-striped table-bordered">
@@ -572,10 +452,8 @@ function TrainDetails() {
 
                   <Col>
                     <div className="col-sm-12 mt-5">
-                      {/* <button type="button" class="btn btn-danger" onclick="deleteTraveler('${id}')">Delete</button>         */}
-                      {/* <button type="button" class="btn btn-danger" onclick={deleteTraveler(`${id}`)}>
-  <i class="fa fa-trash" aria-hidden="true"> </i>Delete
-</button> */}
+                      {}
+                      {}
                       <button
                         type="button"
                         className="btn btn-danger"

@@ -1,9 +1,19 @@
 import React from "react";
+import loginImage from "../../../../public/assets/backofficer.jpg";
 
 const BackOfficerHome = () => {
   return (
     <div>
-      <h1>Back Officer Home</h1>
+      <img
+        style={{
+          width: "1700px",
+          height: "750px",
+          marginLeft: "5px",
+          marginTop: "-20px",
+        }}
+        src={loginImage}
+        alt=""
+      />
     </div>
   );
 };
