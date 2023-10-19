@@ -1,0 +1,100 @@
+/*
+ * Filename: createUser.css
+ * Description: Contains the styling for the create user(back officer+travel agent) page
+ * Author: Hiruni Mudannayake
+ */
+
+createUser {
+  display: flex;
+  justify-content: center;
+}
+
+createUser .background {
+  box-shadow: 0 0 4px rgba(0, 0, 0, 0.1);
+  border-radius: 30px;
+  background-color: #dedede;
+  display: flex;
+  flex-direction: row;
+  height: 650px;
+  width: 800px;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+}
+
+createUser ul {
+  align-items: center;
+  padding-right: 150px;
+  margin-bottom: 60px;
+  width: 0.1px;
+  height: 650px;
+  margin-top: 63px;
+  color: aqua;
+  border-top-left-radius: 30px; /* Round the left-top corner */
+  border-bottom-left-radius: 30px;
+  background-color: #1e80c1;
+}
+
+createUser .form {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  padding-right: 150px;
+  padding-left: 100px;
+  margin-bottom: 60px;
+}
+
+createUser .formTitle {
+  color: black;
+  font-family: Arial;
+  margin-top: 20px;
+}
+
+createUser .formfields {
+  display: flex;
+  flex-direction: row;
+  box-sizing: border-box;
+  width: 400px;
+  margin-top: 10px;
+  justify-content: space-between;
+}
+
+createUser .errorAndInput {
+  display: flex;
+  flex-direction: column;
+}
+
+createUser .error {
+  color: red;
+  font-size: 16px;
+  margin-top: 2px;
+  margin-left: 95px;
+}
+
+createUser label {
+  font-size: 18px;
+  margin-top: 10px;
+}
+
+createUser input {
+  width: 300px;
+  height: 30px;
+}
+
+createUser select {
+  width: 310px;
+  height: 30px;
+}
+
+createUser button {
+  width: 270px;
+  height: 40px;
+  margin-top: 30px;
+  margin-left: 70px;
+  background-color: #004785;
+  border-radius: 4px;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  cursor: pointer;
+}

@@ -1,0 +1,51 @@
+/*
+ * Filename: header.css
+ * Description: Contains the styling for the header component
+ * Author: Hiruni Mudannayake
+ */
+header .heading {
+  color: white;
+  font-size: 40px;
+  font-family: Arial;
+  margin-top: 15px;
+  font-weight: 500;
+}
+
+header ul {
+  /* entire header */
+  list-style-type: none;
+  margin-top: -16px;
+  margin-left: -8px;
+  margin-right: -8px;
+  padding: 12px;
+  overflow: hidden;
+  height: 110px;
+  background-color: #004785;
+  display: flex;
+  justify-content: space-between;
+}
+
+header .items {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+header li a {
+  /* each item in header */
+  display: block;
+  color: white;
+  text-align: center;
+
+  padding: 30px 40px;
+  text-decoration: none;
+}
+
+header .buttonGroup {
+  display: flex;
+  flex-direction: row;
+}
+
+header li a:hover:not(.active) {
+  background-color: #ffae42;
+}

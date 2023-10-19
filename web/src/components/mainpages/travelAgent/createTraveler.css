@@ -1,0 +1,103 @@
+/*
+ * Filename: createTraveler.css
+ * Description: Contains the styling for the create traveler page
+ * Author: Hiruni Mudannayake
+ */
+createTraveler {
+  display: flex;
+  justify-content: center;
+  margin-top: -16px;
+  margin-left: -18px;
+}
+
+createTraveler img {
+  height: 630px;
+  width: 550px;
+  border-top-right-radius: 30px;
+  border-bottom-right-radius: 30px;
+  margin-top: 5px;
+}
+
+createTraveler .background {
+  box-shadow: 0 4px 8px 8px rgba(0, 0, 0, 0.2);
+  border-radius: 30px;
+  display: flex;
+  flex-direction: row;
+  height: 630px;
+  width: 1200px;
+  margin-top: 10px;
+  align-items: center;
+  justify-content: space-between;
+  background-color: white;
+  margin-top: 40px;
+}
+
+createTraveler .form {
+  display: flex;
+  border-top-left-radius: 30px;
+  border-bottom-left-radius: 30px;
+  flex-direction: column;
+  height: 630px;
+  width: 500px;
+  color: black;
+  align-items: center;
+  gap: 30px;
+  position: relative;
+  z-index: 10;
+  margin-left: 75px;
+}
+createTraveler h2 {
+  margin-top: 70px;
+  font-family: Arial;
+}
+
+createTraveler .formRow {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  width: 500px;
+  gap: 10px;
+  margin-top: 10px;
+}
+
+createTraveler .inputsInRow {
+  width: 270px;
+  height: 40px;
+  font-size: 16px;
+  font-family: Arial;
+  border-radius: 5px;
+  border: 1px solid grey;
+  padding-left: 10px;
+  margin-top: 10px;
+}
+createTraveler .inputPassword {
+  width: 565px;
+  height: 40px;
+  font-size: 16px;
+  font-family: Arial;
+  border-radius: 5px;
+  border: 1px solid grey;
+  padding-left: 10px;
+  margin-top: 10px;
+}
+
+createTraveler button {
+  width: 285px;
+  height: 45px;
+  margin-top: 40px;
+  margin-left: 150px;
+  background-color: #1e80c1;
+  border-radius: 4px;
+  border-radius: 4px;
+  border: none;
+  color: white;
+  cursor: pointer;
+  font-family: Arial;
+  font-size: 16px;
+}
+createTraveler .error {
+  color: red;
+  font-size: 16px;
+  margin-top: 5px;
+  margin-left: 5px;
+}

@@ -1,0 +1,67 @@
+/*
+ * Filename: travelerList.css
+ * Description: Contains the styling for the traveler list page
+ * Author: Hiruni Mudannayake
+ */
+
+travelerList {
+  display: flex;
+  justify-content: center;
+  background-color: #ebe9eb;
+  width: 1690px;
+  height: 690px;
+
+  margin-top: -10px;
+
+  flex-direction: column;
+}
+
+travelerList .background {
+  box-shadow: 0 4px 8px 8px rgba(0, 0, 0, 0.09);
+  background-color: white;
+  display: flex;
+  margin-left: 20px;
+  flex-direction: row;
+  height: 900px;
+  width: 1650px;
+  margin-top: 20px;
+  align-items: center;
+  justify-content: center;
+}
+travelerList tr {
+  padding: 100px;
+  font-family: Arial;
+  border-bottom: 1px solid #ebe9eb;
+}
+travelerList th {
+  color: black;
+  font-family: Arial;
+  color: grey;
+}
+
+travelerList th,
+travelerList td {
+  width: 500px;
+  text-align: center;
+  border: 1px solid white;
+  padding: 12px;
+  font-family: Arial;
+}
+
+travelerList .row1 {
+  display: flex;
+  flex-direction: row;
+  gap: 20px;
+}
+
+travelerList .row1 button {
+  width: 150px;
+  height: 55px;
+  margin-top: 120px;
+  cursor: pointer;
+  background-color: black;
+  border-radius: 4px;
+  font-size: 16px;
+  border: none;
+  color: white;
+}

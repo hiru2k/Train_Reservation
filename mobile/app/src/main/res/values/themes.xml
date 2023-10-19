@@ -1,8 +1,8 @@
-<resources xmlns:tools="http://schemas.android.com/tools">
-    <!-- Base application theme. -->
+<resources xmlns:tools="http://schemas.android.com/tools"><!-- Base application theme. -->
     <style name="Base.Theme.Train_reservation" parent="Theme.Material3.DayNight.NoActionBar">
-        <!-- Customize your light theme here. -->
-        <!-- <item name="colorPrimary">@color/my_light_primary</item> -->
+        <item name="colorPrimary">@color/primaryColor</item>
+
+        <!-- Use your custom color here -->
     </style>
 
     <style name="Theme.Train_reservation" parent="Base.Theme.Train_reservation" />
