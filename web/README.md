@@ -5,3 +5,12 @@ Web
 web run-pnpm dev
 web pack install- yarn install
 web VITE_API_URL = http://<ip_address>:5059/api || https://<ip_address>:7103/api
+
+Admin- UN-Admin
+PW-NIMAL123
+BackOfficer- UN-Nimal Perera
+PW-NIMAL123
+
+```
+
+```
